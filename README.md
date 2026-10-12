@@ -20,7 +20,9 @@ cp .env.example .env      # fill in LASTFM_API_KEY and MA_USER_AGENT
 docker compose up -d      # build + start on http://localhost:8787
 ```
 
-Or pull the published image (multi-arch, built by CI on tag):
+Or pull the published image (multi-arch). Every push to `main` is versioned and built
+automatically — `:latest` always matches `main`, and each build also gets a patch tag
+(`:1.1.1`, `:1.1`, …). Manual `v*` tags cut feature versions.
 
 ```sh
 docker pull ghcr.io/markotranda/music-assistant:latest

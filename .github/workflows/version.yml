@@ -1,0 +1,80 @@
+name: Version
+
+# Automatic versioning: every push to main cuts the next patch tag
+# (v1.1.0 -> v1.1.1) and publishes the image as X.Y.Z + X.Y + latest.
+#
+# Skips (no tag, no build) when:
+#   - the push only touches docs, markdown, or .github (paths-ignore below)
+#   - HEAD is already tagged (e.g. you pushed a manual v* tag alongside)
+#   - the commit subject contains "[skip release]"
+#
+# The tag is pushed with the workflow's GITHUB_TOKEN, which by design does not
+# re-trigger the Release workflow — this workflow builds the image itself.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - ".github/**"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Compute the next version without tagging or building"
+        type: boolean
+        default: true
+
+concurrency:
+  group: version-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.next.outputs.version }}
+      skip: ${{ steps.next.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Compute next patch version
+        id: next
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Dry run — nothing will be tagged or built."
+          fi
+          if git tag --points-at HEAD | grep -q .; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "HEAD is already tagged — not cutting a new version."
+          fi
+          if git log -1 --pretty=%s | grep -qi '\[skip release\]'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Commit subject says [skip release] — not cutting a new version."
+          fi
+          latest=$(git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0)
+          base=${latest#v}
+          IFS=. read -r major minor patch <<< "$base"
+          echo "version=${major}.${minor}.$((patch + 1))" >> "$GITHUB_OUTPUT"
+          echo "Next version after ${latest}: ${major}.${minor}.$((patch + 1))"
+
+      - name: Push tag
+        if: steps.next.outputs.skip != 'true'
+        run: |
+          git tag "v${{ steps.next.outputs.version }}"
+          git push origin "v${{ steps.next.outputs.version }}"
+
+  build:
+    needs: version
+    if: needs.version.outputs.skip != 'true'
+    uses: ./.github/workflows/docker.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
