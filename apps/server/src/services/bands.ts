@@ -82,7 +82,15 @@ export function enqueueJob(
 
 /** Resolve a name to MBID candidates without any side effects. */
 export async function resolveBand(deps: AppDeps, name: string) {
-  return deps.musicbrainz.resolveArtist(name, getOverrides(deps));
+  return deps.musicbrainz.resolveArtist(name, resolveOpts(getOverrides(deps), name));
+}
+
+/** Overrides -> the adapter's per-name resolve options. */
+function resolveOpts(overrides: OverridesSettings, name: string) {
+  return {
+    pinnedMbid: overrides.pinnedMbids[name],
+    searchNameFixes: overrides.searchNameFixes,
+  };
 }
 
 /** Popularity ranking, with the merged-artist whitelist for pinned acts. */
@@ -196,9 +204,17 @@ export async function trackBand(
   }
 
   const overrides = getOverrides(deps);
+  // An explicit MBID is a disambiguation choice, NOT a merged-artist
+  // declaration — only `overrides.pinnedMbids` marks an act as merged (whose
+  // shared Last.fm page needs the whitelist). Otherwise every pick from the
+  // disambiguation list would get its ranking silently filtered.
   const resolved = input.mbid
-    ? { mbid: input.mbid, name: input.name, pinned: true }
-    : await deps.musicbrainz.resolveArtist(input.name, overrides);
+    ? {
+        mbid: input.mbid,
+        name: input.name,
+        pinned: overrides.pinnedMbids[input.name] === input.mbid,
+      }
+    : await deps.musicbrainz.resolveArtist(input.name, resolveOpts(overrides, input.name));
   if (!resolved) {
     throw new ApiError(404, `could not resolve '${input.name}' on MusicBrainz`, {
       hint: "try POST /api/artists/resolve to see candidates, then pass mbid",

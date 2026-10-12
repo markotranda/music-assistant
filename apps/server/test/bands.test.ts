@@ -1,7 +1,7 @@
 import { getQuota } from "@ma/core";
 import { eq } from "drizzle-orm";
 import { beforeEach, describe, expect, it } from "vitest";
-import { getArtistByMbid, listArtists, listPlanRows } from "../src/db/repositories";
+import { getArtistByMbid, listArtists, listPlanRows, setSetting } from "../src/db/repositories";
 import { events, jobs } from "../src/db/schema";
 import {
   pinAlbum,
@@ -272,5 +272,47 @@ describe("merged-artist whitelist", () => {
       .all()
       .some((e) => e.kind === "whitelist_degraded");
     expect(logged).toBe(true);
+  });
+
+  it("an explicit MBID is disambiguation only — the ranking is NOT whitelisted", async () => {
+    const deps = fakeDeps({
+      ranked: [
+        { name: "Real Song", plays: 500 },
+        { name: "Other Act Hit", plays: 400 },
+      ],
+      deezerTitles: ["Real Song"], // would filter to 1 track if the whitelist applied
+    });
+
+    const { artist, sync } = await trackBand(deps, {
+      name: "Band",
+      mbid: "chosen-mbid",
+      score: 1,
+    });
+
+    expect(artist.pinnedMbid).toBeNull();
+    expect(sync.desired.map((d) => d.norm)).toEqual(["realsong", "otheracthit"]);
+  });
+
+  it("declared pinned MBIDs enable the whitelist even with an explicit MBID", async () => {
+    const deps = fakeDeps({
+      ranked: [
+        { name: "Real Song", plays: 500 },
+        { name: "Other Act Hit", plays: 400 },
+      ],
+      deezerTitles: ["Real Song"],
+    });
+    setSetting(deps.db, "overrides", {
+      pinnedMbids: { Band: "pinned-mbid" },
+      searchNameFixes: {},
+    });
+
+    const { artist, sync } = await trackBand(deps, {
+      name: "Band",
+      mbid: "pinned-mbid",
+      score: 1,
+    });
+
+    expect(artist.pinnedMbid).toBe("pinned-mbid");
+    expect(sync.desired.map((d) => d.norm)).toEqual(["realsong"]);
   });
 });

@@ -3,13 +3,33 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { MA_CORE_VERSION } from "@ma/core";
 import { IntegrationError } from "@ma/integrations";
 import { z } from "zod";
+import { authMiddleware } from "./auth.js";
 import type { AppDeps } from "./deps.js";
 import { ApiError } from "./errors.js";
 import { createArtistsRoutes } from "./routes/artists.js";
+import { createDashboardRoutes } from "./routes/dashboard.js";
 import { createJobsRoutes } from "./routes/jobs.js";
+import { createSettingsRoutes } from "./routes/settings.js";
 
 export function createApp(deps: AppDeps): OpenAPIHono {
-  const app = new OpenAPIHono();
+  const app = new OpenAPIHono({
+    // Request validation failures return a typed 422 like service-side
+    // validation — one status, one shape for "your input is wrong".
+    defaultHook: (result, c) => {
+      if (!result.success) {
+        return c.json(
+          {
+            error: "validation failed",
+            issues: result.error.issues.map((i) => ({
+              path: i.path.join("."),
+              message: i.message,
+            })),
+          },
+          422,
+        );
+      }
+    },
+  });
 
   // Typed errors -> HTTP status. Services throw ApiError; nothing is swallowed.
   app.onError((err, c) => {
@@ -61,8 +81,14 @@ export function createApp(deps: AppDeps): OpenAPIHono {
     }),
   );
 
+  // Bearer-token gate for the API when a token is set in Settings (off by
+  // default). /health, /doc and the static web UI stay open.
+  app.use("/api/*", authMiddleware(deps));
+
   app.route("/api", createArtistsRoutes(deps));
   app.route("/api", createJobsRoutes(deps));
+  app.route("/api", createSettingsRoutes(deps));
+  app.route("/api", createDashboardRoutes(deps));
 
   // Contract-first API: the OpenAPI document is generated from the Zod schemas
   // above and is the single source of truth for the public API (see /llms.txt).
@@ -80,7 +106,15 @@ export function createApp(deps: AppDeps): OpenAPIHono {
   // Set MA_WEB_DIR (e.g. "./web"); unset in dev, where Vite serves the UI.
   const webDir = process.env.MA_WEB_DIR;
   if (webDir) {
-    app.get("/*", serveStatic({ root: webDir }));
+    app.get(
+      "/*",
+      serveStatic({
+        root: webDir,
+        // SPA fallback: paths without a file extension (deep links like
+        // /bands/12) get index.html so client-side routing can take over.
+        rewriteRequestPath: (path) => (path.includes(".") ? path : "/index.html"),
+      }),
+    );
   }
 
   return app;

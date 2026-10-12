@@ -48,6 +48,7 @@ export const tracks = sqliteTable(
     ext: text("ext"),
     durationS: integer("duration_s"),
     hash: text("hash"),
+    sizeBytes: integer("size_bytes"),
     playCount: integer("play_count").notNull().default(0),
     lastPlayed: text("last_played"),
     acquiredAt: text("acquired_at"),

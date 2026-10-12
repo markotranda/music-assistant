@@ -123,6 +123,7 @@ const download: JobHandler = async (payload, ctx) => {
     ext: splitFileName(res.filePath).extension,
     durationS: probe.durationS,
     hash: probe.hash,
+    sizeBytes: probe.sizeBytes,
   });
   setPlanStatus(deps.db, planRow.id, "OWNED", trackId);
   logEvent(deps, "track_acquired", {

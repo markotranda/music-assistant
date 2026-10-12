@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, lte, sql } from "drizzle-orm";
 import type { Db } from "./index.js";
-import { artists, jobs, planItems, settings, tracks } from "./schema.js";
+import { artists, events, jobs, planItems, settings, tracks } from "./schema.js";
 
 // ---------------------------------------------------------------- settings
 
@@ -194,6 +194,7 @@ export function upsertTrack(
     ext: string;
     durationS: number | null;
     hash: string;
+    sizeBytes: number | null;
   },
 ): number {
   const existing = getTrackByNorm(db, input.artistId, input.norm);
@@ -206,6 +207,7 @@ export function upsertTrack(
     ext: input.ext,
     durationS: input.durationS,
     hash: input.hash,
+    sizeBytes: input.sizeBytes,
     acquiredAt: new Date().toISOString(),
   };
   if (existing) {
@@ -331,4 +333,17 @@ export function retryJob(db: Db, id: number): void {
     .set({ status: "pending", runAt: new Date().toISOString(), startedAt: null, finishedAt: null })
     .where(eq(jobs.id, id))
     .run();
+}
+
+// ---------------------------------------------------------------- events
+
+export type EventRow = typeof events.$inferSelect;
+
+export function listEvents(db: Db, filter: { kind?: string; limit?: number } = {}): EventRow[] {
+  const base = db.select().from(events);
+  const withWhere = filter.kind ? base.where(eq(events.kind, filter.kind)) : base;
+  return withWhere
+    .orderBy(desc(events.id))
+    .limit(filter.limit ?? 50)
+    .all();
 }

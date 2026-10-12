@@ -66,11 +66,20 @@ export const DEFAULT_ACQUISITION: AcquisitionSettings = {
   playerClients: [null, "web_safari", "android,web"],
 };
 
+/** API access (PLAN.md §4.6). Single bearer token, enforcement off by default. */
+export type AuthSettings = {
+  /** When non-null, `/api/*` requires `Authorization: Bearer <token>`. */
+  token: string | null;
+};
+
+export const DEFAULT_AUTH: AuthSettings = { token: null };
+
 export type AppSettings = {
   formula: QuotaFormula;
   policy: PolicySettings;
   integrations: IntegrationSettings;
   acquisition: AcquisitionSettings;
+  auth: AuthSettings;
 };
 
 /** Seeds default settings on first run. Existing values are never overwritten. */
@@ -80,6 +89,8 @@ export function seedSettings(db: Db, env: NodeJS.ProcessEnv = process.env): void
     policy: DEFAULT_POLICY,
     integrations: defaultIntegrations(env),
     acquisition: DEFAULT_ACQUISITION,
+    auth: DEFAULT_AUTH,
+    overrides: { pinnedMbids: {}, searchNameFixes: {} },
   };
   for (const [key, value] of Object.entries(defaults)) {
     const existing = db.select().from(settings).where(eq(settings.key, key)).get();

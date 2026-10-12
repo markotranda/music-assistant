@@ -46,3 +46,12 @@ export function createDeps(db: Db, env: NodeJS.ProcessEnv = process.env): AppDep
     }),
   };
 }
+
+/**
+ * Rebuilds the adapters in place (same deps object, so route closures see the
+ * new ones). Called after integration settings change so an edited Last.fm key
+ * or user-agent takes effect immediately.
+ */
+export function refreshDeps(deps: AppDeps, env: NodeJS.ProcessEnv = process.env): void {
+  Object.assign(deps, createDeps(deps.db, env));
+}

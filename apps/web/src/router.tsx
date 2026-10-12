@@ -1,0 +1,59 @@
+import { createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
+import { Layout } from "./components/layout";
+import { BandDetailPage } from "./features/bands/BandDetailPage";
+import { BandsPage } from "./features/bands/BandsPage";
+import { DashboardPage } from "./features/dashboard/DashboardPage";
+import { QueuePage } from "./features/queue/QueuePage";
+import { SettingsPage } from "./features/settings/SettingsPage";
+
+/** Code-based route tree — no file-based plugin magic. */
+
+const rootRoute = createRootRoute({ component: Layout });
+
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/",
+  component: DashboardPage,
+});
+
+const bandsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/bands",
+  component: BandsPage,
+});
+
+const bandDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/bands/$artistId",
+  component: BandDetailPage,
+});
+
+const queueRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/queue",
+  component: QueuePage,
+});
+
+const settingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/settings",
+  component: SettingsPage,
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  bandsRoute,
+  bandDetailRoute,
+  queueRoute,
+  settingsRoute,
+]);
+
+export { routeTree };
+
+export const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}

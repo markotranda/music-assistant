@@ -76,11 +76,15 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 3 (acquisition pipeline) complete: durable SQLite job queue + in-process worker
-(boot recovery, bounded retries with backoff, deduped enqueue), yt-dlp download handler
-with the legacy search/player-client fallback chain and captured output, canonical TagLib
-retagging with read-back verification, hash-aware deep verify (missing/surplus/renamed/
-replaced/corrupt), and `ma jobs/retry/verify/status` CLI commands. Live-verified end to end
-(real yt-dlp downloads, restart durability, tamper detection).
-Next: Phase 4 - web UI (React dashboard, track/queue/verify views).
+Phase 4 (web UI) complete: React 19 + TanStack Router/Query + Tailwind v4 + shadcn-style
+primitives. Dashboard (budgets, jobs, events), Bands (track flow with MusicBrainz
+disambiguation, score, untrack), Band detail (plan table, preview-then-apply re-plan,
+pin track/album, per-band verify), Queue (live job polling, retry, deep verify), Settings
+(formula + live quota preview, policy, integrations, acquisition, security, overrides).
+Bearer-token auth (optional, off by default; secrets masked in API reads and UI).
+Settings/dashboard/events API added; SPA fallback for deep links. Browser-verified end to
+end. Bug fixed along the way: explicit MBID = disambiguation only; the merged-artist
+whitelist now triggers solely on overrides.pinnedMbids (Deezer artist matching fixed too:
+exact-name + popularity instead of first search hit).
+Next: Phase 5 - trends & taste (scrobble ingestion, taste profile, candidates, release radar).
 Before starting a phase, its plan is presented to the owner for approval.
