@@ -3,6 +3,7 @@ import {
   listAlbums,
   listArtists,
   readTasteProfile,
+  replaceArtistTags,
   saveTasteProfile,
   scrobblePlaysByArtist,
 } from "../db/repositories.js";
@@ -73,10 +74,15 @@ export async function recomputeTasteProfile(deps: AppDeps): Promise<TasteProfile
   const top = Object.entries(weights)
     .sort((a, b) => b[1] - a[1])
     .slice(0, TAG_SAMPLE);
+  const idByName = new Map(listArtists(deps.db).map((a) => [a.name.trim().toLowerCase(), a.id]));
   let tagFailures = 0;
   for (const [key] of top) {
     try {
-      artistTags[key] = await deps.lastfm.getTopTags(display.get(key) ?? key, 5);
+      const tags = await deps.lastfm.getTopTags(display.get(key) ?? key, 5);
+      artistTags[key] = tags;
+      // Cache per artist — the genre cap attributes library share from these.
+      const artistId = idByName.get(key);
+      if (artistId !== undefined) replaceArtistTags(deps.db, artistId, tags);
     } catch (err) {
       tagFailures += 1;
       logEvent(deps, "taste_tags_degraded", {

@@ -5,14 +5,16 @@ import {
   getArtistById,
   getPlanRowByNorm,
   getSetting,
+  listArtists,
   setPlanStatus,
   upsertTrack,
 } from "../db/repositories.js";
 import { events } from "../db/schema.js";
 import { type AcquisitionSettings, DEFAULT_ACQUISITION } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
-import { getOverrides } from "../services/bands.js";
+import { getOverrides, syncBand } from "../services/bands.js";
 import { runDiscovery } from "../services/discovery.js";
+import { applyPrune, policyConfig, pruneReport, syncTrackPlayData } from "../services/policy.js";
 import { runReleaseRadar } from "../services/releases.js";
 import { ingestScrobbles } from "../services/scrobbles.js";
 import { verifyAll, verifyBand } from "../services/verify.js";
@@ -166,6 +168,40 @@ const discovery: JobHandler = async (_payload, ctx) => {
   await runDiscovery(ctx.deps);
 };
 
+/**
+ * Weekly decay pass (PLAN §4.2 gate 5): fills play data from scrobbles, emits
+ * the prune report, and — only with autoPruneEnabled — retires the proposals
+ * via the reversible _retired flow.
+ */
+const pruneScan: JobHandler = async (_payload, ctx) => {
+  const { deps } = ctx;
+  syncTrackPlayData(deps);
+  const report = pruneReport(deps);
+  logEvent(deps, "prune_report", {
+    jobId: ctx.jobId,
+    summary: report.summary,
+    proposals: report.proposals.slice(0, 100),
+  });
+  if (policyConfig(deps).autoPruneEnabled && report.proposals.length > 0) {
+    applyPrune(deps);
+  }
+};
+
+/** Weekly rotation pass: re-rank plans by global popularity blended with own plays. */
+const rotationScan: JobHandler = async (_payload, ctx) => {
+  const { deps } = ctx;
+  if (!policyConfig(deps).rotationEnabled) return;
+  syncTrackPlayData(deps);
+  let bands = 0;
+  let renamed = 0;
+  for (const artist of listArtists(deps.db)) {
+    const result = await syncBand(deps, artist.id, { apply: true, rankBlend: "own_plays" });
+    bands += 1;
+    renamed += result.renames.length;
+  }
+  logEvent(deps, "rotation_scan", { jobId: ctx.jobId, bands, renamed });
+};
+
 export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
   return {
     download,
@@ -173,5 +209,7 @@ export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
     scrobble_sync: scrobbleSync,
     release_radar: releaseRadar,
     discovery,
+    prune_scan: pruneScan,
+    rotation_scan: rotationScan,
   };
 }

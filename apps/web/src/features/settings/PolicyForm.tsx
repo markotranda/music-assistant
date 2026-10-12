@@ -66,7 +66,10 @@ export function PolicyForm({ settings }: { settings: Settings }) {
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {numberField("tasteFitThreshold", "Taste-fit threshold (0–100)")}
-          {numberField("monthlyAcquisitionBudgetTracks", "Monthly budget (tracks)")}
+          {numberField("autoApproveFit", "Hybrid auto-approve at (0–100)")}
+          {numberField("bandHardMaxTracks", "Hard cap per band (planned)")}
+          {numberField("genreSoftCapShare", "Genre soft cap (share 0–1)")}
+          {numberField("monthlyAcquisitionBudgetTracks", "Monthly budget (tracks, soft)")}
           {numberField("maxTotalTracks", "Max total tracks")}
           {numberField("maxTotalGb", "Max total GB")}
           {numberField("decayMonths", "Decay after (months unplayed)")}
@@ -88,6 +91,14 @@ export function PolicyForm({ settings }: { settings: Settings }) {
               onCheckedChange={(checked) => update("pruneReportEnabled", checked)}
             />
             Prune reports
+          </span>
+          <span className="flex items-center gap-2 text-sm">
+            <Switch
+              aria-label="Auto-prune"
+              checked={policy.autoPruneEnabled}
+              onCheckedChange={(checked) => update("autoPruneEnabled", checked)}
+            />
+            Auto-prune (retire decayed tracks automatically — recoverable)
           </span>
         </div>
 

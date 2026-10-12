@@ -5,6 +5,7 @@ import {
   getQuota,
   indexOnDisk,
   normTitle,
+  OWN_PLAY_WEIGHT,
   type PinnedPick,
   planSync,
   type QuotaFormula,
@@ -14,8 +15,9 @@ import {
   selectTracks,
   splitFileName,
 } from "@ma/core";
-import type { ArtistRow } from "../db/repositories.js";
 import {
+  type ArtistRow,
+  countTracksByStatus,
   deleteArtist,
   deletePlanRow,
   deletePlanRows,
@@ -28,6 +30,7 @@ import {
   insertArtist,
   insertPlanRow,
   listPlanRows,
+  listTracks,
   nextPlanRank,
   replacePlanRows,
   setArtistScore,
@@ -35,6 +38,7 @@ import {
 import { events } from "../db/schema.js";
 import type { AppDeps } from "../deps.js";
 import { ApiError } from "../errors.js";
+import { policyConfig } from "./policy.js";
 
 /**
  * Band tracking service. Flow (mirrors the legacy add-band / set-score /
@@ -78,6 +82,46 @@ export function enqueueJob(
   payload: Record<string, unknown>,
 ): void {
   enqueueJobRow(db, type, payload); // dedupes identical pending jobs
+}
+
+/**
+ * Enqueues download jobs up to the remaining hard track budget (PLAN §4.2
+ * gate 4). Over-budget tracks stay PLANNED with a logged reason — the hard
+ * global budgets are enforced server-side, not just suggested in the UI.
+ */
+function enqueueAcquiresWithinBudget(
+  deps: AppDeps,
+  artist: ArtistRow,
+  acquires: { norm: string; title: string; rank: number }[],
+): { enqueued: number; blocked: number } {
+  const policy = policyConfig(deps);
+  const owned = countTracksByStatus(deps.db).OWNED ?? 0;
+  let headroom = Math.max(0, policy.maxTotalTracks - owned);
+  let enqueued = 0;
+  let blocked = 0;
+  for (const d of acquires) {
+    if (headroom <= 0) {
+      blocked += 1;
+      continue;
+    }
+    enqueueJob(deps.db, "download", {
+      artistId: artist.id,
+      norm: d.norm,
+      title: d.title,
+      rank: d.rank,
+    });
+    headroom -= 1;
+    enqueued += 1;
+  }
+  if (blocked > 0) {
+    logEvent(deps, "acquisition_blocked", {
+      artistId: artist.id,
+      name: artist.name,
+      blocked,
+      reason: `global track budget reached (${owned}/${policy.maxTotalTracks} owned)`,
+    });
+  }
+  return { enqueued, blocked };
 }
 
 /** Resolve a name to MBID candidates without any side effects. */
@@ -138,17 +182,36 @@ async function buildMergedWhitelist(deps: AppDeps, artist: ArtistRow): Promise<S
   return norms;
 }
 
+/**
+ * Rotation (PLAN §4.2 gate 5): blend own listening into the global popularity
+ * ranking (own plays weigh OWN_PLAY_WEIGHT) so deep cuts you actually play
+ * rise. Only used by the rotation job — manual syncs keep legacy rank order.
+ */
+function blendOwnPlays(deps: AppDeps, artist: ArtistRow, ranked: RankedTrack[]): RankedTrack[] {
+  const own = new Map(
+    listTracks(deps.db, { artistId: artist.id }).map((t) => [t.normTitle, t.playCount]),
+  );
+  return ranked
+    .map((r) => ({
+      ...r,
+      plays: r.plays + (own.get(r.norm) ?? 0) * OWN_PLAY_WEIGHT,
+    }))
+    .sort((a, b) => b.plays - a.plays);
+}
+
 /** Preview or apply the desired-state plan for one band. */
 export async function syncBand(
   deps: AppDeps,
   artistId: number,
-  opts: { apply: boolean },
+  opts: { apply: boolean; rankBlend?: "own_plays" },
 ): Promise<SyncResult> {
   const artist = getArtistById(deps.db, artistId);
   if (!artist) throw new ApiError(404, `artist ${artistId} not found`);
 
   const formula = getSetting<QuotaFormula>(deps.db, "formula") ?? DEFAULT_QUOTA_FORMULA;
-  const ranked = await fetchRanked(deps, artist);
+  const rawRanked = await fetchRanked(deps, artist);
+  const ranked =
+    opts.rankBlend === "own_plays" ? blendOwnPlays(deps, artist, rawRanked) : rawRanked;
   const picks = selectTracks(ranked, artist.quota ?? 0, artist.score, formula.deepShare);
   const pinned: PinnedPick[] = getPinnedRows(deps.db, artistId).map((r) => ({
     title: r.title,
@@ -163,18 +226,12 @@ export async function syncBand(
     replacePlanRows(deps.db, artistId, desired);
     if (plan.renames.length > 0) deps.collection.applyRenames(artist.name, plan.renames);
     if (plan.retire.length > 0) deps.collection.retireFiles(artist.name, plan.retire);
-    for (const d of plan.acquire) {
-      enqueueJob(deps.db, "download", {
-        artistId,
-        norm: d.norm,
-        title: d.title,
-        rank: d.rank,
-      });
-    }
+    const budgeted = enqueueAcquiresWithinBudget(deps, artist, plan.acquire);
     logEvent(deps, "sync_applied", {
       artistId,
       name: artist.name,
-      acquired: plan.acquire.length,
+      acquired: budgeted.enqueued,
+      blocked: budgeted.blocked,
       retired: plan.retire.length,
       renamed: plan.renames.length,
     });
@@ -324,7 +381,7 @@ export function pinTrack(
     pinned: true,
     source: "pinned",
   });
-  enqueueJob(deps.db, "download", { artistId, norm, title, rank });
+  enqueueAcquiresWithinBudget(deps, artist, [{ norm, title, rank }]);
   logEvent(deps, "track_pinned", { artistId, title, norm });
   return { id, rank, title, norm };
 }

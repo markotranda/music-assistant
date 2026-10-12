@@ -27,12 +27,16 @@ const SettingsSchema = z.object({
   policy: z.object({
     approvalMode: z.enum(["manual", "hybrid", "auto"]),
     tasteFitThreshold: z.number(),
+    autoApproveFit: z.number(),
+    bandHardMaxTracks: z.number(),
+    genreSoftCapShare: z.number(),
     monthlyAcquisitionBudgetTracks: z.number(),
     maxTotalTracks: z.number(),
     maxTotalGb: z.number(),
     decayMonths: z.number(),
     rotationEnabled: z.boolean(),
     pruneReportEnabled: z.boolean(),
+    autoPruneEnabled: z.boolean(),
   }),
   integrations: z.object({
     lastfmApiKeyMasked: z.string().nullable(),

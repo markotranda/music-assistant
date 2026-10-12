@@ -59,12 +59,16 @@ const formulaPatch = z.object({
 const policyPatch = z.object({
   approvalMode: z.enum(["manual", "hybrid", "auto"]).optional(),
   tasteFitThreshold: z.number().min(0).max(100).optional(),
+  autoApproveFit: z.number().min(0).max(100).optional(),
+  bandHardMaxTracks: z.number().int().positive().optional(),
+  genreSoftCapShare: z.number().min(0).max(1).optional(),
   monthlyAcquisitionBudgetTracks: z.number().int().positive().optional(),
   maxTotalTracks: z.number().int().positive().optional(),
   maxTotalGb: z.number().positive().optional(),
   decayMonths: z.number().int().positive().optional(),
   rotationEnabled: z.boolean().optional(),
   pruneReportEnabled: z.boolean().optional(),
+  autoPruneEnabled: z.boolean().optional(),
 });
 
 const integrationsPatch = z.object({
@@ -259,12 +263,16 @@ const FULL_SCHEMAS = {
   policy: z.object({
     approvalMode: z.enum(["manual", "hybrid", "auto"]),
     tasteFitThreshold: z.number().min(0).max(100),
+    autoApproveFit: z.number().min(0).max(100),
+    bandHardMaxTracks: z.number().int().positive(),
+    genreSoftCapShare: z.number().min(0).max(1),
     monthlyAcquisitionBudgetTracks: z.number().int().positive(),
     maxTotalTracks: z.number().int().positive(),
     maxTotalGb: z.number().positive(),
     decayMonths: z.number().int().positive(),
     rotationEnabled: z.boolean(),
     pruneReportEnabled: z.boolean(),
+    autoPruneEnabled: z.boolean(),
   }),
   integrations: z.object({
     lastfmApiKey: z.string(),

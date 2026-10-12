@@ -79,12 +79,16 @@ export const defaultSettings: Settings = {
   policy: {
     approvalMode: "manual",
     tasteFitThreshold: 70,
+    autoApproveFit: 85,
+    bandHardMaxTracks: 40,
+    genreSoftCapShare: 0.5,
     monthlyAcquisitionBudgetTracks: 40,
     maxTotalTracks: 5000,
     maxTotalGb: 50,
     decayMonths: 12,
     rotationEnabled: true,
     pruneReportEnabled: true,
+    autoPruneEnabled: false,
   },
   integrations: {
     lastfmApiKeyMasked: "test…key",

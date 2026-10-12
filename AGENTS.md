@@ -76,16 +76,17 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 5 (trends & taste) complete: Last.fm scrobble ingestion (full history + incremental,
-dedupe by play timestamp), taste profile (band affinity from plays + scores, genre weights
-from getTopTags, era weights from release dates), explainable taste-fit scoring in
-@ma/core (contribution breakdown is first-class), discovery feed (artist.getSimilar),
-MusicBrainz release radar (rg-MBID dedupe), candidate queue with approve(score)/reject/
-never-suggest, digest (JSON + markdown), due-based scheduler for recurring jobs, CLI
-(candidates/approve/reject/digest/scrobbles/trends/taste), Trends page + candidate review
-in Queue + digest on Dashboard. Browser-verified live (candidates scored 93-100 with why
-breakdowns, approve tracked the band and queued its downloads; markotranda's account has
-0 scrobbles so ingestion ran over empty history - parser validated against live shapes).
-Next: Phase 6 - anti-overload policy engine (caps, budget spending by taste-fit, rotation/
-decay/prune, approval modes consuming the taste-fit score).
+Phase 6 (anti-overload policy engine) complete: pure policy core in @ma/core (gate
+evaluation with typed reasons, soft genre penalty, budget verdicts with a soft monthly
+target, decay proposals, rotation ranks with own-play weighting, policy simulator),
+artist_tags cache + genre shares, hard track/size budgets enforced at download enqueue
+(acquisition_blocked events), taste-fit threshold + band cap gates at candidate creation
+(candidate_gated events), approval modes (manual/hybrid/auto — auto-approved related
+artists land at score 1), weekly prune_scan (scrobble->play matching, prune report event,
+auto-retire toggle via reversible _retired) and rotation_scan (rank blend re-plan with
+two-phase renames), /api/policy + /policy UI (budget meters, genre shares, prune report,
+simulator), CLI ma policy/prune/simulate. Browser-verified live: simulator projected
+"score 1→3 ⇒ quota 7→23" and applying it produced exactly quota 23 / plan 23.
+Next: Phase 7 — legacy bands.csv/plan.csv migration (first-run wizard / ma migrate),
+API polish (/llms.txt), release (GitHub push + archive original repo).
 Before starting a phase, its plan is presented to the owner for approval.

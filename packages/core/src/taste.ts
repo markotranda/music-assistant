@@ -131,8 +131,9 @@ export function computeTasteFit(profile: TasteProfile, candidate: TasteCandidate
     });
   }
 
-  // Genre overlap with the tags you lean on.
-  if (candidate.tags && candidate.tags.length > 0) {
+  // Genre overlap — only when the profile has genre data at all (same rule as
+  // eras: a missing profile must not drag every score down).
+  if (candidate.tags && candidate.tags.length > 0 && Object.keys(profile.genreWeights).length > 0) {
     const overlap = Math.min(
       1,
       candidate.tags

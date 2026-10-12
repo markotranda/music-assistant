@@ -1,8 +1,9 @@
 import { computeTasteFit, type TasteFitPart } from "@ma/core";
 import { insertAlbum, listArtists } from "../db/repositories.js";
 import type { AppDeps } from "../deps.js";
-import { createCandidateIfNew, isIgnored, trendsSettings } from "./candidates.js";
+import { createCandidateIfNew, isIgnored, maybeAutoApprove, trendsSettings } from "./candidates.js";
 import { logEvent } from "./events.js";
+import { artistTagNames, verdictFor } from "./policy.js";
 import { scoringProfile } from "./taste.js";
 
 /**
@@ -15,6 +16,8 @@ export type ReleaseRadarResult = {
   created: number;
   found: number;
   artistsChecked: number;
+  /** Blocked by policy gates (below taste-fit threshold or band cap). */
+  gated: number;
 };
 
 export async function runReleaseRadar(deps: AppDeps): Promise<ReleaseRadarResult> {
@@ -24,7 +27,7 @@ export async function runReleaseRadar(deps: AppDeps): Promise<ReleaseRadarResult
     .toISOString()
     .slice(0, 10);
 
-  const result: ReleaseRadarResult = { created: 0, found: 0, artistsChecked: 0 };
+  const result: ReleaseRadarResult = { created: 0, found: 0, artistsChecked: 0, gated: 0 };
   const failures: string[] = [];
 
   for (const artist of listArtists(deps.db)) {
@@ -55,7 +58,26 @@ export async function runReleaseRadar(deps: AppDeps): Promise<ReleaseRadarResult
         artistName: artist.name,
         releaseDate: group.firstReleaseDate ?? undefined,
       });
-      const created = createCandidateIfNew(deps, {
+
+      // Releases inherit the artist's cached tags for the genre-balance gate.
+      const tags = artistTagNames(deps, artist.id);
+      const verdict = verdictFor(deps, {
+        tasteFit: fit.score,
+        artistName: artist.name,
+        artistId: artist.id,
+        tags,
+      });
+      if (!verdict.pass) {
+        result.gated += 1;
+        logEvent(deps, "candidate_gated", {
+          name: `${artist.name} — ${group.title}`,
+          type: "new_release",
+          gates: verdict.gates.filter((g) => !g.pass).map((g) => g.detail),
+        });
+        continue;
+      }
+
+      const createdId = createCandidateIfNew(deps, {
         type: "new_release",
         key: `rg:${group.id}`,
         artistId: artist.id,
@@ -67,13 +89,17 @@ export async function runReleaseRadar(deps: AppDeps): Promise<ReleaseRadarResult
           primaryType: group.primaryType,
           secondaryTypes: group.secondaryTypes,
           why: fit.parts as TasteFitPart[],
+          policy: verdict.gates,
         },
-        tasteFit: fit.score,
+        tasteFit: verdict.score,
         reason: `${artist.name} released ${group.title}${
           group.firstReleaseDate ? ` (${group.firstReleaseDate})` : ""
-        }`,
+        }${verdict.penalty > 0 ? ` · −${verdict.penalty} genre balance` : ""}`,
       });
-      if (created) result.created += 1;
+      if (createdId !== null) {
+        result.created += 1;
+        await maybeAutoApprove(deps, createdId, verdict);
+      }
     }
   }
 

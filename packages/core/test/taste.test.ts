@@ -95,6 +95,24 @@ describe("computeTasteFit", () => {
     expect(fit.parts.map((p) => p.points)).toEqual([6, 0]);
   });
 
+  it("excludes genre and era parts when the profile has no signal for them", () => {
+    const fresh = buildTasteProfile({
+      artistWeights: { Terror: 100 },
+      artistTags: {},
+      decadeWeights: {},
+    });
+    const fit = computeTasteFit(fresh, {
+      kind: "related",
+      artistName: "Comeback Kid",
+      similarTo: { name: "Terror", match: 0.9 },
+      tags: ["hardcore"],
+      releaseDate: "2026-05-01",
+    });
+    // Only the affinity part applies: 45 * 0.9 * 1.0 = 40.5 of 45 -> 90.
+    expect(fit.score).toBe(90);
+    expect(fit.parts.map((p) => p.label)).toEqual(["similar to Terror (90% match)"]);
+  });
+
   it("scores 0 when nothing applies", () => {
     expect(computeTasteFit(profile, { kind: "related", artistName: "X" }).score).toBe(0);
   });

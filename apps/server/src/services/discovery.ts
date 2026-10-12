@@ -1,8 +1,15 @@
 import { computeTasteFit, type TasteFitPart } from "@ma/core";
 import { listArtists, scrobblePlaysByArtist } from "../db/repositories.js";
 import type { AppDeps } from "../deps.js";
-import { artistKey, createCandidateIfNew, isIgnored, trendsSettings } from "./candidates.js";
+import {
+  artistKey,
+  createCandidateIfNew,
+  isIgnored,
+  maybeAutoApprove,
+  trendsSettings,
+} from "./candidates.js";
 import { logEvent } from "./events.js";
+import { verdictFor } from "./policy.js";
 import { scoringProfile } from "./taste.js";
 
 /**
@@ -16,6 +23,8 @@ export type DiscoveryResult = {
   created: number;
   skipped: number;
   considered: number;
+  /** Blocked by policy gates (below taste-fit threshold or band cap). */
+  gated: number;
 };
 
 export async function runDiscovery(deps: AppDeps): Promise<DiscoveryResult> {
@@ -35,7 +44,7 @@ export async function runDiscovery(deps: AppDeps): Promise<DiscoveryResult> {
     .slice(0, trends.discoverySeeds);
 
   const tracked = new Set(listArtists(deps.db).map((a) => a.name.toLowerCase()));
-  const result: DiscoveryResult = { created: 0, skipped: 0, considered: 0 };
+  const result: DiscoveryResult = { created: 0, skipped: 0, considered: 0, gated: 0 };
   const failures: string[] = [];
 
   for (const seed of seeds) {
@@ -71,7 +80,26 @@ export async function runDiscovery(deps: AppDeps): Promise<DiscoveryResult> {
         tags,
       });
 
-      const created = createCandidateIfNew(deps, {
+      // Policy gates (PLAN §4.2): below-threshold and over-cap candidates are
+      // rejected at creation with their reasons logged — the queue stays clean.
+      const verdict = verdictFor(deps, {
+        tasteFit: fit.score,
+        artistName: name,
+        artistId: null,
+        tags,
+        artistPlannedTracks: 0,
+      });
+      if (!verdict.pass) {
+        result.gated += 1;
+        logEvent(deps, "candidate_gated", {
+          name,
+          type: "related",
+          gates: verdict.gates.filter((g) => !g.pass).map((g) => g.detail),
+        });
+        continue;
+      }
+
+      const createdId = createCandidateIfNew(deps, {
         type: "related",
         key,
         artistId: null,
@@ -81,12 +109,19 @@ export async function runDiscovery(deps: AppDeps): Promise<DiscoveryResult> {
           similarTo: { name: seed.name, match: sim.match },
           tags,
           why: fit.parts as TasteFitPart[],
+          policy: verdict.gates,
         },
-        tasteFit: fit.score,
-        reason: fit.parts.map((p) => p.label).join(" · "),
+        tasteFit: verdict.score,
+        reason:
+          fit.parts.map((p) => p.label).join(" · ") +
+          (verdict.penalty > 0 ? ` · −${verdict.penalty} genre balance` : ""),
       });
-      if (created) result.created += 1;
-      else result.skipped += 1;
+      if (createdId === null) {
+        result.skipped += 1;
+        continue;
+      }
+      result.created += 1;
+      await maybeAutoApprove(deps, createdId, verdict);
     }
   }
 

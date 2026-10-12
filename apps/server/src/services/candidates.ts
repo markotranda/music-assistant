@@ -1,4 +1,4 @@
-import { normTitle, type ScoreTier } from "@ma/core";
+import { autoApprove, normTitle, type ScoreTier } from "@ma/core";
 import {
   type CandidateRow,
   findCandidateByKey,
@@ -15,6 +15,7 @@ import type { AppDeps } from "../deps.js";
 import { ApiError } from "../errors.js";
 import { pinAlbum, trackBand } from "./bands.js";
 import { logEvent } from "./events.js";
+import { policyConfig } from "./policy.js";
 
 /**
  * Candidates (PLAN.md §4.1): proposals that enter the QUEUE, never the library
@@ -60,7 +61,8 @@ export function isIgnored(deps: AppDeps, name: string): boolean {
 
 /**
  * Inserts unless the same (type, key) already exists in ANY status — approved
- * and rejected suggestions are never re-surfaced.
+ * and rejected suggestions are never re-surfaced. Returns the new id, or null
+ * when deduped.
  */
 export function createCandidateIfNew(
   deps: AppDeps,
@@ -72,10 +74,9 @@ export function createCandidateIfNew(
     tasteFit: number | null;
     reason: string | null;
   },
-): boolean {
-  if (findCandidateByKey(deps.db, input.type, input.key)) return false;
-  insertCandidate(deps.db, input);
-  return true;
+): number | null {
+  if (findCandidateByKey(deps.db, input.type, input.key)) return null;
+  return insertCandidate(deps.db, input);
 }
 
 export function listCandidateViews(
@@ -148,6 +149,25 @@ export function rejectCandidate(deps: AppDeps, id: number): CandidateView {
   setCandidateStatus(deps.db, id, "rejected");
   logEvent(deps, "candidate_rejected", { id, type: row.type });
   return shapeCandidate({ ...row, status: "rejected" });
+}
+
+/**
+ * Approval-mode pass (PLAN §4.2 gate 6): hybrid/auto approve through the exact
+ * same path as a human click. Related artists land at score 1 (casual) — their
+ * quota grows only when you raise it yourself.
+ */
+export async function maybeAutoApprove(
+  deps: AppDeps,
+  id: number,
+  verdict: { pass: boolean; score: number },
+): Promise<boolean> {
+  const policy = policyConfig(deps);
+  if (!autoApprove(policy, { ...verdict, penalty: 0, gates: [] })) return false;
+  const row = getCandidate(deps.db, id);
+  if (!row) return false;
+  await approveCandidate(deps, id, 1);
+  logEvent(deps, "candidate_auto_approved", { id, type: row.type, mode: policy.approvalMode });
+  return true;
 }
 
 /** "Never suggest this artist": blocklist + reject its pending candidates. */

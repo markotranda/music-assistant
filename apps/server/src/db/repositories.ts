@@ -3,6 +3,7 @@ import type { Db } from "./index.js";
 import {
   albums,
   artists,
+  artistTags,
   candidates,
   events,
   jobs,
@@ -537,4 +538,82 @@ export function insertAlbum(
     .get();
   if (existing) return;
   db.insert(albums).values(input).run();
+}
+
+// ------------------------------------------------------------ policy support
+
+export function listTracks(
+  db: Db,
+  filter: { artistId?: number; status?: string } = {},
+): (TrackRow & { artistName: string })[] {
+  const rows = db
+    .select({ track: tracks, artistName: artists.name })
+    .from(tracks)
+    .innerJoin(artists, eq(tracks.artistId, artists.id))
+    .all();
+  return rows
+    .map((r) => ({ ...r.track, artistName: r.artistName }))
+    .filter(
+      (t) =>
+        (filter.artistId === undefined || t.artistId === filter.artistId) &&
+        (filter.status === undefined || t.status === filter.status),
+    );
+}
+
+export function countTracksByStatus(db: Db): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const row of db
+    .select({ status: tracks.status, n: sql<number>`count(*)` })
+    .from(tracks)
+    .groupBy(tracks.status)
+    .all()) {
+    out[row.status] = row.n;
+  }
+  return out;
+}
+
+export function sumOwnedBytes(db: Db): number {
+  return Number(
+    db
+      .select({ n: sql<number>`coalesce(sum(${tracks.sizeBytes}), 0)` })
+      .from(tracks)
+      .where(eq(tracks.status, "OWNED"))
+      .get()?.n ?? 0,
+  );
+}
+
+export function updateTrackPlayData(
+  db: Db,
+  trackId: number,
+  data: { playCount: number; lastPlayed: string | null },
+): void {
+  db.update(tracks)
+    .set({ playCount: data.playCount, lastPlayed: data.lastPlayed })
+    .where(eq(tracks.id, trackId))
+    .run();
+}
+
+export type ArtistTagRow = typeof artistTags.$inferSelect;
+
+/** Replaces an artist's cached tags (1 = strongest). */
+export function replaceArtistTags(db: Db, artistId: number, tags: string[]): void {
+  db.delete(artistTags).where(eq(artistTags.artistId, artistId)).run();
+  const seen = new Set<string>();
+  let rank = 1;
+  for (const raw of tags) {
+    const tag = raw.trim().toLowerCase();
+    if (!tag || seen.has(tag)) continue;
+    seen.add(tag);
+    db.insert(artistTags).values({ artistId, tag, rank }).run();
+    rank += 1;
+  }
+}
+
+export function allArtistTags(db: Db): (ArtistTagRow & { artistName: string })[] {
+  return db
+    .select({ tag: artistTags, artistName: artists.name })
+    .from(artistTags)
+    .innerJoin(artists, eq(artistTags.artistId, artists.id))
+    .all()
+    .map((r) => ({ ...r.tag, artistName: r.artistName }));
 }

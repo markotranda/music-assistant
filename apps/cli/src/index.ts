@@ -473,4 +473,124 @@ program
     }
   });
 
+program
+  .command("policy")
+  .description("Policy state: approval mode, budgets, genre shares")
+  .action(async () => {
+    try {
+      const state = await api.request<{
+        policy: Record<string, unknown>;
+        budget: {
+          allowed: boolean;
+          overBudget: boolean;
+          gates: { name: string; pass: boolean; detail: string }[];
+        };
+        genreShares: Record<string, number>;
+      }>("/api/policy");
+      const p = state.policy;
+      console.log(
+        `mode: ${p.approvalMode} (taste-fit threshold ${p.tasteFitThreshold}, hybrid at ${p.autoApproveFit})`,
+      );
+      console.log(
+        `caps: band ${p.bandHardMaxTracks} planned · genre soft ${(Number(p.genreSoftCapShare) * 100).toFixed(0)}% · library ${p.maxTotalTracks} tracks / ${p.maxTotalGb} GB`,
+      );
+      console.log(
+        `monthly target: ${p.monthlyAcquisitionBudgetTracks} tracks (soft — overflow allowed)`,
+      );
+      for (const g of state.budget.gates) {
+        console.log(`  ${g.pass ? "✓" : "✗"} ${g.name}: ${g.detail}`);
+      }
+      if (state.budget.overBudget) console.log("  ! monthly target exceeded (allowed by policy)");
+      const genres = Object.entries(state.genreShares)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      if (genres.length > 0) {
+        console.log("genres:");
+        for (const [tag, share] of genres) {
+          console.log(`  ${(share * 100).toFixed(0).padStart(3)}%  ${tag}`);
+        }
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("prune [action]")
+  .description("Prune report (default) or apply — retire decayed tracks to _retired/")
+  .argument("[action]", "report | apply", "report")
+  .option("--norm <norm...>", "apply only these tracks")
+  .action(async (action: string, opts: { norm?: string[] }) => {
+    try {
+      if (action === "apply") {
+        const res = await api.request<{
+          retired: { artist: string; fileName: string }[];
+          skipped: string[];
+        }>("/api/policy/prune/apply", {
+          method: "POST",
+          body: JSON.stringify({ norms: opts.norm }),
+        });
+        console.log(`retired ${res.retired.length} track(s) to _retired/ (recoverable)`);
+        for (const r of res.retired) console.log(`  ${r.artist}/${r.fileName}`);
+        if (res.skipped.length > 0)
+          console.log(`skipped (no file found): ${res.skipped.join(", ")}`);
+        return;
+      }
+      const report = await api.request<{
+        summary: string;
+        autoPruneEnabled: boolean;
+        proposals: {
+          norm: string;
+          title: string;
+          artistName: string;
+          reason: string;
+          priority: number;
+        }[];
+      }>("/api/policy/prune-report");
+      console.log(report.summary);
+      if (report.autoPruneEnabled)
+        console.log("(auto-prune is ON — the weekly scan retires these automatically)");
+      for (const p of report.proposals) {
+        console.log(`  [${p.priority}] ${p.artistName} — ${p.title}: ${p.reason}`);
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("simulate <scores>")
+  .description("Policy simulator, e.g. ma simulate '{\"Terror\": 3}'")
+  .option("--max-tracks <n>", "also simulate a lower/higher global track budget")
+  .option("--budget <n>", "also simulate a different monthly target")
+  .action(async (scores: string, opts: { maxTracks?: string; budget?: string }) => {
+    try {
+      const policyPatch: Record<string, unknown> = {};
+      if (opts.maxTracks) policyPatch.maxTotalTracks = Number(opts.maxTracks);
+      if (opts.budget) policyPatch.monthlyAcquisitionBudgetTracks = Number(opts.budget);
+      const sim = await api.request<{
+        changes: {
+          artist: string;
+          scoreBefore: number;
+          scoreAfter: number;
+          quotaBefore: number;
+          quotaAfter: number;
+          deltaTracks: number;
+        }[];
+        summary: string;
+      }>("/api/policy/simulate", {
+        method: "POST",
+        body: JSON.stringify({ scoreChanges: JSON.parse(scores), policyPatch }),
+      });
+      for (const c of sim.changes) {
+        console.log(
+          `${c.artist}: score ${c.scoreBefore}→${c.scoreAfter} ⇒ quota ${c.quotaBefore}→${c.quotaAfter} (${c.deltaTracks >= 0 ? "+" : ""}${c.deltaTracks})`,
+        );
+      }
+      console.log(sim.summary);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
 program.parseAsync();

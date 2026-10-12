@@ -145,6 +145,22 @@ export const tasteProfile = sqliteTable("taste_profile", {
   updatedAt: text("updated_at").notNull().$defaultFn(now),
 });
 
+/** Cached genre tags per artist (Last.fm getTopTags) — genre-cap attribution. */
+export const artistTags = sqliteTable(
+  "artist_tags",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    artistId: integer("artist_id")
+      .notNull()
+      .references(() => artists.id),
+    /** Lowercase tag. */
+    tag: text("tag").notNull(),
+    /** 1 = strongest. */
+    rank: integer("rank").notNull(),
+  },
+  (t) => [uniqueIndex("artist_tags_unique_idx").on(t.artistId, t.tag)],
+);
+
 export const jobs = sqliteTable(
   "jobs",
   {

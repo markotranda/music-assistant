@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Disc3, ListChecks, Settings2, TrendingUp, Users } from "lucide-react";
+import { Disc3, ListChecks, Settings2, ShieldCheck, TrendingUp, Users } from "lucide-react";
 import { useState } from "react";
 import { ApiRequestError, api } from "../lib/api";
 import { cn } from "../lib/utils";
@@ -13,6 +13,7 @@ const NAV = [
   { to: "/bands", label: "Bands", icon: Users },
   { to: "/queue", label: "Queue", icon: ListChecks },
   { to: "/trends", label: "Trends", icon: TrendingUp },
+  { to: "/policy", label: "Policy", icon: ShieldCheck },
   { to: "/settings", label: "Settings", icon: Settings2 },
 ] as const;
 

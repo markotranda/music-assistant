@@ -3,6 +3,7 @@ import { Layout } from "./components/layout";
 import { BandDetailPage } from "./features/bands/BandDetailPage";
 import { BandsPage } from "./features/bands/BandsPage";
 import { DashboardPage } from "./features/dashboard/DashboardPage";
+import { PolicyPage } from "./features/policy/PolicyPage";
 import { QueuePage } from "./features/queue/QueuePage";
 import { SettingsPage } from "./features/settings/SettingsPage";
 import { TrendsPage } from "./features/trends/TrendsPage";
@@ -41,6 +42,12 @@ const trendsRoute = createRoute({
   component: TrendsPage,
 });
 
+const policyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/policy",
+  component: PolicyPage,
+});
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/settings",
@@ -53,6 +60,7 @@ const routeTree = rootRoute.addChildren([
   bandDetailRoute,
   queueRoute,
   trendsRoute,
+  policyRoute,
   settingsRoute,
 ]);
 

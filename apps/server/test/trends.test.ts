@@ -123,7 +123,11 @@ describe("discovery feed", () => {
           { name: "Death", mbid: null, match: 0.5 }, // already tracked below
         ],
       },
-      tags: { "Comeback Kid": ["hardcore", "punk"], Death: ["death metal"] },
+      tags: {
+        Terror: ["hardcore", "punk"],
+        "Comeback Kid": ["hardcore", "punk"],
+        Death: ["death metal"],
+      },
       scrobbles,
     });
     await trackBand(deps, { name: "Terror", score: 2 });
@@ -208,7 +212,7 @@ describe("candidate lifecycle", () => {
     const deps = fakeDeps({
       ranked: syntheticRanked(30),
       similar: { Terror: [{ name: "Comeback Kid", mbid: null, match: 0.9 }] },
-      tags: { "Comeback Kid": ["hardcore"] },
+      tags: { Terror: ["hardcore"], "Comeback Kid": ["hardcore"] },
     });
     await trackBand(deps, { name: "Terror", score: 1 });
     await runDiscovery(deps);
@@ -235,7 +239,7 @@ describe("candidate lifecycle", () => {
         tasteFit: 0,
         reason: null,
       }),
-    ).toBe(false);
+    ).toBeNull();
 
     await expect(approveCandidate(deps, id, 1)).rejects.toThrow(/already approved/);
   });
@@ -283,6 +287,7 @@ describe("digest", () => {
     const deps = fakeDeps({
       ranked: syntheticRanked(30),
       similar: { Terror: [{ name: "Comeback Kid", mbid: null, match: 0.9 }] },
+      tags: { Terror: ["hardcore"], "Comeback Kid": ["hardcore"] },
       scrobbles,
     });
     await trackBand(deps, { name: "Terror", score: 1 });
@@ -304,7 +309,13 @@ describe("scheduler", () => {
     const t0 = Date.parse("2026-10-12T00:00:00.000Z");
 
     const first = runDueSchedules(deps, t0);
-    expect(first).toEqual(["scrobble_sync", "release_radar", "discovery"]);
+    expect(first).toEqual([
+      "scrobble_sync",
+      "release_radar",
+      "discovery",
+      "prune_scan",
+      "rotation_scan",
+    ]);
 
     // Same hour: nothing due.
     expect(runDueSchedules(deps, t0 + 60 * 60 * 1000)).toEqual([]);
@@ -324,6 +335,7 @@ describe("trends API", () => {
     const deps = fakeDeps({
       ranked: syntheticRanked(30),
       similar: { Terror: [{ name: "Comeback Kid", mbid: null, match: 0.9 }] },
+      tags: { Terror: ["hardcore"], "Comeback Kid": ["hardcore"] },
     });
     await trackBand(deps, { name: "Terror", score: 1 });
     await runDiscovery(deps);

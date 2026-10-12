@@ -5,11 +5,17 @@ import { settings } from "./schema.js";
 
 /** Anti-overload policy (PLAN.md §4.2). Tunable in Settings. */
 export type PolicySettings = {
-  /** manual: approve everything in the queue; hybrid: auto ≥ 85 taste-fit; auto: all gates pass. */
+  /** manual: approve everything in the queue; hybrid: auto ≥ autoApproveFit; auto: all gates pass. */
   approvalMode: "manual" | "hybrid" | "auto";
   /** Candidates below this taste-fit score never enter the queue. */
   tasteFitThreshold: number;
-  /** Tracks the sync engine may acquire per calendar month. */
+  /** Hybrid mode auto-approves at/above this adjusted score. */
+  autoApproveFit: number;
+  /** Hard cap: planned tracks per band (on top of the formula's score caps). */
+  bandHardMaxTracks: number;
+  /** Soft cap: genre shares above this get a score penalty instead of a block. */
+  genreSoftCapShare: number;
+  /** Soft monthly target — overflow is allowed, spend is tracked and reported. */
   monthlyAcquisitionBudgetTracks: number;
   maxTotalTracks: number;
   maxTotalGb: number;
@@ -17,17 +23,23 @@ export type PolicySettings = {
   decayMonths: number;
   rotationEnabled: boolean;
   pruneReportEnabled: boolean;
+  /** When on, prune proposals retire automatically (reversible via _retired). */
+  autoPruneEnabled: boolean;
 };
 
 export const DEFAULT_POLICY: PolicySettings = {
   approvalMode: "manual",
   tasteFitThreshold: 70,
+  autoApproveFit: 85,
+  bandHardMaxTracks: 40,
+  genreSoftCapShare: 0.5,
   monthlyAcquisitionBudgetTracks: 40,
   maxTotalTracks: 5000,
   maxTotalGb: 50,
   decayMonths: 12,
   rotationEnabled: true,
   pruneReportEnabled: true,
+  autoPruneEnabled: false,
 };
 
 export type IntegrationSettings = {

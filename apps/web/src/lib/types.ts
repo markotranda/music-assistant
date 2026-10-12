@@ -85,16 +85,7 @@ export type Settings = {
     caps: Record<string, number>;
     deepShare: number;
   };
-  policy: {
-    approvalMode: "manual" | "hybrid" | "auto";
-    tasteFitThreshold: number;
-    monthlyAcquisitionBudgetTracks: number;
-    maxTotalTracks: number;
-    maxTotalGb: number;
-    decayMonths: number;
-    rotationEnabled: boolean;
-    pruneReportEnabled: boolean;
-  };
+  policy: PolicyConfigView;
   integrations: {
     lastfmApiKeyMasked: string | null;
     lastfmUsername: string;
@@ -164,6 +155,74 @@ export type ScrobbleStats = {
   total: number;
   lastPlayedAt: string | null;
   topArtists: { artistName: string; plays: number }[];
+};
+
+export type PolicyConfigView = {
+  approvalMode: "manual" | "hybrid" | "auto";
+  tasteFitThreshold: number;
+  autoApproveFit: number;
+  bandHardMaxTracks: number;
+  genreSoftCapShare: number;
+  monthlyAcquisitionBudgetTracks: number;
+  maxTotalTracks: number;
+  maxTotalGb: number;
+  decayMonths: number;
+  rotationEnabled: boolean;
+  pruneReportEnabled: boolean;
+  autoPruneEnabled: boolean;
+};
+
+export type PolicyState = {
+  policy: PolicyConfigView;
+  budget: {
+    ownedTracks: number;
+    maxTotalTracks: number;
+    bytesUsed: number;
+    maxTotalGb: number;
+    acquiredThisMonth: number;
+    monthlyBudgetTracks: number;
+    allowed: boolean;
+    overBudget: boolean;
+    gates: { name: string; pass: boolean; detail: string }[];
+  };
+  genreShares: Record<string, number>;
+};
+
+export type PruneProposalView = {
+  norm: string;
+  title: string;
+  artistName: string;
+  reason: string;
+  priority: number;
+  sizeBytes: number | null;
+};
+
+export type PruneReportView = {
+  generatedAt: string;
+  decayMonths: number;
+  autoPruneEnabled: boolean;
+  proposals: PruneProposalView[];
+  reclaimableBytes: number;
+  summary: string;
+};
+
+export type SimulationView = {
+  changes: {
+    artist: string;
+    scoreBefore: number;
+    scoreAfter: number;
+    quotaBefore: number;
+    quotaAfter: number;
+    deltaTracks: number;
+  }[];
+  library: {
+    tracksNow: number;
+    tracksProjected: number;
+    maxTotalTracks: number;
+    acquiredThisMonth: number;
+    monthlyBudgetTracks: number;
+  };
+  summary: string;
 };
 
 export type Digest = {
