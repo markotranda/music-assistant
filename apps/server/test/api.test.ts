@@ -119,3 +119,49 @@ describe("bands API", () => {
     expect(await res.json()).toMatchObject({ error: expect.stringContaining("99") });
   });
 });
+
+describe("jobs + verify API", () => {
+  it("lists jobs, retries only failed ones, and verifies bands", async () => {
+    const deps = fakeDeps({ ranked: syntheticRanked(30) });
+    const app = createApp(deps);
+
+    // tracking enqueues download jobs
+    await app.request("/api/artists", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "Terror", score: 1 }),
+    });
+
+    const listed = await (await app.request("/api/jobs")).json();
+    expect(listed.jobs).toHaveLength(7);
+    expect(listed.jobs[0].type).toBe("download");
+    expect(listed.jobs[0].status).toBe("pending");
+    expect(listed.jobs[0].payload).toMatchObject({ norm: expect.any(String) });
+
+    // filtered listing
+    const empty = await (await app.request("/api/jobs?status=failed")).json();
+    expect(empty.jobs).toHaveLength(0);
+
+    // retry is only meaningful for failed jobs
+    const retry = await app.request(`/api/jobs/${listed.jobs[0].id}/retry`, { method: "POST" });
+    expect(retry.status).toBe(409);
+    expect(await retry.json()).toMatchObject({ error: expect.stringContaining("pending") });
+
+    const missing = await app.request("/api/jobs/999/retry", { method: "POST" });
+    expect(missing.status).toBe(404);
+
+    // deep verify (empty folder -> every planned track missing)
+    const verify = await app.request("/api/verify", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ artistId: 1 }),
+    });
+    expect(verify.status).toBe(200);
+    const { reports } = await verify.json();
+    expect(reports).toHaveLength(1);
+    expect(reports[0].band).toBe("Terror");
+    expect(reports[0].ok).toBe(false);
+    expect(reports[0].issues.every((i: { type: string }) => i.type === "missing")).toBe(true);
+    expect(reports[0].issues).toHaveLength(7);
+  });
+});

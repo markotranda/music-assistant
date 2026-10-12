@@ -5,6 +5,8 @@ import { createApp } from "./app.js";
 import { createDb } from "./db/index.js";
 import { seedSettings } from "./db/seed.js";
 import { createDeps } from "./deps.js";
+import { createJobHandlers } from "./jobs/handlers.js";
+import { createWorker } from "./jobs/worker.js";
 
 // Local dev convenience: load .env if present (Docker injects env directly).
 // Settings in the DB remain the source of truth after first seeding.
@@ -24,7 +26,12 @@ const db = createDb({
 });
 seedSettings(db, process.env);
 
-const app = createApp(createDeps(db, process.env));
+const deps = createDeps(db, process.env);
+const app = createApp(deps);
+
+// Durable job worker: downloads survive restarts, orphaned jobs re-queue.
+const worker = createWorker(deps, createJobHandlers(deps));
+worker.start();
 
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`music-assistant listening on http://localhost:${info.port}`);

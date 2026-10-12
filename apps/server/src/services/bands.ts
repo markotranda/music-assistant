@@ -19,6 +19,7 @@ import {
   deleteArtist,
   deletePlanRow,
   deletePlanRows,
+  enqueueJobRow,
   getArtistById,
   getArtistByMbid,
   getPinnedRows,
@@ -31,7 +32,7 @@ import {
   replacePlanRows,
   setArtistScore,
 } from "../db/repositories.js";
-import { events, jobs } from "../db/schema.js";
+import { events } from "../db/schema.js";
 import type { AppDeps } from "../deps.js";
 import { ApiError } from "../errors.js";
 
@@ -76,9 +77,7 @@ export function enqueueJob(
   type: string,
   payload: Record<string, unknown>,
 ): void {
-  db.insert(jobs)
-    .values({ type, payloadJson: JSON.stringify(payload) })
-    .run();
+  enqueueJobRow(db, type, payload); // dedupes identical pending jobs
 }
 
 /** Resolve a name to MBID candidates without any side effects. */
@@ -224,7 +223,20 @@ export async function trackBand(
   });
 
   logEvent(deps, "artist_tracked", { artistId, name: resolved.name, catalog, quota });
-  const sync = await syncBand(deps, artistId, { apply: true });
+  let sync: SyncResult;
+  try {
+    sync = await syncBand(deps, artistId, { apply: true });
+  } catch (err) {
+    // Don't leave a half-tracked artist behind when the initial sync fails
+    // (e.g. no Last.fm key or no ranked tracks): roll back and surface the error.
+    deletePlanRows(deps.db, artistId);
+    deleteArtist(deps.db, artistId);
+    logEvent(deps, "track_rolled_back", {
+      name: resolved.name,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    throw err;
+  }
   const artist = getArtistById(deps.db, artistId);
   if (!artist) throw new ApiError(500, "artist vanished during tracking");
   return { artist, catalog, sync };

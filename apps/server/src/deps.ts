@@ -4,9 +4,11 @@ import {
   createDeezer,
   createLastfm,
   createMusicBrainz,
+  createYtDlp,
   type DeezerApi,
   type LastfmApi,
   type MusicBrainzApi,
+  type YtDlpApi,
 } from "@ma/integrations";
 import type { Db } from "./db/index.js";
 import { getSetting } from "./db/repositories.js";
@@ -19,6 +21,7 @@ export type AppDeps = {
   lastfm: LastfmApi;
   deezer: DeezerApi;
   collection: CollectionFs;
+  ytdlp: YtDlpApi;
 };
 
 /** Builds real adapters from Settings + env. Secrets live in the Settings store. */
@@ -34,6 +37,12 @@ export function createDeps(db: Db, env: NodeJS.ProcessEnv = process.env): AppDep
     collection: createCollectionFs({
       collectionDir: env.MA_COLLECTION_DIR ?? "./collection",
       retiredDir: env.MA_RETIRED_DIR ?? "./_retired",
+    }),
+    ytdlp: createYtDlp({
+      binary: env.MA_YTDLP ?? "yt-dlp",
+      ffmpegLocation: env.MA_FFMPEG_DIR,
+      // EJS challenge solvers run on Node — point yt-dlp at the running one.
+      nodeExe: env.MA_NODE ?? process.execPath,
     }),
   };
 }

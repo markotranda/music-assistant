@@ -76,10 +76,11 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 2 (integrations + band tracking) complete: MusicBrainz (paginated, rate-limited),
-Last.fm, Deezer + collection-fs adapters with recorded-fixture contract tests; band
-track/untrack/score/sync + pin-track/pin-album service, contract-first API under
-`/api/artists`, and `ma` CLI commands. Live-verified against real APIs (legacy parity:
-Terror -> catalog 135, quota 13, same 13-track plan).
-Next: Phase 3 - acquisition pipeline (yt-dlp job worker, retagging, deep verify).
+Phase 3 (acquisition pipeline) complete: durable SQLite job queue + in-process worker
+(boot recovery, bounded retries with backoff, deduped enqueue), yt-dlp download handler
+with the legacy search/player-client fallback chain and captured output, canonical TagLib
+retagging with read-back verification, hash-aware deep verify (missing/surplus/renamed/
+replaced/corrupt), and `ma jobs/retry/verify/status` CLI commands. Live-verified end to end
+(real yt-dlp downloads, restart durability, tamper detection).
+Next: Phase 4 - web UI (React dashboard, track/queue/verify views).
 Before starting a phase, its plan is presented to the owner for approval.

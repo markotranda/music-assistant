@@ -4,10 +4,12 @@ import type {
   CatalogSize,
   CollectionFs,
   DeezerApi,
+  DownloadRequest,
   LastfmApi,
   MusicBrainzApi,
   RenameAction,
   ResolvedArtist,
+  YtDlpApi,
 } from "@ma/integrations";
 import type { Db } from "../src/db";
 import { createDb } from "../src/db";
@@ -67,17 +69,19 @@ export type FakeOptions = {
   deezerTitles?: string[];
   deezerThrows?: boolean;
   files?: Record<string, string[]>;
+  /** Override the fake yt-dlp (download handler tests use a real-file fake). */
+  ytdlp?: YtDlpApi;
 };
 
 export type FakeDeps = AppDeps & {
   fs: ReturnType<typeof fakeCollectionFs>;
-  calls: { deezer: number };
+  calls: { deezer: number; ytdlp: DownloadRequest[] };
 };
 
 export function fakeDeps(opts: FakeOptions = {}): FakeDeps {
   const db = makeDb();
   const fs = fakeCollectionFs(opts.files ?? {});
-  const calls = { deezer: 0 };
+  const calls = { deezer: 0, ytdlp: [] as DownloadRequest[] };
 
   const ranked = opts.ranked ?? syntheticRanked(30);
 
@@ -117,7 +121,22 @@ export function fakeDeps(opts: FakeOptions = {}): FakeDeps {
     },
   };
 
-  return { db, musicbrainz, lastfm, deezer, collection: fs, fs, calls };
+  // Default fake: records requests and reports a failed download. Download
+  // handler tests inject a fake that actually writes files.
+  const ytdlp: YtDlpApi =
+    opts.ytdlp ??
+    ({
+      download: async (req) => {
+        calls.ytdlp.push(req);
+        return {
+          ok: false,
+          attempts: [],
+          error: "fake ytdlp: tests do not download",
+        };
+      },
+    } as YtDlpApi);
+
+  return { db, musicbrainz, lastfm, deezer, collection: fs, ytdlp, fs, calls };
 }
 
 export function syntheticRanked(count: number): { name: string; plays: number }[] {

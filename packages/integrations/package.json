@@ -20,7 +20,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@ma/core": "workspace:*"
+    "@ma/core": "workspace:*",
+    "music-metadata": "^11.0.0",
+    "node-taglib-sharp": "^5.2.3"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

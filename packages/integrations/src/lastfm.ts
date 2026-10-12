@@ -1,4 +1,4 @@
-import { createHttp, type HttpJson } from "./http.js";
+import { createHttp, type HttpJson, IntegrationError } from "./http.js";
 
 /**
  * Last.fm API 2.0 client — popularity rankings and similar-artist discovery.
@@ -22,6 +22,13 @@ export function createLastfm(options: LastfmOptions) {
   const http = options.http ?? createHttp({ service: "lastfm" });
 
   const call = (method: string, params: Record<string, string>) => {
+    if (!options.apiKey) {
+      // A missing key reads as an opaque HTTP 400 from Last.fm otherwise.
+      throw new IntegrationError(
+        "Last.fm API key not configured — set it in Settings or .env (LASTFM_API_KEY)",
+        { service: "lastfm" },
+      );
+    }
     const qs = new URLSearchParams({
       method,
       api_key: options.apiKey,

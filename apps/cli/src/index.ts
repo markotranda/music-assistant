@@ -209,4 +209,128 @@ program
     }
   });
 
+program
+  .command("jobs")
+  .description("List background jobs (downloads, verifies)")
+  .option("-s, --status <status>", "filter: pending | running | done | failed")
+  .action(async (opts: { status?: string }) => {
+    try {
+      const q = opts.status ? `?status=${encodeURIComponent(opts.status)}` : "";
+      const { jobs } = await api.request<{
+        jobs: {
+          id: number;
+          type: string;
+          status: string;
+          attempts: number;
+          error: string | null;
+          payload: Record<string, unknown>;
+        }[];
+      }>(`/api/jobs${q}`);
+      if (jobs.length === 0) {
+        console.log("no jobs");
+        return;
+      }
+      for (const j of jobs) {
+        const what = j.payload.title ? `${j.payload.title}` : JSON.stringify(j.payload);
+        console.log(
+          `${String(j.id).padStart(4)}  ${j.status.padEnd(8)} ${j.type.padEnd(10)} x${j.attempts}  ${what}`,
+        );
+        if (j.error) console.log(`      error: ${j.error}`);
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("retry <id>")
+  .description("Re-queue a failed job")
+  .action(async (id: string) => {
+    try {
+      const r = await api.request<{ job: { id: number; status: string } }>(
+        `/api/jobs/${Number(id)}/retry`,
+        { method: "POST" },
+      );
+      console.log(`job ${r.job.id} is ${r.job.status}`);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("verify [name]")
+  .description("Deep verify: plan vs disk by title, name AND content hash")
+  .action(async (name?: string) => {
+    try {
+      let artistId: number | undefined;
+      if (name) artistId = (await findArtist(name)).id;
+      const { reports } = await api.request<{
+        reports: {
+          band: string;
+          planCount: number;
+          onDiskCount: number;
+          ok: boolean;
+          issues: {
+            type: string;
+            norm?: string;
+            fileName?: string;
+            expected?: string;
+            detail?: string;
+          }[];
+        }[];
+      }>("/api/verify", {
+        method: "POST",
+        body: JSON.stringify(artistId ? { artistId } : {}),
+      });
+      for (const r of reports) {
+        console.log(
+          `${r.ok ? "OK  " : "BAD "} ${r.band} (${r.planCount} planned, ${r.onDiskCount} on disk)`,
+        );
+        for (const i of r.issues) {
+          const what = i.fileName ?? i.norm ?? "";
+          console.log(
+            `     ${i.type.padEnd(9)} ${what}${i.expected ? ` -> ${i.expected}` : ""}${i.detail ? ` (${i.detail})` : ""}`,
+          );
+        }
+      }
+      const bad = reports.filter((r) => !r.ok).length;
+      if (bad > 0) {
+        console.error(`${bad} band(s) need attention`);
+        process.exitCode = 1;
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("status")
+  .description("Library + queue summary")
+  .action(async () => {
+    try {
+      const [{ artists }, { jobs }, { reports }] = await Promise.all([
+        api.request<{
+          artists: { name: string; quota: number | null; planCount: number; onDiskCount: number }[];
+        }>("/api/artists"),
+        api.request<{ jobs: { status: string }[] }>("/api/jobs?limit=200"),
+        api.request<{ reports: { ok: boolean; issues: unknown[] }[] }>("/api/verify", {
+          method: "POST",
+          body: JSON.stringify({}),
+        }),
+      ]);
+      const byStatus = (s: string) => jobs.filter((j) => j.status === s).length;
+      console.log(`bands: ${artists.length}`);
+      console.log(
+        `tracks: ${artists.reduce((n, a) => n + a.planCount, 0)} planned, ${artists.reduce((n, a) => n + a.onDiskCount, 0)} on disk`,
+      );
+      console.log(
+        `jobs: ${byStatus("pending")} pending, ${byStatus("running")} running, ${byStatus("done")} done, ${byStatus("failed")} failed`,
+      );
+      const issues = reports.reduce((n, r) => n + r.issues.length, 0);
+      console.log(`verify: ${issues === 0 ? "all clean" : `${issues} issue(s) — see: ma verify`}`);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
 program.parseAsync();

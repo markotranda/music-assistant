@@ -48,10 +48,29 @@ export function defaultIntegrations(env: NodeJS.ProcessEnv = process.env): Integ
   };
 }
 
+/** Acquisition config (yt-dlp). Tunable in Settings. */
+export type AcquisitionSettings = {
+  audioFormat: string;
+  audioQuality: string;
+  minDurationS: number;
+  maxDurationS: number;
+  /** yt-dlp player-client fallback chain; null = default client. */
+  playerClients: (string | null)[];
+};
+
+export const DEFAULT_ACQUISITION: AcquisitionSettings = {
+  audioFormat: "mp3",
+  audioQuality: "2",
+  minDurationS: 60,
+  maxDurationS: 900,
+  playerClients: [null, "web_safari", "android,web"],
+};
+
 export type AppSettings = {
   formula: QuotaFormula;
   policy: PolicySettings;
   integrations: IntegrationSettings;
+  acquisition: AcquisitionSettings;
 };
 
 /** Seeds default settings on first run. Existing values are never overwritten. */
@@ -60,6 +79,7 @@ export function seedSettings(db: Db, env: NodeJS.ProcessEnv = process.env): void
     formula: DEFAULT_QUOTA_FORMULA,
     policy: DEFAULT_POLICY,
     integrations: defaultIntegrations(env),
+    acquisition: DEFAULT_ACQUISITION,
   };
   for (const [key, value] of Object.entries(defaults)) {
     const existing = db.select().from(settings).where(eq(settings.key, key)).get();

@@ -1,7 +1,7 @@
 import { getQuota } from "@ma/core";
 import { eq } from "drizzle-orm";
 import { beforeEach, describe, expect, it } from "vitest";
-import { getArtistByMbid, listPlanRows } from "../src/db/repositories";
+import { getArtistByMbid, listArtists, listPlanRows } from "../src/db/repositories";
 import { events, jobs } from "../src/db/schema";
 import {
   pinAlbum,
@@ -63,6 +63,20 @@ describe("trackBand", () => {
     ).rejects.toMatchObject({
       status: 422,
     });
+  });
+
+  it("rolls back when the initial sync fails instead of leaving a half-tracked artist", async () => {
+    const broken = {
+      ...deps,
+      lastfm: {
+        ...deps.lastfm,
+        getTopTracks: async () => {
+          throw new Error("Last.fm API key not configured");
+        },
+      },
+    };
+    await expect(trackBand(broken, { name: "Terror" })).rejects.toThrow("Last.fm API key");
+    expect(listArtists(deps.db)).toHaveLength(0);
   });
 });
 
