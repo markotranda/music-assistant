@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { api, apiPost } from "../../lib/api";
 import type { Dashboard, VerifyReport } from "../../lib/types";
 import { formatBytes } from "../../lib/utils";
+import { FirstRunCard } from "../first-run/FirstRunCard";
 
 function BudgetBar({ used, max, unit }: { used: number; max: number; unit: string }) {
   const pct = max > 0 ? Math.min(100, Math.round((used / max) * 100)) : 0;
@@ -77,6 +78,7 @@ export function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      {library.bands === 0 ? <FirstRunCard /> : null}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Dashboard</h1>
         <div className="flex gap-2">

@@ -64,6 +64,34 @@ export type VerifyReport = {
   issues: VerifyIssue[];
 };
 
+export type MigrateReportView = {
+  startedAt: string;
+  finishedAt: string;
+  bands: {
+    imported: number;
+    skipped: string[];
+    quotaDiffs: {
+      band: string;
+      legacyQuota: number | null;
+      computedQuota: number | null;
+    }[];
+  };
+  plan: {
+    imported: number;
+    alreadyImported: number;
+    owned: number;
+    planned: number;
+    pinned: number;
+  };
+  files: {
+    matched: number;
+    unmatched: string[];
+    unknownBandDirs: string[];
+  };
+  problems: string[];
+  summary: string;
+};
+
 export type Dashboard = {
   library: {
     bands: number;

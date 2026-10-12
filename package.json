@@ -12,6 +12,7 @@
     "dev": "pnpm --parallel --filter @ma/server --filter @ma/web dev",
     "build": "pnpm -r build",
     "build:libs": "pnpm --filter @ma/core --filter @ma/integrations build",
+    "llms": "pnpm --filter @ma/server build && cd apps/server && node dist/server.js --print-llms > ../../docs/llms.txt && node dist/server.js --print-llms-full > ../../docs/llms-full.txt",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm run build:libs && vitest run",
     "test:watch": "vitest",

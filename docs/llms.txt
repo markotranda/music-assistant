@@ -1,0 +1,82 @@
+# Music Assistant
+
+> Self-hosted release radar and library manager for tracked bands: follows new
+> releases and related artists, scores them against your scrobble-derived taste,
+> and keeps the library under strict anti-overload budgets. Single-user web UI,
+> documented REST API and `ma` CLI. Acquisition via yt-dlp; local files only.
+
+Everything is a REST call under `/api`. Responses are JSON. Errors are typed:
+`422 {error, details}` for validation, `502 {error, service, upstreamStatus}`
+for upstream failures. The full OpenAPI document lives at `/doc`.
+
+## Core concepts
+
+- **Band** — a tracked artist with a score (1 casual / 2 fan / 3 favorite) and a
+  plan. The plan size comes from the quota formula
+  `quota = clamp(multiplier[score] × √catalog, floor, cap)` with banker's rounding.
+- **Plan** — the desired top-N tracks per band, rank-prefixed files
+  `NN - Title.ext` in `<collection>/<Band>/`. Pinned tracks survive re-plans.
+- **Jobs** — durable queue (`download`, `verify`, `scrobble_sync`,
+  `release_radar`, `discovery`, `prune_scan`, `rotation_scan`, `migrate`).
+- **Candidates** — suggestions (new release / related artist) with a 0-100
+  taste-fit score and human-readable reasons; they never enter the library
+  directly. Approval modes: manual / hybrid (auto ≥ 85 fit) / auto.
+- **Policy** — anti-overload gates: taste-fit threshold, per-band cap, soft
+  genre penalty, hard track/GB budgets, soft monthly target, decay → prune
+  (retire to `_retired/<Band>/`, recoverable), rank rotation.
+
+## CLI
+
+`ma` mirrors the API: `ma track <band> --score 2`, `ma sync <id>`, `ma pin`,
+`ma jobs`, `ma verify`, `ma candidates`, `ma approve|reject`, `ma digest`,
+`ma policy`, `ma prune`, `ma simulate`, `ma migrate --bands <csv> --plan <csv>`,
+`ma api`. Use `--url` to point at a remote instance.
+
+## Endpoints
+
+- `GET /api/artists` — List tracked bands
+- `POST /api/artists` — Track a band: resolve, compute quota, build plan, reconcile
+- `DELETE /api/artists/{id}` — Untrack a band (files are retired, never deleted)
+- `GET /api/artists/{id}` — Band detail with plan rows
+- `PATCH /api/artists/{id}` — Change the taste tier (re-quota + re-plan immediately)
+- `POST /api/artists/{id}/albums` — Pin a whole album (MusicBrainz track list)
+- `POST /api/artists/{id}/sync` — Preview (apply=false) or apply the desired-state plan
+- `POST /api/artists/{id}/tracks` — Pin a track (survives every re-plan)
+- `DELETE /api/artists/{id}/tracks/{norm}` — Remove a planned track (file is retired if present)
+- `POST /api/artists/resolve` — Resolve a name to MBID candidates (no side effects)
+- `GET /api/candidates` — Candidate queue (new releases + related artists), taste-fit sorted
+- `POST /api/candidates/{id}/approve` — Approve a candidate: related artists are tracked (score picked here), releases are pinned
+- `POST /api/candidates/{id}/reject` — Reject a candidate (it will not be suggested again)
+- `POST /api/candidates/ignore-artist` — Never suggest this artist again (blocklist + reject pending)
+- `GET /api/dashboard` — Library vs budgets, job counts, recent events — one call for the home screen
+- `GET /api/digest` — Digest: candidates pending, new releases, library vs budgets
+- `GET /api/events` — Audit log (every sync/prune/download decision), newest first
+- `GET /api/jobs` — List background jobs (newest first)
+- `POST /api/jobs/{id}/retry` — Re-queue a failed job
+- `POST /api/migrate` — Import legacy state (bands.csv + plan.csv) as a durable job
+- `GET /api/migrate/report` — Report of the last migration run (everything unmapped is listed)
+- `GET /api/policy` — Policy state: gates, budget usage, genre shares
+- `GET /api/policy/prune-report` — Prune report: decayed tracks proposed for retirement (with reasons)
+- `POST /api/policy/prune/apply` — Retire pruned tracks to _retired/<Band>/ (recoverable)
+- `POST /api/policy/simulate` — Simulator: "what would change if I set score 3 on X / lower the budget?"
+- `GET /api/scrobbles` — Scrobble stats: total plays, last play, top artists
+- `POST /api/scrobbles/sync` — Import scrobble history as a job (full history on first run)
+- `GET /api/settings` — All settings groups (secrets masked)
+- `PUT /api/settings/acquisition` — Update acquisition settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/auth` — Update auth settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/formula` — Update formula settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/integrations` — Update integrations settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/overrides` — Update overrides settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/policy` — Update policy settings (partial: omitted fields are kept; secrets "" clears)
+- `PUT /api/settings/trends` — Update trends settings (partial: omitted fields are kept; secrets "" clears)
+- `GET /api/taste` — Taste profile: band affinities, genre and era weights
+- `POST /api/taste/recompute` — Recompute the taste profile from scrobbles + scores (fetches genre tags)
+- `POST /api/trends/discover` — Run the related-artist discovery feed as a job
+- `POST /api/trends/release-radar` — Run the release radar as a job
+- `POST /api/verify` — Deep verify: plan vs disk by normalized title, file name AND content hash
+- `GET /health` — Health check
+
+## Full reference
+
+- /llms-full.txt — every endpoint with request/response schemas
+- /doc — OpenAPI JSON

@@ -593,4 +593,102 @@ program
     }
   });
 
+program
+  .command("migrate")
+  .description("One-shot import of legacy bands.csv + plan.csv state")
+  .requiredOption("--bands <path>", "path to the legacy bands.csv")
+  .requiredOption("--plan <path>", "path to the legacy plan.csv")
+  .action(async (opts: { bands: string; plan: string }) => {
+    try {
+      const { readFileSync } = await import("node:fs");
+      const queued = await api.request<{ jobId: number | null }>("/api/migrate", {
+        method: "POST",
+        body: JSON.stringify({
+          bandsCsv: readFileSync(opts.bands, "utf8"),
+          planCsv: readFileSync(opts.plan, "utf8"),
+        }),
+      });
+      console.log(
+        queued.jobId === null
+          ? "an identical migration is already queued — waiting for it"
+          : `queued migration job ${queued.jobId}`,
+      );
+
+      // Wait for the worker to finish the import.
+      for (let i = 0; i < 600; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const { jobs } = await api.request<{ jobs: { type: string; status: string }[] }>(
+          "/api/jobs",
+        );
+        if (
+          !jobs.some((j) => j.type === "migrate" && j.status !== "done" && j.status !== "failed")
+        ) {
+          break;
+        }
+      }
+
+      const { report } = await api.request<{
+        report: {
+          summary: string;
+          bands: {
+            imported: number;
+            skipped: string[];
+            quotaDiffs: {
+              band: string;
+              legacyQuota: number | null;
+              computedQuota: number | null;
+            }[];
+          };
+          plan: {
+            imported: number;
+            alreadyImported: number;
+            owned: number;
+            planned: number;
+            pinned: number;
+          };
+          files: { matched: number; unmatched: string[]; unknownBandDirs: string[] };
+          problems: string[];
+        } | null;
+      }>("/api/migrate/report");
+      if (!report) {
+        console.log("no migration report yet — is the server worker running?");
+        return;
+      }
+      console.log(report.summary);
+      console.log(
+        `plan: ${report.plan.owned} owned, ${report.plan.planned} planned, ${report.plan.pinned} pinned` +
+          (report.plan.alreadyImported > 0
+            ? `, ${report.plan.alreadyImported} already imported`
+            : ""),
+      );
+      for (const d of report.bands.quotaDiffs) {
+        console.log(
+          `quota mismatch: ${d.band} legacy ${d.legacyQuota} vs computed ${d.computedQuota}`,
+        );
+      }
+      for (const f of report.files.unmatched) console.log(`unmatched file (left in place): ${f}`);
+      for (const p of report.problems) console.log(`note: ${p}`);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("api")
+  .description("List the REST API endpoints (see /doc for full schemas)")
+  .action(async () => {
+    try {
+      const doc = await api.request<{
+        paths: Record<string, Record<string, { summary?: string; tags?: string[] }>>;
+      }>("/doc");
+      for (const [path, methods] of Object.entries(doc.paths)) {
+        for (const [method, op] of Object.entries(methods)) {
+          console.log(`${method.toUpperCase().padEnd(6)} ${path}  ${op.summary ?? ""}`);
+        }
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
 program.parseAsync();

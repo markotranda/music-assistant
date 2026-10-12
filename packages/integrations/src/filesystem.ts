@@ -1,4 +1,6 @@
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, renameSync } from "node:fs";
+import { readFile, stat } from "node:fs/promises";
 import { extname, join } from "node:path";
 import { type RenameAction, safeName } from "@ma/core";
 
@@ -22,6 +24,14 @@ export function createCollectionFs(opts: CollectionFsOptions) {
 
   return {
     bandDir,
+
+    /** Band folders currently present in the collection root. */
+    listBandNames(): string[] {
+      if (!existsSync(opts.collectionDir)) return [];
+      return readdirSync(opts.collectionDir, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name);
+    },
 
     /** Audio files in a band's folder (missing folder = empty). */
     listBandFiles(bandName: string): { fileName: string }[] {
@@ -55,3 +65,16 @@ export function createCollectionFs(opts: CollectionFsOptions) {
 }
 
 export type CollectionFs = ReturnType<typeof createCollectionFs>;
+
+/** Content hash, size and modification time (migration + verification support). */
+export async function hashFile(
+  absPath: string,
+): Promise<{ hash: string; sizeBytes: number; mtime: string }> {
+  const [buf, info] = await Promise.all([readFile(absPath), stat(absPath)]);
+  return {
+    // Plain sha256 hex — must match probeAudio's hash format (verify compares strictly).
+    hash: createHash("sha256").update(buf).digest("hex"),
+    sizeBytes: buf.length,
+    mtime: info.mtime.toISOString(),
+  };
+}

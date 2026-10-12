@@ -35,6 +35,7 @@ export function fakeCollectionFs(initial: Record<string, string[]> = {}) {
     files,
     retired,
     bandDir: (bandName: string) => `/fake/collection/${bandName}`,
+    listBandNames: () => [...files.keys()],
     listBandFiles: (bandName: string) =>
       [...(files.get(bandName) ?? [])].map((fileName) => ({ fileName })),
     applyRenames: (bandName: string, renames: RenameAction[]) => {

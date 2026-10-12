@@ -14,6 +14,7 @@ import { type AcquisitionSettings, DEFAULT_ACQUISITION } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
 import { getOverrides, syncBand } from "../services/bands.js";
 import { runDiscovery } from "../services/discovery.js";
+import { runMigration } from "../services/migrate.js";
 import { applyPrune, policyConfig, pruneReport, syncTrackPlayData } from "../services/policy.js";
 import { runReleaseRadar } from "../services/releases.js";
 import { ingestScrobbles } from "../services/scrobbles.js";
@@ -168,6 +169,14 @@ const discovery: JobHandler = async (_payload, ctx) => {
   await runDiscovery(ctx.deps);
 };
 
+/** One-shot legacy import (PLAN §6 Phase 7) — see services/migrate.ts. */
+const migrate: JobHandler = async (payload, ctx) => {
+  await runMigration(ctx.deps, {
+    bandsCsv: String(payload.bandsCsv ?? ""),
+    planCsv: String(payload.planCsv ?? ""),
+  });
+};
+
 /**
  * Weekly decay pass (PLAN §4.2 gate 5): fills play data from scrobbles, emits
  * the prune report, and — only with autoPruneEnabled — retires the proposals
@@ -209,6 +218,7 @@ export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
     scrobble_sync: scrobbleSync,
     release_radar: releaseRadar,
     discovery,
+    migrate,
     prune_scan: pruneScan,
     rotation_scan: rotationScan,
   };

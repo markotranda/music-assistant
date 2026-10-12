@@ -1,0 +1,6300 @@
+# Music Assistant — full API reference
+
+Generated from the live OpenAPI document. Schemas use JSON Schema notation.
+
+## GET /api/artists
+
+List tracked bands
+
+Response 200: Tracked bands with plan/disk counts
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "mbid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "disambig": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "score": {
+            "type": "number"
+          },
+          "catalogSize": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "quota": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "pinnedMbid": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ignored": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "planCount": {
+            "type": "number"
+          },
+          "onDiskCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "mbid",
+          "name",
+          "disambig",
+          "score",
+          "catalogSize",
+          "quota",
+          "pinnedMbid",
+          "ignored",
+          "createdAt",
+          "planCount",
+          "onDiskCount"
+        ]
+      }
+    }
+  },
+  "required": [
+    "artists"
+  ]
+}
+```
+
+## POST /api/artists
+
+Track a band: resolve, compute quota, build plan, reconcile
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mbid": {
+      "type": "string"
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
+```
+
+Response 201: Band tracked and planned
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artist": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "mbid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "disambig": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "score": {
+          "type": "number"
+        },
+        "catalogSize": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "quota": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pinnedMbid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ignored": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mbid",
+        "name",
+        "disambig",
+        "score",
+        "catalogSize",
+        "quota",
+        "pinnedMbid",
+        "ignored",
+        "createdAt"
+      ]
+    },
+    "catalog": {
+      "type": "object",
+      "properties": {
+        "albums": {
+          "type": "number"
+        },
+        "catalog": {
+          "type": "number"
+        },
+        "method": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "albums",
+        "catalog",
+        "method"
+      ]
+    },
+    "sync": {
+      "type": "object",
+      "properties": {
+        "applied": {
+          "type": "boolean"
+        },
+        "desired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": {
+                "type": "number"
+              },
+              "title": {
+                "type": "string"
+              },
+              "norm": {
+                "type": "string"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "rank",
+              "title",
+              "norm",
+              "pinned"
+            ]
+          }
+        },
+        "acquire": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": {
+                "type": "number"
+              },
+              "title": {
+                "type": "string"
+              },
+              "norm": {
+                "type": "string"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "rank",
+              "title",
+              "norm",
+              "pinned"
+            ]
+          }
+        },
+        "retire": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fileName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "fileName"
+            ]
+          }
+        },
+        "renames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ]
+          }
+        }
+      },
+      "required": [
+        "applied",
+        "desired",
+        "acquire",
+        "retire",
+        "renames"
+      ]
+    }
+  },
+  "required": [
+    "artist",
+    "catalog",
+    "sync"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## DELETE /api/artists/{id}
+
+Untrack a band (files are retired, never deleted)
+
+Response 200: Untracked
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "retired": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "retired"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/artists/{id}
+
+Band detail with plan rows
+
+Response 200: Band detail
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artist": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "mbid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "disambig": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "score": {
+          "type": "number"
+        },
+        "catalogSize": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "quota": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pinnedMbid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ignored": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mbid",
+        "name",
+        "disambig",
+        "score",
+        "catalogSize",
+        "quota",
+        "pinnedMbid",
+        "ignored",
+        "createdAt"
+      ]
+    },
+    "plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "rank": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "norm": {
+            "type": "string"
+          },
+          "pinned": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "rank",
+          "title",
+          "norm",
+          "pinned",
+          "status",
+          "source"
+        ]
+      }
+    },
+    "onDiskCount": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "artist",
+    "plan",
+    "onDiskCount"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PATCH /api/artists/{id}
+
+Change the taste tier (re-quota + re-plan immediately)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "required": [
+    "score"
+  ]
+}
+```
+
+Response 200: Updated band with the resulting sync summary
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artist": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "mbid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "disambig": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "score": {
+          "type": "number"
+        },
+        "catalogSize": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "quota": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pinnedMbid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ignored": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mbid",
+        "name",
+        "disambig",
+        "score",
+        "catalogSize",
+        "quota",
+        "pinnedMbid",
+        "ignored",
+        "createdAt"
+      ]
+    },
+    "sync": {
+      "type": "object",
+      "properties": {
+        "applied": {
+          "type": "boolean"
+        },
+        "desired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": {
+                "type": "number"
+              },
+              "title": {
+                "type": "string"
+              },
+              "norm": {
+                "type": "string"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "rank",
+              "title",
+              "norm",
+              "pinned"
+            ]
+          }
+        },
+        "acquire": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": {
+                "type": "number"
+              },
+              "title": {
+                "type": "string"
+              },
+              "norm": {
+                "type": "string"
+              },
+              "pinned": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "rank",
+              "title",
+              "norm",
+              "pinned"
+            ]
+          }
+        },
+        "retire": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "fileName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "fileName"
+            ]
+          }
+        },
+        "renames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ]
+          }
+        }
+      },
+      "required": [
+        "applied",
+        "desired",
+        "acquire",
+        "retire",
+        "renames"
+      ]
+    }
+  },
+  "required": [
+    "artist",
+    "sync"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/artists/{id}/albums
+
+Pin a whole album (MusicBrainz track list)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "album": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "album"
+  ]
+}
+```
+
+Response 201: Pinned tracks (already-planned titles are skipped)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "pinned": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "rank": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "norm": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "rank",
+          "title",
+          "norm"
+        ]
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "pinned",
+    "skipped"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/artists/{id}/sync
+
+Preview (apply=false) or apply the desired-state plan
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "apply": {
+      "type": "boolean"
+    }
+  }
+}
+```
+
+Response 200: Sync result
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "applied": {
+      "type": "boolean"
+    },
+    "desired": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "norm": {
+            "type": "string"
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rank",
+          "title",
+          "norm",
+          "pinned"
+        ]
+      }
+    },
+    "acquire": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "norm": {
+            "type": "string"
+          },
+          "pinned": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rank",
+          "title",
+          "norm",
+          "pinned"
+        ]
+      }
+    },
+    "retire": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fileName"
+        ]
+      }
+    },
+    "renames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      }
+    }
+  },
+  "required": [
+    "applied",
+    "desired",
+    "acquire",
+    "retire",
+    "renames"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/artists/{id}/tracks
+
+Pin a track (survives every re-plan)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
+```
+
+Response 201: Pinned track
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "rank": {
+      "type": "number"
+    },
+    "title": {
+      "type": "string"
+    },
+    "norm": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "rank",
+    "title",
+    "norm"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## DELETE /api/artists/{id}/tracks/{norm}
+
+Remove a planned track (file is retired if present)
+
+Response 200: Removed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "retired": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "retired"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/artists/resolve
+
+Resolve a name to MBID candidates (no side effects)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
+```
+
+Response 200: Best match with alternatives to disambiguate
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "mbid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "country": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "disambiguation": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pinned": {
+      "type": "boolean"
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mbid": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "disambiguation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "mbid",
+          "name",
+          "country",
+          "disambiguation"
+        ]
+      }
+    }
+  },
+  "required": [
+    "mbid",
+    "name",
+    "country",
+    "disambiguation",
+    "pinned",
+    "alternatives"
+  ]
+}
+```
+
+Response 404: No match
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/candidates
+
+Candidate queue (new releases + related artists), taste-fit sorted
+
+Response 200: Candidates
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "tasteFit": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "status",
+          "tasteFit",
+          "reason",
+          "payload",
+          "createdAt"
+        ]
+      }
+    }
+  },
+  "required": [
+    "candidates"
+  ]
+}
+```
+
+## POST /api/candidates/{id}/approve
+
+Approve a candidate: related artists are tracked (score picked here), releases are pinned
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
+  },
+  "required": [
+    "score"
+  ]
+}
+```
+
+Response 200: Approved
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "tasteFit": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "status",
+        "tasteFit",
+        "reason",
+        "payload",
+        "createdAt"
+      ]
+    },
+    "trackedArtistId": {
+      "type": "number"
+    },
+    "pinned": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "rank": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "norm": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "rank",
+          "title",
+          "norm"
+        ]
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "candidate"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict (candidate already handled)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/candidates/{id}/reject
+
+Reject a candidate (it will not be suggested again)
+
+Response 200: Rejected
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "tasteFit": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "status",
+        "tasteFit",
+        "reason",
+        "payload",
+        "createdAt"
+      ]
+    }
+  },
+  "required": [
+    "candidate"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict (candidate already handled)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/candidates/ignore-artist
+
+Never suggest this artist again (blocklist + reject pending)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
+```
+
+Response 200: Ignored
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "ignored": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rejected": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "ignored",
+    "rejected"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict (candidate already handled)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/dashboard
+
+Library vs budgets, job counts, recent events — one call for the home screen
+
+Response 200: Dashboard summary
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "library": {
+      "type": "object",
+      "properties": {
+        "bands": {
+          "type": "number"
+        },
+        "plannedTracks": {
+          "type": "number"
+        },
+        "ownedTracks": {
+          "type": "number"
+        },
+        "bytesUsed": {
+          "type": "number"
+        },
+        "maxTotalTracks": {
+          "type": "number"
+        },
+        "maxTotalGb": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "bands",
+        "plannedTracks",
+        "ownedTracks",
+        "bytesUsed",
+        "maxTotalTracks",
+        "maxTotalGb"
+      ]
+    },
+    "acquisition": {
+      "type": "object",
+      "properties": {
+        "acquiredThisMonth": {
+          "type": "number"
+        },
+        "monthlyBudgetTracks": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "acquiredThisMonth",
+        "monthlyBudgetTracks"
+      ]
+    },
+    "jobs": {
+      "type": "object",
+      "properties": {
+        "pending": {
+          "type": "number"
+        },
+        "running": {
+          "type": "number"
+        },
+        "done": {
+          "type": "number"
+        },
+        "failed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "pending",
+        "running",
+        "done",
+        "failed"
+      ]
+    },
+    "recentEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "payload",
+          "createdAt"
+        ]
+      }
+    }
+  },
+  "required": [
+    "library",
+    "acquisition",
+    "jobs",
+    "recentEvents"
+  ]
+}
+```
+
+## GET /api/digest
+
+Digest: candidates pending, new releases, library vs budgets
+
+Response 200: Digest
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "generatedAt": {
+      "type": "string"
+    },
+    "pendingCandidates": {
+      "type": "number"
+    },
+    "newReleases": {
+      "type": "number"
+    },
+    "relatedArtists": {
+      "type": "number"
+    },
+    "library": {
+      "type": "object",
+      "properties": {
+        "ownedTracks": {
+          "type": "number"
+        },
+        "maxTotalTracks": {
+          "type": "number"
+        },
+        "trackPct": {
+          "type": "number"
+        },
+        "bytesUsed": {
+          "type": "number"
+        },
+        "maxTotalGb": {
+          "type": "number"
+        },
+        "sizePct": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "ownedTracks",
+        "maxTotalTracks",
+        "trackPct",
+        "bytesUsed",
+        "maxTotalGb",
+        "sizePct"
+      ]
+    },
+    "acquisition": {
+      "type": "object",
+      "properties": {
+        "acquiredThisMonth": {
+          "type": "number"
+        },
+        "monthlyBudgetTracks": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "acquiredThisMonth",
+        "monthlyBudgetTracks"
+      ]
+    },
+    "jobs": {
+      "type": "object",
+      "properties": {
+        "pending": {
+          "type": "number"
+        },
+        "running": {
+          "type": "number"
+        },
+        "failed": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "pending",
+        "running",
+        "failed"
+      ]
+    },
+    "headline": {
+      "type": "string"
+    },
+    "markdown": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "generatedAt",
+    "pendingCandidates",
+    "newReleases",
+    "relatedArtists",
+    "library",
+    "acquisition",
+    "jobs",
+    "headline",
+    "markdown"
+  ]
+}
+```
+
+## GET /api/events
+
+Audit log (every sync/prune/download decision), newest first
+
+Response 200: Events
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "payload",
+          "createdAt"
+        ]
+      }
+    }
+  },
+  "required": [
+    "events"
+  ]
+}
+```
+
+## GET /api/jobs
+
+List background jobs (newest first)
+
+Response 200: Jobs
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "jobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "attempts": {
+            "type": "number"
+          },
+          "runAt": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "finishedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "status",
+          "attempts",
+          "runAt",
+          "startedAt",
+          "finishedAt",
+          "error",
+          "payload"
+        ]
+      }
+    }
+  },
+  "required": [
+    "jobs"
+  ]
+}
+```
+
+## POST /api/jobs/{id}/retry
+
+Re-queue a failed job
+
+Response 200: Job re-queued
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "job": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "attempts": {
+          "type": "number"
+        },
+        "runAt": {
+          "type": "string"
+        },
+        "startedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "finishedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "status",
+        "attempts",
+        "runAt",
+        "startedAt",
+        "finishedAt",
+        "error",
+        "payload"
+      ]
+    }
+  },
+  "required": [
+    "job"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/migrate
+
+Import legacy state (bands.csv + plan.csv) as a durable job
+
+Queues the one-shot importer. The collection is scanned from the server's configured collection directory; files are only read. GET /api/migrate/report returns the outcome once the job finishes.
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "bandsCsv": {
+      "type": "string",
+      "minLength": 1
+    },
+    "planCsv": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "bandsCsv",
+    "planCsv"
+  ]
+}
+```
+
+Response 202: Migration queued (jobId null = an identical run is already queued)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "jobId"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/migrate/report
+
+Report of the last migration run (everything unmapped is listed)
+
+Response 200: Report (null before the first run)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "report": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "startedAt": {
+          "type": "string"
+        },
+        "finishedAt": {
+          "type": "string"
+        },
+        "bands": {
+          "type": "object",
+          "properties": {
+            "imported": {
+              "type": "number"
+            },
+            "skipped": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "quotaDiffs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "band": {
+                    "type": "string"
+                  },
+                  "legacyQuota": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "computedQuota": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "band",
+                  "legacyQuota",
+                  "computedQuota"
+                ]
+              }
+            }
+          },
+          "required": [
+            "imported",
+            "skipped",
+            "quotaDiffs"
+          ]
+        },
+        "plan": {
+          "type": "object",
+          "properties": {
+            "imported": {
+              "type": "number"
+            },
+            "alreadyImported": {
+              "type": "number"
+            },
+            "owned": {
+              "type": "number"
+            },
+            "planned": {
+              "type": "number"
+            },
+            "pinned": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "imported",
+            "alreadyImported",
+            "owned",
+            "planned",
+            "pinned"
+          ]
+        },
+        "files": {
+          "type": "object",
+          "properties": {
+            "matched": {
+              "type": "number"
+            },
+            "unmatched": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "unknownBandDirs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "matched",
+            "unmatched",
+            "unknownBandDirs"
+          ]
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "startedAt",
+        "finishedAt",
+        "bands",
+        "plan",
+        "files",
+        "problems",
+        "summary"
+      ]
+    }
+  },
+  "required": [
+    "report"
+  ]
+}
+```
+
+## GET /api/policy
+
+Policy state: gates, budget usage, genre shares
+
+Response 200: Policy state
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "policy": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "ownedTracks": {
+          "type": "number"
+        },
+        "maxTotalTracks": {
+          "type": "number"
+        },
+        "bytesUsed": {
+          "type": "number"
+        },
+        "maxTotalGb": {
+          "type": "number"
+        },
+        "acquiredThisMonth": {
+          "type": "number"
+        },
+        "monthlyBudgetTracks": {
+          "type": "number"
+        },
+        "allowed": {
+          "type": "boolean"
+        },
+        "overBudget": {
+          "type": "boolean"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "pass": {
+                "type": "boolean"
+              },
+              "detail": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "pass",
+              "detail"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownedTracks",
+        "maxTotalTracks",
+        "bytesUsed",
+        "maxTotalGb",
+        "acquiredThisMonth",
+        "monthlyBudgetTracks",
+        "allowed",
+        "overBudget",
+        "gates"
+      ]
+    },
+    "genreShares": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    }
+  },
+  "required": [
+    "policy",
+    "budget",
+    "genreShares"
+  ]
+}
+```
+
+## GET /api/policy/prune-report
+
+Prune report: decayed tracks proposed for retirement (with reasons)
+
+Response 200: Prune report
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "generatedAt": {
+      "type": "string"
+    },
+    "decayMonths": {
+      "type": "number"
+    },
+    "autoPruneEnabled": {
+      "type": "boolean"
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "norm": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "artistName": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "sizeBytes": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "norm",
+          "title",
+          "artistName",
+          "reason",
+          "priority",
+          "sizeBytes"
+        ]
+      }
+    },
+    "reclaimableBytes": {
+      "type": "number"
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "generatedAt",
+    "decayMonths",
+    "autoPruneEnabled",
+    "proposals",
+    "reclaimableBytes",
+    "summary"
+  ]
+}
+```
+
+## POST /api/policy/prune/apply
+
+Retire pruned tracks to _retired/<Band>/ (recoverable)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "norms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
+
+Response 200: Retired
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "retired": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artist": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "artist",
+          "fileName"
+        ]
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "retired",
+    "skipped"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## POST /api/policy/simulate
+
+Simulator: "what would change if I set score 3 on X / lower the budget?"
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "scoreChanges": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "policyPatch": {
+      "type": "object",
+      "properties": {
+        "approvalMode": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "hybrid",
+            "auto"
+          ]
+        },
+        "tasteFitThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "autoApproveFit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "bandHardMaxTracks": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "genreSoftCapShare": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "monthlyAcquisitionBudgetTracks": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "maxTotalTracks": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "maxTotalGb": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "decayMonths": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "rotationEnabled": {
+          "type": "boolean"
+        },
+        "pruneReportEnabled": {
+          "type": "boolean"
+        },
+        "autoPruneEnabled": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
+```
+
+Response 200: Projection (nothing applied)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "policy": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artist": {
+            "type": "string"
+          },
+          "scoreBefore": {
+            "type": "number"
+          },
+          "scoreAfter": {
+            "type": "number"
+          },
+          "quotaBefore": {
+            "type": "number"
+          },
+          "quotaAfter": {
+            "type": "number"
+          },
+          "deltaTracks": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "artist",
+          "scoreBefore",
+          "scoreAfter",
+          "quotaBefore",
+          "quotaAfter",
+          "deltaTracks"
+        ]
+      }
+    },
+    "library": {
+      "type": "object",
+      "properties": {
+        "tracksNow": {
+          "type": "number"
+        },
+        "tracksProjected": {
+          "type": "number"
+        },
+        "maxTotalTracks": {
+          "type": "number"
+        },
+        "acquiredThisMonth": {
+          "type": "number"
+        },
+        "monthlyBudgetTracks": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "tracksNow",
+        "tracksProjected",
+        "maxTotalTracks",
+        "acquiredThisMonth",
+        "monthlyBudgetTracks"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "policy",
+    "changes",
+    "library",
+    "summary"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/scrobbles
+
+Scrobble stats: total plays, last play, top artists
+
+Response 200: Stats
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "total": {
+      "type": "number"
+    },
+    "lastPlayedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "topArtists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artistName": {
+            "type": "string"
+          },
+          "plays": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "artistName",
+          "plays"
+        ]
+      }
+    }
+  },
+  "required": [
+    "total",
+    "lastPlayedAt",
+    "topArtists"
+  ]
+}
+```
+
+## POST /api/scrobbles/sync
+
+Import scrobble history as a job (full history on first run)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "full": {
+      "type": "boolean"
+    }
+  }
+}
+```
+
+Response 202: Enqueued
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "enqueued": {
+      "type": "string",
+      "enum": [
+        "scrobble_sync"
+      ]
+    },
+    "full": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "enqueued",
+    "full"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict (candidate already handled)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/settings
+
+All settings groups (secrets masked)
+
+Response 200: Settings
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+## PUT /api/settings/acquisition
+
+Update acquisition settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "audioFormat": {
+      "type": "string",
+      "enum": [
+        "mp3",
+        "m4a",
+        "flac",
+        "opus",
+        "vorbis",
+        "aac",
+        "alac",
+        "wav"
+      ]
+    },
+    "audioQuality": {
+      "type": "string",
+      "pattern": "^[0-9]$"
+    },
+    "minDurationS": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "maxDurationS": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "playerClients": {
+      "type": "array",
+      "items": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1
+      }
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/auth
+
+Update auth settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string"
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/formula
+
+Update formula settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "multipliers": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "2": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "3": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "floors": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "2": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "3": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "caps": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "2": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "3": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "deepShare": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/integrations
+
+Update integrations settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "lastfmApiKey": {
+      "type": "string"
+    },
+    "lastfmUsername": {
+      "type": "string"
+    },
+    "musicbrainzUserAgent": {
+      "type": "string",
+      "minLength": 5
+    },
+    "deezerEnabled": {
+      "type": "boolean"
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/overrides
+
+Update overrides settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "pinnedMbids": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "searchNameFixes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/policy
+
+Update policy settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "approvalMode": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "hybrid",
+        "auto"
+      ]
+    },
+    "tasteFitThreshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "autoApproveFit": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "bandHardMaxTracks": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "genreSoftCapShare": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "monthlyAcquisitionBudgetTracks": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "maxTotalTracks": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "maxTotalGb": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "decayMonths": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    },
+    "rotationEnabled": {
+      "type": "boolean"
+    },
+    "pruneReportEnabled": {
+      "type": "boolean"
+    },
+    "autoPruneEnabled": {
+      "type": "boolean"
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## PUT /api/settings/trends
+
+Update trends settings (partial: omitted fields are kept; secrets "" clears)
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "discoverySeeds": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 50
+    },
+    "discoveryDepth": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 20
+    },
+    "radarLookbackDays": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 3650
+    },
+    "ignoredArtists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
+
+Response 200: Updated settings (secrets masked)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "object",
+          "properties": {
+            "multipliers": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "floors": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "caps": {
+              "type": "object",
+              "properties": {
+                "1": {
+                  "type": "number"
+                },
+                "2": {
+                  "type": "number"
+                },
+                "3": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "deepShare": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "multipliers",
+            "floors",
+            "caps",
+            "deepShare"
+          ]
+        },
+        "policy": {
+          "type": "object",
+          "properties": {
+            "approvalMode": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "hybrid",
+                "auto"
+              ]
+            },
+            "tasteFitThreshold": {
+              "type": "number"
+            },
+            "autoApproveFit": {
+              "type": "number"
+            },
+            "bandHardMaxTracks": {
+              "type": "number"
+            },
+            "genreSoftCapShare": {
+              "type": "number"
+            },
+            "monthlyAcquisitionBudgetTracks": {
+              "type": "number"
+            },
+            "maxTotalTracks": {
+              "type": "number"
+            },
+            "maxTotalGb": {
+              "type": "number"
+            },
+            "decayMonths": {
+              "type": "number"
+            },
+            "rotationEnabled": {
+              "type": "boolean"
+            },
+            "pruneReportEnabled": {
+              "type": "boolean"
+            },
+            "autoPruneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "approvalMode",
+            "tasteFitThreshold",
+            "autoApproveFit",
+            "bandHardMaxTracks",
+            "genreSoftCapShare",
+            "monthlyAcquisitionBudgetTracks",
+            "maxTotalTracks",
+            "maxTotalGb",
+            "decayMonths",
+            "rotationEnabled",
+            "pruneReportEnabled",
+            "autoPruneEnabled"
+          ]
+        },
+        "integrations": {
+          "type": "object",
+          "properties": {
+            "lastfmApiKeyMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lastfmUsername": {
+              "type": "string"
+            },
+            "musicbrainzUserAgent": {
+              "type": "string"
+            },
+            "deezerEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "lastfmApiKeyMasked",
+            "lastfmUsername",
+            "musicbrainzUserAgent",
+            "deezerEnabled"
+          ]
+        },
+        "acquisition": {
+          "type": "object",
+          "properties": {
+            "audioFormat": {
+              "type": "string"
+            },
+            "audioQuality": {
+              "type": "string"
+            },
+            "minDurationS": {
+              "type": "number"
+            },
+            "maxDurationS": {
+              "type": "number"
+            },
+            "playerClients": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "required": [
+            "audioFormat",
+            "audioQuality",
+            "minDurationS",
+            "maxDurationS",
+            "playerClients"
+          ]
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "tokenMasked": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tokenMasked"
+          ]
+        },
+        "overrides": {
+          "type": "object",
+          "properties": {
+            "pinnedMbids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "searchNameFixes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "pinnedMbids",
+            "searchNameFixes"
+          ]
+        },
+        "trends": {
+          "type": "object",
+          "properties": {
+            "discoverySeeds": {
+              "type": "number"
+            },
+            "discoveryDepth": {
+              "type": "number"
+            },
+            "radarLookbackDays": {
+              "type": "number"
+            },
+            "ignoredArtists": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "discoverySeeds",
+            "discoveryDepth",
+            "radarLookbackDays",
+            "ignoredArtists"
+          ]
+        }
+      },
+      "required": [
+        "formula",
+        "policy",
+        "integrations",
+        "acquisition",
+        "auth",
+        "overrides",
+        "trends"
+      ]
+    }
+  },
+  "required": [
+    "settings"
+  ]
+}
+```
+
+Response 422: Validation failed
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /api/taste
+
+Taste profile: band affinities, genre and era weights
+
+Response 200: Profile
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "profile": {
+      "type": "object",
+      "properties": {
+        "bandAffinity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "genreWeights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "eraWeights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "bandAffinity",
+        "genreWeights",
+        "eraWeights",
+        "updatedAt"
+      ]
+    }
+  },
+  "required": [
+    "profile"
+  ]
+}
+```
+
+## POST /api/taste/recompute
+
+Recompute the taste profile from scrobbles + scores (fetches genre tags)
+
+Response 200: Profile
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "profile": {
+      "type": "object",
+      "properties": {
+        "bandAffinity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "genreWeights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "eraWeights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "updatedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "bandAffinity",
+        "genreWeights",
+        "eraWeights",
+        "updatedAt"
+      ]
+    }
+  },
+  "required": [
+    "profile"
+  ]
+}
+```
+
+## POST /api/trends/discover
+
+Run the related-artist discovery feed as a job
+
+Response 202: Enqueued
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "enqueued": {
+      "type": "string",
+      "enum": [
+        "discovery"
+      ]
+    }
+  },
+  "required": [
+    "enqueued"
+  ]
+}
+```
+
+## POST /api/trends/release-radar
+
+Run the release radar as a job
+
+Response 202: Enqueued
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "enqueued": {
+      "type": "string",
+      "enum": [
+        "release_radar"
+      ]
+    }
+  },
+  "required": [
+    "enqueued"
+  ]
+}
+```
+
+## POST /api/verify
+
+Deep verify: plan vs disk by normalized title, file name AND content hash
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artistId": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    }
+  }
+}
+```
+
+Response 200: Verify reports (one per band)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artistId": {
+            "type": "number"
+          },
+          "band": {
+            "type": "string"
+          },
+          "planCount": {
+            "type": "number"
+          },
+          "onDiskCount": {
+            "type": "number"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "missing",
+                    "surplus",
+                    "renamed",
+                    "replaced",
+                    "corrupt"
+                  ]
+                },
+                "norm": {
+                  "type": "string"
+                },
+                "fileName": {
+                  "type": "string"
+                },
+                "expected": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            }
+          }
+        },
+        "required": [
+          "artistId",
+          "band",
+          "planCount",
+          "onDiskCount",
+          "ok",
+          "issues"
+        ]
+      }
+    }
+  },
+  "required": [
+    "reports"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+## GET /health
+
+Health check
+
+Response 200: Service health
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok"
+      ]
+    },
+    "version": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "version",
+    "time"
+  ]
+}
+```

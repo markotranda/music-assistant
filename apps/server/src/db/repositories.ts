@@ -207,6 +207,8 @@ export function upsertTrack(
     durationS: number | null;
     hash: string;
     sizeBytes: number | null;
+    /** Defaults to now; migration passes the file's mtime. */
+    acquiredAt?: string;
   },
 ): number {
   const existing = getTrackByNorm(db, input.artistId, input.norm);
@@ -220,7 +222,9 @@ export function upsertTrack(
     durationS: input.durationS,
     hash: input.hash,
     sizeBytes: input.sizeBytes,
-    acquiredAt: new Date().toISOString(),
+    // Migration passes the file's mtime ("when it entered the collection");
+    // downloads default to now. Re-upserts keep the original date.
+    acquiredAt: input.acquiredAt ?? existing?.acquiredAt ?? new Date().toISOString(),
   };
   if (existing) {
     db.update(tracks).set(values).where(eq(tracks.id, existing.id)).run();

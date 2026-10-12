@@ -6,12 +6,25 @@ import { z } from "zod";
 import { authMiddleware } from "./auth.js";
 import type { AppDeps } from "./deps.js";
 import { ApiError } from "./errors.js";
+import { buildLlmsFullTxt, buildLlmsTxt } from "./llms.js";
 import { createArtistsRoutes } from "./routes/artists.js";
 import { createDashboardRoutes } from "./routes/dashboard.js";
 import { createJobsRoutes } from "./routes/jobs.js";
+import { createMigrateRoutes } from "./routes/migrate.js";
 import { createPolicyRoutes } from "./routes/policy.js";
 import { createSettingsRoutes } from "./routes/settings.js";
 import { createTrendsRoutes } from "./routes/trends.js";
+
+/** Shared by /doc, /llms.txt and the in-repo docs snapshot. */
+export const OPENAPI_CONFIG = {
+  openapi: "3.1.0",
+  info: {
+    title: "Music Assistant API",
+    version: MA_CORE_VERSION,
+    description:
+      "Self-hosted music assistant that follows trends and doesn't overload your library.",
+  },
+};
 
 export function createApp(deps: AppDeps): OpenAPIHono {
   const app = new OpenAPIHono({
@@ -93,18 +106,19 @@ export function createApp(deps: AppDeps): OpenAPIHono {
   app.route("/api", createDashboardRoutes(deps));
   app.route("/api", createTrendsRoutes(deps));
   app.route("/api", createPolicyRoutes(deps));
+  app.route("/api", createMigrateRoutes(deps));
 
   // Contract-first API: the OpenAPI document is generated from the Zod schemas
   // above and is the single source of truth for the public API (see /llms.txt).
-  app.doc("/doc", {
-    openapi: "3.1.0",
-    info: {
-      title: "Music Assistant API",
-      version: MA_CORE_VERSION,
-      description:
-        "Self-hosted music assistant that follows trends and doesn't overload your library.",
-    },
-  });
+  app.doc("/doc", OPENAPI_CONFIG);
+
+  // AI-agent interface (PLAN §4.5): llmstxt.org format, derived from the same
+  // OpenAPI document so it can never drift from the routes.
+  const spec = app.getOpenAPI31Document(OPENAPI_CONFIG) as unknown as Parameters<
+    typeof buildLlmsTxt
+  >[0];
+  app.get("/llms.txt", (c) => c.text(buildLlmsTxt(spec)));
+  app.get("/llms-full.txt", (c) => c.text(buildLlmsFullTxt(spec)));
 
   // Serve the built web UI when its directory is available (Docker image).
   // Set MA_WEB_DIR (e.g. "./web"); unset in dev, where Vite serves the UI.
