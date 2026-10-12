@@ -6,3 +6,6 @@ collection/
 *.log
 coverage/
 .DS_Store
+
+# Personal import data (band list with scores) — never commit.
+import/

@@ -30,10 +30,10 @@ export function FirstRunCard() {
 
   const start = useMutation({
     mutationFn: async () => {
-      if (!bandsFile || !planFile) throw new Error("choose both bands.csv and plan.csv");
+      if (!bandsFile) throw new Error("choose a bands.csv to import");
       return apiPost<{ jobId: number | null }>("/api/migrate", {
         bandsCsv: await bandsFile.text(),
-        planCsv: await planFile.text(),
+        planCsv: planFile ? await planFile.text() : undefined,
       });
     },
     onSuccess: (res) => {
@@ -58,9 +58,10 @@ export function FirstRunCard() {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <p className="text-sm text-muted-foreground">
-          Import the old tool's <code>bands.csv</code> and <code>plan.csv</code>. The collection is
-          scanned from the server's configured collection directory — files are only read, and
-          everything unmappable is reported, never guessed.
+          Import the old tool's <code>bands.csv</code> (bands + scores) and optionally{" "}
+          <code>plan.csv</code> — with just the bands, plans are created fresh by the syncs. When a
+          plan is imported, the collection is scanned from the server's configured directory; files
+          are only read, and everything unmappable is reported, never guessed.
         </p>
         <div className="flex flex-wrap items-end gap-3">
           <div className="flex flex-col gap-1">
@@ -73,7 +74,7 @@ export function FirstRunCard() {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <Label htmlFor="first-run-plan">plan.csv</Label>
+            <Label htmlFor="first-run-plan">plan.csv (optional — omit to plan fresh)</Label>
             <Input
               id="first-run-plan"
               type="file"

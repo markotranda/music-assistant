@@ -60,7 +60,15 @@ collection by normalized title:
 ma migrate --bands tools/state/bands.csv --plan tools/state/plan.csv
 ```
 
-or upload both CSVs in the dashboard wizard. What it does and doesn't do:
+or upload both CSVs in the dashboard wizard. **Bands-only import works too** — if you're
+not keeping the old collection, import just `bands.csv` and every band keeps its score
+while plans are built fresh and acquired through the normal pipeline:
+
+```sh
+ma migrate --bands bands.csv
+```
+
+What it does and doesn't do:
 
 - Bands keep their score, MBID and disambiguation; quota is recomputed with the pinned
   formula and **cross-checked against the legacy `Quota` column** (mismatches are reported).

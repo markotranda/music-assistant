@@ -129,6 +129,24 @@ describe("runMigration", () => {
     expect(listTracks(deps.db)).toHaveLength(2); // no duplicates
   });
 
+  it("imports a bands-only file set as fresh plans (no plan.csv)", async () => {
+    const deps = migrationDeps({});
+    const report = await runMigration(deps, { bandsCsv: BANDS_CSV });
+
+    expect(report.bands.imported).toBe(2);
+    expect(report.plan).toEqual({
+      imported: 0,
+      alreadyImported: 0,
+      owned: 0,
+      planned: 0,
+      pinned: 0,
+    });
+    const terror = getArtistByMbid(deps.db, "mbid-terror");
+    expect(terror).toMatchObject({ score: 1, quota: 5 });
+    expect(listPlanRows(deps.db, terror?.id ?? 0)).toHaveLength(0); // planned fresh later
+    expect(report.summary).toContain("imported 2 band(s) and 0 plan row(s)");
+  });
+
   it("flags legacy quota mismatches instead of trusting either side", async () => {
     const deps = migrationDeps({});
     const badQuota = BANDS_CSV.replace('"69","5"', '"69","4"');

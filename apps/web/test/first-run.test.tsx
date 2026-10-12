@@ -41,7 +41,7 @@ describe("first-run wizard", () => {
     await screen.findByText("First run — bring your legacy state");
 
     const bandsInput = screen.getByLabelText("bands.csv");
-    const planInput = screen.getByLabelText("plan.csv");
+    const planInput = screen.getByLabelText(/plan\.csv/);
     fireEvent.change(bandsInput, {
       target: { files: [new File(["Band,Score\nX,1"], "bands.csv", { type: "text/csv" })] },
     });

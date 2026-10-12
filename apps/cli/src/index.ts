@@ -595,17 +595,17 @@ program
 
 program
   .command("migrate")
-  .description("One-shot import of legacy bands.csv + plan.csv state")
+  .description("One-shot import of legacy bands.csv (and optionally plan.csv)")
   .requiredOption("--bands <path>", "path to the legacy bands.csv")
-  .requiredOption("--plan <path>", "path to the legacy plan.csv")
-  .action(async (opts: { bands: string; plan: string }) => {
+  .option("--plan <path>", "path to the legacy plan.csv (omit for a bands-only import)")
+  .action(async (opts: { bands: string; plan?: string }) => {
     try {
       const { readFileSync } = await import("node:fs");
       const queued = await api.request<{ jobId: number | null }>("/api/migrate", {
         method: "POST",
         body: JSON.stringify({
           bandsCsv: readFileSync(opts.bands, "utf8"),
-          planCsv: readFileSync(opts.plan, "utf8"),
+          planCsv: opts.plan ? readFileSync(opts.plan, "utf8") : undefined,
         }),
       });
       console.log(

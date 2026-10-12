@@ -59,7 +59,8 @@ export function createMigrateRoutes(deps: AppDeps): OpenAPIHono {
           "application/json": {
             schema: z.object({
               bandsCsv: z.string().min(1),
-              planCsv: z.string().min(1),
+              /** Optional: without it this is a bands-only import (fresh plans). */
+              planCsv: z.string().optional(),
             }),
           },
         },

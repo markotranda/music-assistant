@@ -33,7 +33,8 @@ import { logEvent } from "./events.js";
 
 export type MigrateInput = {
   bandsCsv: string;
-  planCsv: string;
+  /** Optional — omit for a bands-only import (plans are created fresh by syncs). */
+  planCsv?: string;
 };
 
 export type MigrateReport = {
@@ -114,7 +115,7 @@ export async function runMigration(deps: AppDeps, input: MigrateInput): Promise<
   }
 
   // ------------------------------------------------------------- plan.csv
-  const planParsed = parsePlanCsv(input.planCsv);
+  const planParsed = parsePlanCsv(input.planCsv ?? "");
   problems.push(...planParsed.problems);
 
   // Unique (artist, norm) is a schema rule — keep the first row, report the rest.
