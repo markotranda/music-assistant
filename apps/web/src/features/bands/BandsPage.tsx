@@ -26,7 +26,7 @@ function ScoreSelect({ artist }: { artist: ArtistListItem }) {
       value={String(artist.score)}
       disabled={setScore.isPending}
       onChange={(e) => setScore.mutate(Number(e.target.value))}
-      className="w-24"
+      className="w-36"
     >
       <option value="1">1 — casual</option>
       <option value="2">2 — fan</option>
@@ -50,6 +50,7 @@ function UntrackButton({ artist }: { artist: ArtistListItem }) {
       variant="ghost"
       size="icon"
       title={`Untrack ${artist.name} (files are retired, not deleted)`}
+      className="text-muted-foreground hover:text-destructive"
       onClick={() => {
         if (
           window.confirm(
@@ -60,7 +61,7 @@ function UntrackButton({ artist }: { artist: ArtistListItem }) {
         }
       }}
     >
-      <Trash2 className="h-4 w-4 text-muted-foreground" />
+      <Trash2 className="h-4 w-4" />
     </Button>
   );
 }

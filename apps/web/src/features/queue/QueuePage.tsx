@@ -9,9 +9,32 @@ import { ApiRequestError, api, apiPost } from "../../lib/api";
 import type { Job, VerifyReport } from "../../lib/types";
 import { CandidatesPanel } from "./CandidatesPanel";
 
+/** Compact one-line job description — payloads can be huge (e.g. migrate CSVs). */
 function jobTitle(job: Job): string {
   const p = job.payload;
-  return String(p.title ?? p.name ?? JSON.stringify(p));
+  switch (job.type) {
+    case "download":
+      return String(p.title ?? p.norm ?? "download");
+    case "verify":
+      return p.name ? `verify ${String(p.name)}` : "verify all bands";
+    case "scrobble_sync":
+      return "sync scrobbles";
+    case "release_radar":
+      return "scan releases";
+    case "discovery":
+      return "discover related artists";
+    case "prune_scan":
+      return "decay / prune scan";
+    case "rotation_scan":
+      return "rank rotation";
+    case "migrate":
+      return "import legacy state (bands.csv + plan.csv)";
+    default: {
+      const json = JSON.stringify(p);
+      if (json === "{}") return job.type;
+      return json.length > 60 ? `${job.type} ${json.slice(0, 60)}…` : `${job.type} ${json}`;
+    }
+  }
 }
 
 export function QueuePage() {
@@ -93,7 +116,7 @@ export function QueuePage() {
                 {list.map((job) => (
                   <TR key={job.id}>
                     <TD className="w-10 text-muted-foreground">{job.id}</TD>
-                    <TD>{jobTitle(job)}</TD>
+                    <TD className="whitespace-nowrap">{jobTitle(job)}</TD>
                     <TD>{job.type}</TD>
                     <TD>
                       <Badge variant={statusVariant(job.status)}>{job.status}</Badge>

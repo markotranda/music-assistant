@@ -5,9 +5,18 @@ import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { ApiRequestError, api, apiPost } from "../../lib/api";
-import type { ScrobbleStats, TasteProfile } from "../../lib/types";
+import type { Artist, ScrobbleStats, TasteProfile } from "../../lib/types";
 
-function WeightList({ title, weights }: { title: string; weights: Record<string, number> }) {
+function WeightList({
+  title,
+  weights,
+  display,
+}: {
+  title: string;
+  weights: Record<string, number>;
+  /** Maps normalized keys back to display names (bands are stored lowercased). */
+  display?: (key: string) => string;
+}) {
   const top = Object.entries(weights)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 8);
@@ -20,7 +29,7 @@ function WeightList({ title, weights }: { title: string; weights: Record<string,
         <ul className="flex flex-col gap-1">
           {top.map(([name, weight]) => (
             <li key={name} className="flex items-center gap-2 text-sm">
-              <span className="w-32 truncate">{name}</span>
+              <span className="w-32 truncate">{display ? display(name) : name}</span>
               <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
                 <span
                   className="block h-full rounded-full bg-primary"
@@ -52,6 +61,16 @@ export function TrendsPage() {
     queryFn: () => api<ScrobbleStats>("/api/scrobbles"),
     refetchInterval: 60_000,
   });
+  const artists = useQuery({
+    queryKey: ["artists"],
+    queryFn: () => api<{ artists: Artist[] }>("/api/artists"),
+  });
+
+  // Affinity keys are normalized lowercase — map back to real band names.
+  const displayName = new Map(
+    (artists.data?.artists ?? []).map((a) => [a.name.toLowerCase(), a.name]),
+  );
+  const properName = (key: string) => displayName.get(key) ?? key;
 
   const onError = (err: unknown) =>
     setError(err instanceof ApiRequestError ? err.message : String(err));
@@ -147,7 +166,11 @@ export function TrendsPage() {
           </Button>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <WeightList title="Bands (affinity)" weights={profile?.bandAffinity ?? {}} />
+          <WeightList
+            title="Bands (affinity)"
+            weights={profile?.bandAffinity ?? {}}
+            display={(k) => properName(k)}
+          />
           <WeightList title="Genres" weights={profile?.genreWeights ?? {}} />
           <WeightList title="Eras" weights={profile?.eraWeights ?? {}} />
         </CardContent>

@@ -131,17 +131,20 @@ export function DashboardPage() {
         />
       </div>
 
-      <Card>
+      <Card
+        className="border-primary/40"
+        style={{
+          backgroundImage: "linear-gradient(120deg, var(--color-accent) 0%, var(--color-card) 55%)",
+        }}
+      >
         <CardHeader>
           <CardTitle>Digest</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          <p className="text-sm">{digestQuery.data?.headline ?? "Loading digest…"}</p>
+        <CardContent className="flex flex-col gap-3">
+          <p className="text-base leading-6">{digestQuery.data?.headline ?? "Loading digest…"}</p>
           <div className="flex gap-2">
             <Link to="/queue">
-              <Button variant="outline" size="sm">
-                Review candidates
-              </Button>
+              <Button size="sm">Review candidates</Button>
             </Link>
             <Link to="/trends">
               <Button variant="outline" size="sm">
