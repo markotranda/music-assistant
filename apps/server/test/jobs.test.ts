@@ -39,7 +39,7 @@ describe("job worker", () => {
           if (calls < 2) throw new Error("upstream 503");
         },
       },
-      { maxAttempts: 3, backoffMs: 1 },
+      { maxAttempts: 3, backoffMs: 250 },
     );
     enqueueJobRow(deps.db, "flaky", { x: 1 });
 
@@ -49,7 +49,7 @@ describe("job worker", () => {
     expect(job.attempts).toBe(1);
     expect(job.error).toContain("upstream 503");
 
-    await sleep(5);
+    await sleep(350); // must exceed backoffMs so the retry is claimable
     await worker.drain(); // attempt 2 succeeds
     job = listJobs(deps.db)[0];
     expect(job.status).toBe("done");
