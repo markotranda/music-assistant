@@ -62,6 +62,12 @@ export function DashboardPage() {
     refetchInterval: 15_000,
   });
 
+  const digestQuery = useQuery({
+    queryKey: ["digest"],
+    queryFn: () => api<{ headline: string }>("/api/digest"),
+    refetchInterval: 60_000,
+  });
+
   if (isLoading || !data) {
     return <p className="text-sm text-muted-foreground">Loading dashboard…</p>;
   }
@@ -124,6 +130,27 @@ export function DashboardPage() {
           icon={jobs.failed > 0 ? AlertTriangle : CheckCircle2}
         />
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Digest</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          <p className="text-sm">{digestQuery.data?.headline ?? "Loading digest…"}</p>
+          <div className="flex gap-2">
+            <Link to="/queue">
+              <Button variant="outline" size="sm">
+                Review candidates
+              </Button>
+            </Link>
+            <Link to="/trends">
+              <Button variant="outline" size="sm">
+                Open trends
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>

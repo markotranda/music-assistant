@@ -32,6 +32,8 @@ export const DEFAULT_POLICY: PolicySettings = {
 
 export type IntegrationSettings = {
   lastfmApiKey: string;
+  /** Scrobble-history owner (PLAN §4.3) — empty disables ingestion. */
+  lastfmUsername: string;
   musicbrainzUserAgent: string;
   deezerEnabled: boolean;
 };
@@ -43,6 +45,7 @@ export type IntegrationSettings = {
 export function defaultIntegrations(env: NodeJS.ProcessEnv = process.env): IntegrationSettings {
   return {
     lastfmApiKey: env.LASTFM_API_KEY ?? "",
+    lastfmUsername: env.LASTFM_USERNAME ?? "",
     musicbrainzUserAgent: env.MA_USER_AGENT ?? "MusicAssistant/0.1.0 ( https://github.com/ )",
     deezerEnabled: true,
   };
@@ -74,12 +77,32 @@ export type AuthSettings = {
 
 export const DEFAULT_AUTH: AuthSettings = { token: null };
 
+/** Trends & discovery tuning (PLAN.md §4.3). */
+export type TrendsSettings = {
+  /** Top-affinity bands used as discovery seeds. */
+  discoverySeeds: number;
+  /** Similar artists fetched per seed. */
+  discoveryDepth: number;
+  /** Release radar window (days). */
+  radarLookbackDays: number;
+  /** Lowercased artist names to never suggest again. */
+  ignoredArtists: string[];
+};
+
+export const DEFAULT_TRENDS: TrendsSettings = {
+  discoverySeeds: 5,
+  discoveryDepth: 5,
+  radarLookbackDays: 30,
+  ignoredArtists: [],
+};
+
 export type AppSettings = {
   formula: QuotaFormula;
   policy: PolicySettings;
   integrations: IntegrationSettings;
   acquisition: AcquisitionSettings;
   auth: AuthSettings;
+  trends: TrendsSettings;
 };
 
 /** Seeds default settings on first run. Existing values are never overwritten. */
@@ -90,6 +113,7 @@ export function seedSettings(db: Db, env: NodeJS.ProcessEnv = process.env): void
     integrations: defaultIntegrations(env),
     acquisition: DEFAULT_ACQUISITION,
     auth: DEFAULT_AUTH,
+    trends: DEFAULT_TRENDS,
     overrides: { pinnedMbids: {}, searchNameFixes: {} },
   };
   for (const [key, value] of Object.entries(defaults)) {

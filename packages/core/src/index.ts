@@ -13,6 +13,7 @@ export * from "./formula.js";
 export * from "./plan.js";
 export * from "./ranking.js";
 export * from "./selection.js";
+export * from "./taste.js";
 export * from "./text.js";
 export * from "./types.js";
 

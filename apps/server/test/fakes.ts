@@ -20,7 +20,7 @@ const migrationsFolder = fileURLToPath(new URL("../drizzle", import.meta.url));
 
 export function makeDb(): Db {
   const db = createDb({ dbPath: ":memory:", migrationsFolder });
-  seedSettings(db, { LASTFM_API_KEY: "test-key" });
+  seedSettings(db, { LASTFM_API_KEY: "test-key", LASTFM_USERNAME: "tester" });
   return db;
 }
 
@@ -69,6 +69,25 @@ export type FakeOptions = {
   deezerTitles?: string[];
   deezerThrows?: boolean;
   files?: Record<string, string[]>;
+  /** getSimilarArtists per seed artist name. */
+  similar?: Record<string, { name: string; mbid: string | null; match: number }[]>;
+  /** getTopTags per artist name. */
+  tags?: Record<string, string[]>;
+  /** Scrobble history; the fake serves it on every page (dedupe is under test). */
+  scrobbles?: { artist: string; title: string; album: string | null; playedAt: string }[];
+  /** How many pages the fake scrobble history claims to have. */
+  scrobblePages?: number;
+  /** getRecentReleaseGroups per artist MBID. */
+  recentGroups?: Record<
+    string,
+    {
+      id: string;
+      title: string;
+      firstReleaseDate: string | null;
+      primaryType: string | null;
+      secondaryTypes: string[];
+    }[]
+  >;
   /** Override the fake yt-dlp (download handler tests use a real-file fake). */
   ytdlp?: YtDlpApi;
 };
@@ -106,11 +125,20 @@ export function fakeDeps(opts: FakeOptions = {}): FakeDeps {
         date: "2010-01-01",
         tracks: ["Album Track 1", "Album Track 2"],
       },
+    getRecentReleaseGroups: async (mbid, since) =>
+      (opts.recentGroups?.[mbid] ?? []).filter((g) => (g.firstReleaseDate ?? "") >= since),
   };
 
   const lastfm: LastfmApi = {
     getTopTracks: async () => ranked,
-    getSimilarArtists: async () => [],
+    getSimilarArtists: async (name) => opts.similar?.[name] ?? [],
+    getTopTags: async (name) => opts.tags?.[name] ?? [],
+    getUserRecentTracks: async (_user, params) => ({
+      scrobbles: opts.scrobbles ?? [],
+      page: params?.page ?? 1,
+      totalPages: opts.scrobblePages ?? 1,
+      total: (opts.scrobbles ?? []).length,
+    }),
   };
 
   const deezer: DeezerApi = {

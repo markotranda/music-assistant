@@ -102,6 +102,8 @@ export const candidates = sqliteTable(
     /** new_release | related | trending | missing_track */
     type: text("type").notNull(),
     artistId: integer("artist_id").references(() => artists.id),
+    /** Dedupe identity: "rg:<release-group mbid>" for releases, normalized artist name for related acts. */
+    key: text("key"),
     payloadJson: text("payload_json").notNull(),
     /** 0-100 taste-fit score. */
     tasteFit: integer("taste_fit"),
@@ -111,7 +113,10 @@ export const candidates = sqliteTable(
     reason: text("reason"),
     createdAt: text("created_at").notNull().$defaultFn(now),
   },
-  (t) => [index("candidates_status_idx").on(t.status)],
+  (t) => [
+    index("candidates_status_idx").on(t.status),
+    index("candidates_key_idx").on(t.type, t.key),
+  ],
 );
 
 export const scrobbles = sqliteTable(
@@ -119,13 +124,18 @@ export const scrobbles = sqliteTable(
   {
     id: integer("id").primaryKey({ autoIncrement: true }),
     artistId: integer("artist_id").references(() => artists.id),
+    /** Display name as scrobbled — untracked artists have no artists row. */
+    artistName: text("artist_name").notNull().default(""),
     title: text("title").notNull(),
     album: text("album"),
     playedAt: text("played_at").notNull(),
     /** lastfm | listenbrainz | manual */
     source: text("source").notNull().default("lastfm"),
   },
-  (t) => [index("scrobbles_played_idx").on(t.playedAt)],
+  (t) => [
+    index("scrobbles_played_idx").on(t.playedAt),
+    uniqueIndex("scrobbles_unique_idx").on(t.playedAt, t.title, t.artistName),
+  ],
 );
 
 export const tasteProfile = sqliteTable("taste_profile", {

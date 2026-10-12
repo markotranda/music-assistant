@@ -333,4 +333,144 @@ program
     }
   });
 
+program
+  .command("candidates [status]")
+  .description("List candidates (pending | approved | rejected)")
+  .action(async (status?: string) => {
+    try {
+      const { candidates } = await api.request<{
+        candidates: {
+          id: number;
+          type: string;
+          tasteFit: number | null;
+          reason: string | null;
+          payload: { name?: string; title?: string };
+        }[];
+      }>(`/api/candidates?status=${status ?? "pending"}`);
+      if (candidates.length === 0) {
+        console.log(`no ${status ?? "pending"} candidates`);
+        return;
+      }
+      for (const c of candidates) {
+        const what = c.payload.name ?? c.payload.title ?? JSON.stringify(c.payload);
+        console.log(
+          `#${c.id} [${c.type}] fit=${c.tasteFit ?? "?"} — ${what}${c.reason ? `\n     ${c.reason}` : ""}`,
+        );
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("approve <id> <score>")
+  .description("Approve a candidate (score 1-3 is applied to related artists)")
+  .action(async (id: string, score: string) => {
+    try {
+      const res = await api.request<{ candidate: { status: string }; trackedArtistId?: number }>(
+        `/api/candidates/${id}/approve`,
+        { method: "POST", body: JSON.stringify({ score: Number(score) }) },
+      );
+      console.log(
+        `approved (now ${res.candidate.status})${res.trackedArtistId ? ` — tracked as artist #${res.trackedArtistId}` : ""}`,
+      );
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("reject <id>")
+  .description("Reject a candidate (it will not be suggested again)")
+  .action(async (id: string) => {
+    try {
+      await api.request(`/api/candidates/${id}/reject`, { method: "POST", body: "{}" });
+      console.log(`rejected #${id}`);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("digest")
+  .description("Print the digest: candidates pending, new releases, library vs budgets")
+  .action(async () => {
+    try {
+      const digest = await api.request<{ markdown: string }>("/api/digest");
+      console.log(digest.markdown);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("scrobbles")
+  .description("Scrobble stats + sync")
+  .argument("[action]", "sync (default: stats)", "stats")
+  .option("--full", "re-import the entire history")
+  .action(async (action: string, opts: { full?: boolean }) => {
+    try {
+      if (action === "sync") {
+        const res = await api.request<{ full: boolean }>("/api/scrobbles/sync", {
+          method: "POST",
+          body: JSON.stringify({ full: opts.full === true }),
+        });
+        console.log(`scrobble_sync job enqueued (full=${res.full}) — watch: ma jobs`);
+        return;
+      }
+      const stats = await api.request<{
+        total: number;
+        lastPlayedAt: string | null;
+        topArtists: { artistName: string; plays: number }[];
+      }>("/api/scrobbles");
+      console.log(`scrobbles: ${stats.total} (last: ${stats.lastPlayedAt ?? "never"})`);
+      for (const a of stats.topArtists.slice(0, 10)) {
+        console.log(`  ${String(a.plays).padStart(5)}  ${a.artistName}`);
+      }
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("trends <action>")
+  .description("Run discovery or the release radar (as a background job)")
+  .action(async (action: string) => {
+    try {
+      const path = action === "radar" ? "/api/trends/release-radar" : "/api/trends/discover";
+      await api.request(path, { method: "POST", body: "{}" });
+      console.log(
+        `${action === "radar" ? "release_radar" : "discovery"} job enqueued — watch: ma jobs`,
+      );
+    } catch (err) {
+      fail(err);
+    }
+  });
+
+program
+  .command("taste")
+  .description("Show the taste profile (top bands, genres, eras)")
+  .action(async () => {
+    try {
+      const { profile } = await api.request<{
+        profile: {
+          bandAffinity: Record<string, number>;
+          genreWeights: Record<string, number>;
+          eraWeights: Record<string, number>;
+        };
+      }>("/api/taste");
+      const top = (m: Record<string, number>) =>
+        Object.entries(m)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10)
+          .map(([k, v]) => `  ${(v * 100).toFixed(0).padStart(3)}%  ${k}`)
+          .join("\n");
+      console.log(`bands:\n${top(profile.bandAffinity) || "  (none yet)"}`);
+      console.log(`genres:\n${top(profile.genreWeights) || "  (none yet)"}`);
+      console.log(`eras:\n${top(profile.eraWeights) || "  (none yet)"}`);
+    } catch (err) {
+      fail(err);
+    }
+  });
+
 program.parseAsync();

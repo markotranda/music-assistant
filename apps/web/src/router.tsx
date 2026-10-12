@@ -5,6 +5,7 @@ import { BandsPage } from "./features/bands/BandsPage";
 import { DashboardPage } from "./features/dashboard/DashboardPage";
 import { QueuePage } from "./features/queue/QueuePage";
 import { SettingsPage } from "./features/settings/SettingsPage";
+import { TrendsPage } from "./features/trends/TrendsPage";
 
 /** Code-based route tree — no file-based plugin magic. */
 
@@ -34,6 +35,12 @@ const queueRoute = createRoute({
   component: QueuePage,
 });
 
+const trendsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/trends",
+  component: TrendsPage,
+});
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/settings",
@@ -45,6 +52,7 @@ const routeTree = rootRoute.addChildren([
   bandsRoute,
   bandDetailRoute,
   queueRoute,
+  trendsRoute,
   settingsRoute,
 ]);
 

@@ -76,15 +76,16 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 4 (web UI) complete: React 19 + TanStack Router/Query + Tailwind v4 + shadcn-style
-primitives. Dashboard (budgets, jobs, events), Bands (track flow with MusicBrainz
-disambiguation, score, untrack), Band detail (plan table, preview-then-apply re-plan,
-pin track/album, per-band verify), Queue (live job polling, retry, deep verify), Settings
-(formula + live quota preview, policy, integrations, acquisition, security, overrides).
-Bearer-token auth (optional, off by default; secrets masked in API reads and UI).
-Settings/dashboard/events API added; SPA fallback for deep links. Browser-verified end to
-end. Bug fixed along the way: explicit MBID = disambiguation only; the merged-artist
-whitelist now triggers solely on overrides.pinnedMbids (Deezer artist matching fixed too:
-exact-name + popularity instead of first search hit).
-Next: Phase 5 - trends & taste (scrobble ingestion, taste profile, candidates, release radar).
+Phase 5 (trends & taste) complete: Last.fm scrobble ingestion (full history + incremental,
+dedupe by play timestamp), taste profile (band affinity from plays + scores, genre weights
+from getTopTags, era weights from release dates), explainable taste-fit scoring in
+@ma/core (contribution breakdown is first-class), discovery feed (artist.getSimilar),
+MusicBrainz release radar (rg-MBID dedupe), candidate queue with approve(score)/reject/
+never-suggest, digest (JSON + markdown), due-based scheduler for recurring jobs, CLI
+(candidates/approve/reject/digest/scrobbles/trends/taste), Trends page + candidate review
+in Queue + digest on Dashboard. Browser-verified live (candidates scored 93-100 with why
+breakdowns, approve tracked the band and queued its downloads; markotranda's account has
+0 scrobbles so ingestion ran over empty history - parser validated against live shapes).
+Next: Phase 6 - anti-overload policy engine (caps, budget spending by taste-fit, rotation/
+decay/prune, approval modes consuming the taste-fit score).
 Before starting a phase, its plan is presented to the owner for approval.

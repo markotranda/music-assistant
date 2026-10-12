@@ -10,6 +10,7 @@ import { createArtistsRoutes } from "./routes/artists.js";
 import { createDashboardRoutes } from "./routes/dashboard.js";
 import { createJobsRoutes } from "./routes/jobs.js";
 import { createSettingsRoutes } from "./routes/settings.js";
+import { createTrendsRoutes } from "./routes/trends.js";
 
 export function createApp(deps: AppDeps): OpenAPIHono {
   const app = new OpenAPIHono({
@@ -89,6 +90,7 @@ export function createApp(deps: AppDeps): OpenAPIHono {
   app.route("/api", createJobsRoutes(deps));
   app.route("/api", createSettingsRoutes(deps));
   app.route("/api", createDashboardRoutes(deps));
+  app.route("/api", createTrendsRoutes(deps));
 
   // Contract-first API: the OpenAPI document is generated from the Zod schemas
   // above and is the single source of truth for the public API (see /llms.txt).

@@ -105,6 +105,51 @@ describe("musicbrainz.getCatalogSize", () => {
 });
 
 describe("musicbrainz.getAlbumTracks", () => {
+  it("lists release-groups since a date for the release radar (newest first)", async () => {
+    const http: HttpJson = async (url) => {
+      if (url.includes("release-group?artist=")) {
+        return {
+          "release-groups": [
+            {
+              id: "rg-old",
+              title: "The Damned, The Shamed",
+              "first-release-date": "2008",
+              "primary-type": "Album",
+            },
+            {
+              id: "rg-new",
+              title: "New Single",
+              "first-release-date": "2026-05-01",
+              "primary-type": "Single",
+            },
+            {
+              id: "rg-mid",
+              title: "Mid Record",
+              "first-release-date": "2026-01-15",
+              "primary-type": "Album",
+              "secondary-types": ["Live"],
+            },
+          ],
+          "release-group-count": 3,
+        };
+      }
+      throw new Error(`unexpected url: ${url}`);
+    };
+    const mb = createMusicBrainz({ userAgent: "test", http });
+
+    const since = await mb.getRecentReleaseGroups("mbid", "2026-01-01");
+    expect(since.map((g) => g.id)).toEqual(["rg-new", "rg-mid"]); // filtered + sorted
+    expect(since[0]).toEqual({
+      id: "rg-new",
+      title: "New Single",
+      firstReleaseDate: "2026-05-01",
+      primaryType: "Single",
+      secondaryTypes: [],
+    });
+    // Undated groups never leak in.
+    expect(since.some((g) => g.id === "rg-old")).toBe(false);
+  });
+
   it("returns the album track list", async () => {
     const album = await mb.getAlbumTracks(
       "697eba1a-bf52-46b1-a19f-4d7190b63e5c",

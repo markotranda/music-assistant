@@ -7,8 +7,11 @@ import {
   DEFAULT_ACQUISITION,
   DEFAULT_AUTH,
   DEFAULT_POLICY,
+  DEFAULT_TRENDS,
+  defaultIntegrations,
   type IntegrationSettings,
   type PolicySettings,
+  type TrendsSettings,
 } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
 import { refreshDeps } from "../deps.js";
@@ -26,7 +29,19 @@ export type SettingsGroup =
   | "integrations"
   | "acquisition"
   | "auth"
-  | "overrides";
+  | "overrides"
+  | "trends";
+
+/** Merge base per group — rows written before a field existed still validate. */
+const GROUP_DEFAULTS: Record<SettingsGroup, () => Record<string, unknown>> = {
+  formula: () => ({ ...DEFAULT_QUOTA_FORMULA }),
+  policy: () => ({ ...DEFAULT_POLICY }),
+  integrations: () => ({ ...defaultIntegrations(), lastfmApiKey: "" }),
+  acquisition: () => ({ ...DEFAULT_ACQUISITION }),
+  auth: () => ({ ...DEFAULT_AUTH }),
+  overrides: () => ({ pinnedMbids: {}, searchNameFixes: {} }),
+  trends: () => ({ ...DEFAULT_TRENDS }),
+};
 
 const tierTriple = z.object({
   1: z.number().positive().optional(),
@@ -55,6 +70,7 @@ const policyPatch = z.object({
 const integrationsPatch = z.object({
   /** "" clears the key; omitted keeps the stored one. */
   lastfmApiKey: z.string().optional(),
+  lastfmUsername: z.string().optional(),
   musicbrainzUserAgent: z.string().min(5).optional(),
   deezerEnabled: z.boolean().optional(),
 });
@@ -82,6 +98,13 @@ const overridesPatch = z.object({
   searchNameFixes: z.record(z.string(), z.string()).optional(),
 });
 
+const trendsPatch = z.object({
+  discoverySeeds: z.number().int().positive().max(50).optional(),
+  discoveryDepth: z.number().int().positive().max(20).optional(),
+  radarLookbackDays: z.number().int().positive().max(3650).optional(),
+  ignoredArtists: z.array(z.string()).optional(),
+});
+
 export const PATCH_SCHEMAS = {
   formula: formulaPatch,
   policy: policyPatch,
@@ -89,6 +112,7 @@ export const PATCH_SCHEMAS = {
   acquisition: acquisitionPatch,
   auth: authPatch,
   overrides: overridesPatch,
+  trends: trendsPatch,
 } as const;
 
 /** "34ca…37b" — enough to identify, never enough to use. */
@@ -107,6 +131,7 @@ export type SettingsView = {
   acquisition: AcquisitionSettings;
   auth: { tokenMasked: string | null };
   overrides: { pinnedMbids: Record<string, string>; searchNameFixes: Record<string, string> };
+  trends: TrendsSettings;
 };
 
 /** The full settings as safe-to-display values (secrets masked). */
@@ -122,11 +147,13 @@ export function readSettings(deps: AppDeps): SettingsView {
     pinnedMbids: Record<string, string>;
     searchNameFixes: Record<string, string>;
   }>(deps.db, "overrides") ?? { pinnedMbids: {}, searchNameFixes: {} };
+  const trends = getSetting<TrendsSettings>(deps.db, "trends") ?? DEFAULT_TRENDS;
 
   return {
     formula,
     policy,
     integrations: {
+      lastfmUsername: integrations.lastfmUsername ?? "",
       musicbrainzUserAgent: integrations.musicbrainzUserAgent,
       deezerEnabled: integrations.deezerEnabled,
       lastfmApiKeyMasked: maskSecret(integrations.lastfmApiKey),
@@ -134,6 +161,7 @@ export function readSettings(deps: AppDeps): SettingsView {
     acquisition,
     auth: { tokenMasked: maskSecret(auth.token) },
     overrides,
+    trends,
   };
 }
 
@@ -155,7 +183,10 @@ export function updateSettingsGroup(deps: AppDeps, group: SettingsGroup, patch: 
   }
 
   const key = group;
-  const current = getSetting<Record<string, unknown>>(deps.db, key) ?? {};
+  const current = {
+    ...GROUP_DEFAULTS[group](),
+    ...getSetting<Record<string, unknown>>(deps.db, key),
+  };
   const merged = mergeGroup(group, current, parsed.data);
 
   // Full-shape validation of the merged result (invariants like floor <= cap).
@@ -237,6 +268,7 @@ const FULL_SCHEMAS = {
   }),
   integrations: z.object({
     lastfmApiKey: z.string(),
+    lastfmUsername: z.string(),
     musicbrainzUserAgent: z.string().min(5),
     deezerEnabled: z.boolean(),
   }),
@@ -255,5 +287,11 @@ const FULL_SCHEMAS = {
   overrides: z.object({
     pinnedMbids: z.record(z.string(), z.string()),
     searchNameFixes: z.record(z.string(), z.string()),
+  }),
+  trends: z.object({
+    discoverySeeds: z.number().int().positive().max(50),
+    discoveryDepth: z.number().int().positive().max(20),
+    radarLookbackDays: z.number().int().positive().max(3650),
+    ignoredArtists: z.array(z.string()),
   }),
 } as const;

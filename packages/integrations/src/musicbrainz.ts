@@ -46,6 +46,7 @@ type MbReleaseGroup = {
   id: string;
   title: string;
   "first-release-date"?: string;
+  "primary-type"?: string;
   "secondary-types"?: string[];
 };
 
@@ -186,6 +187,39 @@ export function createMusicBrainz(options: MusicBrainzOptions) {
         };
       }
       return { albums: studio.length, catalog: studio.length * 11, method: "est(11/alb)" };
+    },
+
+    /**
+     * Release-groups (any type — albums, singles, EPs) first released on or
+     * after `since` ("YYYY-MM-DD"), newest first. The release radar's feed.
+     */
+    async getRecentReleaseGroups(
+      mbid: string,
+      since: string,
+    ): Promise<
+      {
+        id: string;
+        title: string;
+        firstReleaseDate: string | null;
+        primaryType: string | null;
+        secondaryTypes: string[];
+      }[]
+    > {
+      const groups = (await fetchAllPages(
+        `${base}/release-group?artist=${mbid}&fmt=json`,
+        "release-groups",
+        "release-group-count",
+      )) as unknown as MbReleaseGroup[];
+      return groups
+        .filter((g) => (g["first-release-date"] ?? "") >= since)
+        .map((g) => ({
+          id: g.id,
+          title: g.title,
+          firstReleaseDate: g["first-release-date"] ?? null,
+          primaryType: g["primary-type"] ?? null,
+          secondaryTypes: g["secondary-types"] ?? [],
+        }))
+        .sort((a, b) => (b.firstReleaseDate ?? "").localeCompare(a.firstReleaseDate ?? ""));
     },
 
     /** Album track list; on a miss returns what IS available instead of a bare "not found". */

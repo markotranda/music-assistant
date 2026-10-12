@@ -15,6 +15,7 @@ import type { Settings } from "../../lib/types";
 export function IntegrationsForm({ settings }: { settings: Settings }) {
   const queryClient = useQueryClient();
   const [apiKey, setApiKey] = useState("");
+  const [username, setUsername] = useState(settings.integrations.lastfmUsername);
   const [userAgent, setUserAgent] = useState(settings.integrations.musicbrainzUserAgent);
   const [deezer, setDeezer] = useState(settings.integrations.deezerEnabled);
   const [saved, setSaved] = useState(false);
@@ -63,6 +64,22 @@ export function IntegrationsForm({ settings }: { settings: Settings }) {
         </div>
 
         <div className="flex flex-col gap-1">
+          <Label htmlFor="lastfm-user">Last.fm username</Label>
+          <Input
+            id="lastfm-user"
+            placeholder="scrobble-history owner (empty disables ingestion)"
+            value={username}
+            onChange={(e) => {
+              setSaved(false);
+              setUsername(e.target.value);
+            }}
+          />
+          <p className="text-xs text-muted-foreground">
+            Whose listening history to import for the taste profile.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-1">
           <Label htmlFor="mb-ua">MusicBrainz user-agent</Label>
           <Input
             id="mb-ua"
@@ -94,6 +111,7 @@ export function IntegrationsForm({ settings }: { settings: Settings }) {
           <Button
             onClick={() =>
               save.mutate({
+                lastfmUsername: username,
                 musicbrainzUserAgent: userAgent,
                 deezerEnabled: deezer,
                 ...(apiKey ? { lastfmApiKey: apiKey } : {}),

@@ -6,6 +6,7 @@ import { createDb } from "./db/index.js";
 import { seedSettings } from "./db/seed.js";
 import { createDeps } from "./deps.js";
 import { createJobHandlers } from "./jobs/handlers.js";
+import { startScheduler } from "./jobs/scheduler.js";
 import { createWorker } from "./jobs/worker.js";
 
 // Local dev convenience: load .env if present (Docker injects env directly).
@@ -32,6 +33,9 @@ const app = createApp(deps);
 // Durable job worker: downloads survive restarts, orphaned jobs re-queue.
 const worker = createWorker(deps, createJobHandlers(deps));
 worker.start();
+
+// Recurring trends jobs (scrobble sync, release radar, discovery) — due-based.
+startScheduler(deps);
 
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`music-assistant listening on http://localhost:${info.port}`);

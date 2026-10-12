@@ -1,6 +1,17 @@
 import { and, asc, desc, eq, lte, sql } from "drizzle-orm";
 import type { Db } from "./index.js";
-import { artists, events, jobs, planItems, settings, tracks } from "./schema.js";
+import {
+  albums,
+  artists,
+  candidates,
+  events,
+  jobs,
+  planItems,
+  scrobbles,
+  settings,
+  tasteProfile,
+  tracks,
+} from "./schema.js";
 
 // ---------------------------------------------------------------- settings
 
@@ -346,4 +357,184 @@ export function listEvents(db: Db, filter: { kind?: string; limit?: number } = {
     .orderBy(desc(events.id))
     .limit(filter.limit ?? 50)
     .all();
+}
+
+// -------------------------------------------------------------- scrobbles
+
+export type ScrobbleRow = typeof scrobbles.$inferSelect;
+
+/** Batch insert; duplicate (playedAt, title, artistName) rows are ignored. */
+export function insertScrobbles(
+  db: Db,
+  rows: { artistName: string; title: string; album: string | null; playedAt: string }[],
+): number {
+  if (rows.length === 0) return 0;
+  let inserted = 0;
+  // Chunked so a full-history import stays well under SQLite's variable limit.
+  for (let i = 0; i < rows.length; i += 200) {
+    const chunk = rows.slice(i, i + 200);
+    const res = db.insert(scrobbles).values(chunk).onConflictDoNothing().run();
+    inserted += Number(res.changes ?? 0);
+  }
+  return inserted;
+}
+
+export function countScrobbles(db: Db): number {
+  return db.select({ n: sql<number>`count(*)` }).from(scrobbles).get()?.n ?? 0;
+}
+
+export function latestScrobbleAt(db: Db): string | null {
+  const row = db
+    .select({ playedAt: scrobbles.playedAt })
+    .from(scrobbles)
+    .orderBy(desc(scrobbles.playedAt))
+    .limit(1)
+    .get();
+  return row?.playedAt ?? null;
+}
+
+/** Play counts per artist name (case preserved as scrobbled). */
+export function scrobblePlaysByArtist(db: Db): { artistName: string; plays: number }[] {
+  return db
+    .select({
+      artistName: scrobbles.artistName,
+      plays: sql<number>`count(*)`,
+    })
+    .from(scrobbles)
+    .groupBy(scrobbles.artistName)
+    .all();
+}
+
+// -------------------------------------------------------------- candidates
+
+export type CandidateRow = typeof candidates.$inferSelect;
+
+export function insertCandidate(
+  db: Db,
+  input: {
+    type: string;
+    artistId: number | null;
+    key: string | null;
+    payload: Record<string, unknown>;
+    tasteFit: number | null;
+    reason: string | null;
+  },
+): number {
+  const res = db
+    .insert(candidates)
+    .values({
+      type: input.type,
+      artistId: input.artistId,
+      key: input.key,
+      payloadJson: JSON.stringify(input.payload),
+      tasteFit: input.tasteFit,
+      reason: input.reason,
+    })
+    .run();
+  return Number(res.lastInsertRowid);
+}
+
+export function findCandidateByKey(db: Db, type: string, key: string): CandidateRow | undefined {
+  return db
+    .select()
+    .from(candidates)
+    .where(and(eq(candidates.type, type), eq(candidates.key, key)))
+    .get();
+}
+
+export function listCandidates(
+  db: Db,
+  filter: { status?: string; limit?: number } = {},
+): CandidateRow[] {
+  const base = db.select().from(candidates);
+  const withWhere = filter.status ? base.where(eq(candidates.status, filter.status)) : base;
+  return withWhere
+    .orderBy(desc(candidates.tasteFit), desc(candidates.id))
+    .limit(filter.limit ?? 100)
+    .all();
+}
+
+export function getCandidate(db: Db, id: number): CandidateRow | undefined {
+  return db.select().from(candidates).where(eq(candidates.id, id)).get();
+}
+
+export function setCandidateStatus(db: Db, id: number, status: string): void {
+  db.update(candidates).set({ status }).where(eq(candidates.id, id)).run();
+}
+
+/** Rejects every pending candidate for an artist name ("never suggest"). */
+export function rejectPendingForArtistName(db: Db, artistName: string): number {
+  const lower = artistName.trim().toLowerCase();
+  const rows = db.select().from(candidates).all();
+  let rejected = 0;
+  for (const r of rows) {
+    if (r.status !== "pending") continue;
+    const payload = JSON.parse(r.payloadJson) as { name?: string; artistName?: string };
+    const matches =
+      r.key === lower ||
+      (payload.name ?? "").toLowerCase() === lower ||
+      (payload.artistName ?? "").toLowerCase() === lower;
+    if (matches) {
+      setCandidateStatus(db, r.id, "rejected");
+      rejected += 1;
+    }
+  }
+  return rejected;
+}
+
+// ------------------------------------------------------------ taste profile
+
+export type TasteProfileRow = typeof tasteProfile.$inferSelect;
+
+export function saveTasteProfile(
+  db: Db,
+  profile: { genreWeights: Record<string, number>; eraWeights: Record<string, number> },
+): void {
+  const existing = db.select().from(tasteProfile).limit(1).get();
+  const values = {
+    genreWeightsJson: JSON.stringify(profile.genreWeights),
+    eraWeightsJson: JSON.stringify(profile.eraWeights),
+    updatedAt: new Date().toISOString(),
+  };
+  if (existing) {
+    db.update(tasteProfile).set(values).where(eq(tasteProfile.id, existing.id)).run();
+  } else {
+    db.insert(tasteProfile).values(values).run();
+  }
+}
+
+export function readTasteProfile(db: Db): TasteProfileRow | undefined {
+  return db.select().from(tasteProfile).limit(1).get();
+}
+
+// ----------------------------------------------------------------- albums
+
+export type AlbumRow = typeof albums.$inferSelect;
+
+export function listAlbums(db: Db, artistId: number): AlbumRow[] {
+  return db.select().from(albums).where(eq(albums.artistId, artistId)).all();
+}
+
+/** Records a release once (radar re-runs must not duplicate rows). */
+export function insertAlbum(
+  db: Db,
+  input: {
+    artistId: number;
+    mbid: string | null;
+    title: string;
+    releaseDate: string | null;
+    type: string | null;
+  },
+): void {
+  const existing = db
+    .select()
+    .from(albums)
+    .where(
+      input.mbid
+        ? and(eq(albums.artistId, input.artistId), eq(albums.mbid, input.mbid))
+        : and(eq(albums.artistId, input.artistId), eq(albums.title, input.title)),
+    )
+    .get();
+  if (existing) return;
+  db.insert(albums).values(input).run();
 }

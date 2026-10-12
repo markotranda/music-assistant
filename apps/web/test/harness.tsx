@@ -88,6 +88,7 @@ export const defaultSettings: Settings = {
   },
   integrations: {
     lastfmApiKeyMasked: "test…key",
+    lastfmUsername: "tester",
     musicbrainzUserAgent: "MusicAssistant/0.1.0 ( test )",
     deezerEnabled: true,
   },
@@ -100,6 +101,7 @@ export const defaultSettings: Settings = {
   },
   auth: { tokenMasked: null },
   overrides: { pinnedMbids: {}, searchNameFixes: {} },
+  trends: { discoverySeeds: 5, discoveryDepth: 5, radarLookbackDays: 30, ignoredArtists: [] },
 };
 
 /** Radix tabs select on mousedown — plain click isn't enough in jsdom. */

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { Table, TBody, TD, TH, THead, TR } from "../../components/ui/table";
 import { ApiRequestError, api, apiPost } from "../../lib/api";
 import type { Job, VerifyReport } from "../../lib/types";
+import { CandidatesPanel } from "./CandidatesPanel";
 
 function jobTitle(job: Job): string {
   const p = job.payload;
@@ -155,17 +156,7 @@ export function QueuePage() {
         </Card>
       ) : null}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Candidate review</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Discovery candidates (new releases, related artists, trending) arrive with Phase 5 —
-            this is where you will approve or reject them.
-          </p>
-        </CardContent>
-      </Card>
+      <CandidatesPanel />
     </div>
   );
 }

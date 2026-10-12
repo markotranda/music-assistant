@@ -12,6 +12,9 @@ import { events } from "../db/schema.js";
 import { type AcquisitionSettings, DEFAULT_ACQUISITION } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
 import { getOverrides } from "../services/bands.js";
+import { runDiscovery } from "../services/discovery.js";
+import { runReleaseRadar } from "../services/releases.js";
+import { ingestScrobbles } from "../services/scrobbles.js";
 import { verifyAll, verifyBand } from "../services/verify.js";
 import type { JobHandler } from "./worker.js";
 
@@ -148,6 +151,27 @@ const verify: JobHandler = async (payload, ctx) => {
   });
 };
 
+/** Full/incremental Last.fm scrobble import + taste-profile refresh. */
+const scrobbleSync: JobHandler = async (payload, ctx) => {
+  await ingestScrobbles(ctx.deps, { full: payload.full === true });
+};
+
+/** MusicBrainz release-groups -> new_release candidates. */
+const releaseRadar: JobHandler = async (_payload, ctx) => {
+  await runReleaseRadar(ctx.deps);
+};
+
+/** Last.fm getSimilar on top-affinity bands -> related candidates. */
+const discovery: JobHandler = async (_payload, ctx) => {
+  await runDiscovery(ctx.deps);
+};
+
 export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
-  return { download, verify };
+  return {
+    download,
+    verify,
+    scrobble_sync: scrobbleSync,
+    release_radar: releaseRadar,
+    discovery,
+  };
 }

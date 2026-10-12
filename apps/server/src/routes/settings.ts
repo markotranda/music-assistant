@@ -36,6 +36,7 @@ const SettingsSchema = z.object({
   }),
   integrations: z.object({
     lastfmApiKeyMasked: z.string().nullable(),
+    lastfmUsername: z.string(),
     musicbrainzUserAgent: z.string(),
     deezerEnabled: z.boolean(),
   }),
@@ -50,6 +51,12 @@ const SettingsSchema = z.object({
   overrides: z.object({
     pinnedMbids: z.record(z.string(), z.string()),
     searchNameFixes: z.record(z.string(), z.string()),
+  }),
+  trends: z.object({
+    discoverySeeds: z.number(),
+    discoveryDepth: z.number(),
+    radarLookbackDays: z.number(),
+    ignoredArtists: z.array(z.string()),
   }),
 });
 

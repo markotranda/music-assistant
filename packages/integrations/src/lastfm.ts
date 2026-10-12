@@ -14,6 +14,19 @@ export type LastfmOptions = {
 
 export type LastfmTrack = { name: string; plays: number };
 export type LastfmSimilarArtist = { name: string; mbid: string | null; match: number };
+export type LastfmScrobble = {
+  artist: string;
+  title: string;
+  album: string | null;
+  /** ISO timestamp of the play. */
+  playedAt: string;
+};
+export type LastfmRecentPage = {
+  scrobbles: LastfmScrobble[];
+  page: number;
+  totalPages: number;
+  total: number;
+};
 
 const DEFAULT_BASE = "https://ws.audioscrobbler.com/2.0/";
 
@@ -66,6 +79,72 @@ export function createLastfm(options: LastfmOptions) {
         mbid: a.mbid || null,
         match: Number(a.match) || 0,
       }));
+    },
+
+    /**
+     * One page of a user's scrobble history (newest first). The importer walks
+     * pages until `page >= totalPages`; `from`/`to` are Unix seconds for the
+     * incremental follow-up syncs.
+     */
+    async getUserRecentTracks(
+      user: string,
+      opts: { from?: number; to?: number; page?: number; limit?: number } = {},
+    ): Promise<LastfmRecentPage> {
+      const params: Record<string, string> = {
+        user,
+        limit: String(opts.limit ?? 200),
+      };
+      if (opts.page) params.page = String(opts.page);
+      if (opts.from !== undefined) params.from = String(opts.from);
+      if (opts.to !== undefined) params.to = String(opts.to);
+
+      const data = (await call("user.getRecentTracks", params)) as {
+        recenttracks?: {
+          track?: {
+            name?: string;
+            artist?: { "#text"?: string; name?: string } | string;
+            album?: { "#text"?: string } | string;
+            date?: { uts?: string };
+          }[];
+          "@attr"?: { page?: string; total?: string; totalPages?: string };
+        };
+      };
+
+      const scrobbles: LastfmScrobble[] = [];
+      for (const t of data.recenttracks?.track ?? []) {
+        // "Now playing" entries carry no timestamp — not scrobbles yet.
+        const uts = t.date?.uts;
+        if (!uts || !t.name) continue;
+        const artist =
+          typeof t.artist === "string" ? t.artist : (t.artist?.["#text"] ?? t.artist?.name ?? "");
+        const album = typeof t.album === "string" ? t.album : (t.album?.["#text"] ?? null);
+        if (!artist) continue;
+        scrobbles.push({
+          artist,
+          title: t.name,
+          album: album || null,
+          playedAt: new Date(Number(uts) * 1000).toISOString(),
+        });
+      }
+
+      const attr = data.recenttracks?.["@attr"] ?? {};
+      return {
+        scrobbles,
+        page: Number(attr.page) || 1,
+        totalPages: Number(attr.totalPages) || 1,
+        total: Number(attr.total) || scrobbles.length,
+      };
+    },
+
+    /** Top genre tags for an artist (strongest first) — taste profile input. */
+    async getTopTags(artist: string, limit = 5): Promise<string[]> {
+      const data = (await call("artist.getTopTags", { artist })) as {
+        toptags?: { tag?: { name: string }[] };
+      };
+      return (data.toptags?.tag ?? [])
+        .slice(0, limit)
+        .map((t) => t.name)
+        .filter(Boolean);
     },
   };
 }
