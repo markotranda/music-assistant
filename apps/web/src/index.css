@@ -54,6 +54,23 @@
     background-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
   }
 
+  /* Native popups (select dropdowns) fall back to the OS light theme unless
+     the control itself opts into dark — and options need explicit colors or
+     they inherit the theme's white text onto the light popup. */
+  select {
+    color-scheme: dark;
+  }
+
+  option {
+    background-color: var(--color-secondary);
+    color: var(--color-foreground);
+  }
+
+  option:checked {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
   /* Identity mark: every page title gets a green underline stub. */
   main h1 {
     padding-bottom: 0.4rem;
