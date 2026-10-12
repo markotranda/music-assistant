@@ -1,0 +1,127 @@
+{
+  "cases": [
+    {
+      "name": "top5-score1",
+      "score": 1,
+      "quota": 5,
+      "count": 20,
+      "picks": ["song01", "song02", "song03", "song04", "song05"]
+    },
+    {
+      "name": "top12-score2",
+      "score": 2,
+      "quota": 12,
+      "count": 20,
+      "picks": [
+        "song01",
+        "song02",
+        "song03",
+        "song04",
+        "song05",
+        "song06",
+        "song07",
+        "song08",
+        "song09",
+        "song10",
+        "song11",
+        "song12"
+      ]
+    },
+    {
+      "name": "acdc-like-score3",
+      "score": 3,
+      "quota": 26,
+      "count": 50,
+      "picks": [
+        "song01",
+        "song02",
+        "song03",
+        "song04",
+        "song05",
+        "song06",
+        "song07",
+        "song08",
+        "song09",
+        "song10",
+        "song11",
+        "song12",
+        "song13",
+        "song14",
+        "song15",
+        "song16",
+        "song17",
+        "song18",
+        "song21",
+        "song24",
+        "song27",
+        "song30",
+        "song33",
+        "song36",
+        "song39",
+        "song42"
+      ]
+    },
+    {
+      "name": "fits-quota-score3",
+      "score": 3,
+      "quota": 20,
+      "count": 15,
+      "picks": [
+        "song01",
+        "song02",
+        "song03",
+        "song04",
+        "song05",
+        "song06",
+        "song07",
+        "song08",
+        "song09",
+        "song10",
+        "song11",
+        "song12",
+        "song13",
+        "song14",
+        "song15"
+      ]
+    },
+    {
+      "name": "small-quota-score3",
+      "score": 3,
+      "quota": 8,
+      "count": 30,
+      "picks": ["song01", "song02", "song03", "song04", "song05", "song06", "song10", "song14"]
+    },
+    {
+      "name": "tiny-quota-score3",
+      "score": 3,
+      "quota": 3,
+      "count": 10,
+      "picks": ["song01", "song02", "song03"]
+    },
+    {
+      "name": "quota-eq-count-score3",
+      "score": 3,
+      "quota": 10,
+      "count": 10,
+      "picks": [
+        "song01",
+        "song02",
+        "song03",
+        "song04",
+        "song05",
+        "song06",
+        "song07",
+        "song08",
+        "song09",
+        "song10"
+      ]
+    },
+    {
+      "name": "score2-more-than-count",
+      "score": 2,
+      "quota": 7,
+      "count": 4,
+      "picks": ["song01", "song02", "song03", "song04"]
+    }
+  ]
+}

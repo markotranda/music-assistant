@@ -1,0 +1,256 @@
+{
+  "titles": [
+    {
+      "input": "Paint It, Black",
+      "fold": "Paint It, Black",
+      "clean": "Paint It, Black",
+      "norm": "paintitblack"
+    },
+    {
+      "input": "(I Can\u0027t Get No) Satisfaction",
+      "fold": "(I Can\u0027t Get No) Satisfaction",
+      "clean": "(I Can\u0027t Get No) Satisfaction",
+      "norm": "satisfaction"
+    },
+    {
+      "input": "Black No. 1 (Little Miss Scare -All)",
+      "fold": "Black No. 1 (Little Miss Scare -All)",
+      "clean": "Black No. 1 (Little Miss Scare -All)",
+      "norm": "blackno1"
+    },
+    {
+      "input": "White Wedding - Pt. 1",
+      "fold": "White Wedding - Pt. 1",
+      "clean": "White Wedding - Pt. 1",
+      "norm": "whiteweddingpt1"
+    },
+    {
+      "input": "Live Wire",
+      "fold": "Live Wire",
+      "clean": "Live Wire",
+      "norm": "livewire"
+    },
+    {
+      "input": "Live and Let Die",
+      "fold": "Live and Let Die",
+      "clean": "Live and Let Die",
+      "norm": "liveandletdie"
+    },
+    {
+      "input": "Paranoid (2011 Remaster)",
+      "fold": "Paranoid (2011 Remaster)",
+      "clean": "Paranoid (2011 Remaster)",
+      "norm": "paranoid"
+    },
+    {
+      "input": "Ace of Spades - Live",
+      "fold": "Ace of Spades - Live",
+      "clean": "Ace of Spades",
+      "norm": "aceofspades"
+    },
+    {
+      "input": "War Pigs (Demo)",
+      "fold": "War Pigs (Demo)",
+      "clean": "War Pigs (Demo)",
+      "norm": "warpigs"
+    },
+    {
+      "input": "Iron Man (Instrumental)",
+      "fold": "Iron Man (Instrumental)",
+      "clean": "Iron Man (Instrumental)",
+      "norm": "ironman"
+    },
+    {
+      "input": "The Trooper (Karaoke Version)",
+      "fold": "The Trooper (Karaoke Version)",
+      "clean": "The Trooper (Karaoke Version)",
+      "norm": "thetrooper"
+    },
+    {
+      "input": "Hotel California (2013 Remaster)",
+      "fold": "Hotel California (2013 Remaster)",
+      "clean": "Hotel California (2013 Remaster)",
+      "norm": "hotelcalifornia"
+    },
+    {
+      "input": "Motörhead",
+      "fold": "Motörhead",
+      "clean": "Motörhead",
+      "norm": "motorhead"
+    },
+    {
+      "input": "Yuve Yuve Yu",
+      "fold": "Yuve Yuve Yu",
+      "clean": "Yuve Yuve Yu",
+      "norm": "yuveyuveyu"
+    },
+    {
+      "input": "An Irish Pub song",
+      "fold": "An Irish Pub song",
+      "clean": "An Irish Pub song",
+      "norm": "anirishpubsong"
+    },
+    {
+      "input": "Santiana (feat. SKALD)",
+      "fold": "Santiana (feat. SKALD)",
+      "clean": "Santiana (feat. SKALD)",
+      "norm": "santiana"
+    },
+    {
+      "input": "This Is Mongol (Warrior Souls) [feat. William DuVall]",
+      "fold": "This Is Mongol (Warrior Souls) [feat. William DuVall]",
+      "clean": "This Is Mongol (Warrior Souls) [feat. William DuVall]",
+      "norm": "thisismongol"
+    },
+    {
+      "input": "Black Thunder (feat. Serj Tankian and DL of Bad Wolves)",
+      "fold": "Black Thunder (feat. Serj Tankian and DL of Bad Wolves)",
+      "clean": "Black Thunder (feat. Serj Tankian and DL of Bad Wolves)",
+      "norm": "blackthunder"
+    },
+    {
+      "input": "(Fuck The) U.S.A",
+      "fold": "(Fuck The) U.S.A",
+      "clean": "(Fuck The) U.S.A",
+      "norm": "usa"
+    },
+    {
+      "input": "S.M.F",
+      "fold": "S.M.F",
+      "clean": "S.M.F",
+      "norm": "smf"
+    },
+    {
+      "input": "D\u0027yer Mak\u0027er",
+      "fold": "D\u0027yer Mak\u0027er",
+      "clean": "D\u0027yer Mak\u0027er",
+      "norm": "dyermaker"
+    },
+    {
+      "input": "Paint It Black - 2019 Remaster",
+      "fold": "Paint It Black - 2019 Remaster",
+      "clean": "Paint It Black",
+      "norm": "paintitblack"
+    },
+    {
+      "input": "Ace of Spades (Acoustic)",
+      "fold": "Ace of Spades (Acoustic)",
+      "clean": "Ace of Spades (Acoustic)",
+      "norm": "aceofspades"
+    },
+    {
+      "input": "Nellie the Elephant",
+      "fold": "Nellie the Elephant",
+      "clean": "Nellie the Elephant",
+      "norm": "nellietheelephant"
+    },
+    {
+      "input": "O Fortuna",
+      "fold": "O Fortuna",
+      "clean": "O Fortuna",
+      "norm": "ofortuna"
+    },
+    {
+      "input": "Toccata in Dm",
+      "fold": "Toccata in Dm",
+      "clean": "Toccata in Dm",
+      "norm": "toccataindm"
+    },
+    {
+      "input": "1969",
+      "fold": "1969",
+      "clean": "1969",
+      "norm": "1969"
+    },
+    {
+      "input": "Rasputin",
+      "fold": "Rasputin",
+      "clean": "Rasputin",
+      "norm": "rasputin"
+    }
+  ],
+  "altVersions": [
+    {
+      "input": "Ace of Spades (Live)",
+      "alt": true
+    },
+    {
+      "input": "Paranoid - Live",
+      "alt": true
+    },
+    {
+      "input": "War Pigs (Demo)",
+      "alt": true
+    },
+    {
+      "input": "Peace Sells (Instrumental)",
+      "alt": true
+    },
+    {
+      "input": "The Trooper (Karaoke)",
+      "alt": true
+    },
+    {
+      "input": "Smells Like Teen Spirit (Remix)",
+      "alt": true
+    },
+    {
+      "input": "X-Ray Medley",
+      "alt": true
+    },
+    {
+      "input": "Fade to Black (Acoustic)",
+      "alt": false
+    },
+    {
+      "input": "Run to the Hills (Cover)",
+      "alt": true
+    },
+    {
+      "input": "Fear of the Dark (Rehearsal)",
+      "alt": true
+    },
+    {
+      "input": "Live Wire",
+      "alt": false
+    },
+    {
+      "input": "Livin\u0027 on a Prayer",
+      "alt": false
+    }
+  ],
+  "safeNames": [
+    {
+      "input": "AC/DC",
+      "safe": "AC-DC"
+    },
+    {
+      "input": "W.A.S.P.",
+      "safe": "W.A.S.P"
+    },
+    {
+      "input": "Run-D.M.C.",
+      "safe": "Run-D.M.C"
+    },
+    {
+      "input": "Mötley Crüe",
+      "safe": "Mötley Crüe"
+    },
+    {
+      "input": "ZZ Top",
+      "safe": "ZZ Top"
+    },
+    {
+      "input": "R.E.M.",
+      "safe": "R.E.M"
+    },
+    {
+      "input": "Motörhead",
+      "safe": "Motörhead"
+    },
+    {
+      "input": "blink-182",
+      "safe": "blink-182"
+    }
+  ]
+}

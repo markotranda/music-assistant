@@ -1,0 +1,1308 @@
+{
+  "edges": [
+    {
+      "score": 1,
+      "catalog": 1,
+      "quota": 1
+    },
+    {
+      "score": 1,
+      "catalog": 2,
+      "quota": 2
+    },
+    {
+      "score": 1,
+      "catalog": 3,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 4,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 5,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 9,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 16,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 25,
+      "quota": 3
+    },
+    {
+      "score": 1,
+      "catalog": 36,
+      "quota": 4
+    },
+    {
+      "score": 1,
+      "catalog": 49,
+      "quota": 5
+    },
+    {
+      "score": 1,
+      "catalog": 64,
+      "quota": 5
+    },
+    {
+      "score": 1,
+      "catalog": 100,
+      "quota": 6
+    },
+    {
+      "score": 1,
+      "catalog": 121,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 144,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 169,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 174,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 196,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 225,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 256,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 300,
+      "quota": 7
+    },
+    {
+      "score": 1,
+      "catalog": 400,
+      "quota": 7
+    },
+    {
+      "score": 2,
+      "catalog": 1,
+      "quota": 1
+    },
+    {
+      "score": 2,
+      "catalog": 2,
+      "quota": 2
+    },
+    {
+      "score": 2,
+      "catalog": 3,
+      "quota": 3
+    },
+    {
+      "score": 2,
+      "catalog": 4,
+      "quota": 4
+    },
+    {
+      "score": 2,
+      "catalog": 5,
+      "quota": 5
+    },
+    {
+      "score": 2,
+      "catalog": 9,
+      "quota": 5
+    },
+    {
+      "score": 2,
+      "catalog": 16,
+      "quota": 5
+    },
+    {
+      "score": 2,
+      "catalog": 25,
+      "quota": 6
+    },
+    {
+      "score": 2,
+      "catalog": 36,
+      "quota": 7
+    },
+    {
+      "score": 2,
+      "catalog": 49,
+      "quota": 8
+    },
+    {
+      "score": 2,
+      "catalog": 64,
+      "quota": 9
+    },
+    {
+      "score": 2,
+      "catalog": 100,
+      "quota": 12
+    },
+    {
+      "score": 2,
+      "catalog": 121,
+      "quota": 13
+    },
+    {
+      "score": 2,
+      "catalog": 144,
+      "quota": 14
+    },
+    {
+      "score": 2,
+      "catalog": 169,
+      "quota": 15
+    },
+    {
+      "score": 2,
+      "catalog": 174,
+      "quota": 15
+    },
+    {
+      "score": 2,
+      "catalog": 196,
+      "quota": 16
+    },
+    {
+      "score": 2,
+      "catalog": 225,
+      "quota": 17
+    },
+    {
+      "score": 2,
+      "catalog": 256,
+      "quota": 18
+    },
+    {
+      "score": 2,
+      "catalog": 300,
+      "quota": 20
+    },
+    {
+      "score": 2,
+      "catalog": 400,
+      "quota": 20
+    },
+    {
+      "score": 3,
+      "catalog": 1,
+      "quota": 1
+    },
+    {
+      "score": 3,
+      "catalog": 2,
+      "quota": 2
+    },
+    {
+      "score": 3,
+      "catalog": 3,
+      "quota": 3
+    },
+    {
+      "score": 3,
+      "catalog": 4,
+      "quota": 4
+    },
+    {
+      "score": 3,
+      "catalog": 5,
+      "quota": 5
+    },
+    {
+      "score": 3,
+      "catalog": 9,
+      "quota": 8
+    },
+    {
+      "score": 3,
+      "catalog": 16,
+      "quota": 8
+    },
+    {
+      "score": 3,
+      "catalog": 25,
+      "quota": 10
+    },
+    {
+      "score": 3,
+      "catalog": 36,
+      "quota": 12
+    },
+    {
+      "score": 3,
+      "catalog": 49,
+      "quota": 14
+    },
+    {
+      "score": 3,
+      "catalog": 64,
+      "quota": 16
+    },
+    {
+      "score": 3,
+      "catalog": 100,
+      "quota": 20
+    },
+    {
+      "score": 3,
+      "catalog": 121,
+      "quota": 22
+    },
+    {
+      "score": 3,
+      "catalog": 144,
+      "quota": 24
+    },
+    {
+      "score": 3,
+      "catalog": 169,
+      "quota": 26
+    },
+    {
+      "score": 3,
+      "catalog": 174,
+      "quota": 26
+    },
+    {
+      "score": 3,
+      "catalog": 196,
+      "quota": 28
+    },
+    {
+      "score": 3,
+      "catalog": 225,
+      "quota": 30
+    },
+    {
+      "score": 3,
+      "catalog": 256,
+      "quota": 30
+    },
+    {
+      "score": 3,
+      "catalog": 300,
+      "quota": 30
+    },
+    {
+      "score": 3,
+      "catalog": 400,
+      "quota": 30
+    }
+  ],
+  "bands": [
+    {
+      "band": "3 Inches of Blood",
+      "score": 1,
+      "catalog": 69,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "AC+DC",
+      "score": 3,
+      "catalog": 174,
+      "csvQuota": 26,
+      "computedQuota": 26
+    },
+    {
+      "band": "Accept",
+      "score": 2,
+      "catalog": 166,
+      "csvQuota": 15,
+      "computedQuota": 15
+    },
+    {
+      "band": "Aerosmith",
+      "score": 2,
+      "catalog": 155,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Agnostic Front",
+      "score": 2,
+      "catalog": 198,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Alestorm",
+      "score": 3,
+      "catalog": 129,
+      "csvQuota": 23,
+      "computedQuota": 23
+    },
+    {
+      "band": "Anthrax",
+      "score": 2,
+      "catalog": 143,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Bad Religion",
+      "score": 1,
+      "catalog": 240,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Beseech",
+      "score": 1,
+      "catalog": 72,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Billy Idol",
+      "score": 1,
+      "catalog": 87,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Bon Jovi",
+      "score": 1,
+      "catalog": 200,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Booze \u0026 Glory",
+      "score": 1,
+      "catalog": 73,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Brujería",
+      "score": 1,
+      "catalog": 81,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Cage the Elephant",
+      "score": 1,
+      "catalog": 71,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Cavalera Conspiracy",
+      "score": 1,
+      "catalog": 65,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Clawfinger",
+      "score": 2,
+      "catalog": 103,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "Cripper",
+      "score": 1,
+      "catalog": 57,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Danzig",
+      "score": 2,
+      "catalog": 149,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "David Bowie",
+      "score": 1,
+      "catalog": 270,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "David Lee Roth",
+      "score": 1,
+      "catalog": 98,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Dead Kennedys",
+      "score": 3,
+      "catalog": 72,
+      "csvQuota": 17,
+      "computedQuota": 17
+    },
+    {
+      "band": "Deep Purple",
+      "score": 1,
+      "catalog": 180,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Dethklok",
+      "score": 3,
+      "catalog": 55,
+      "csvQuota": 15,
+      "computedQuota": 15
+    },
+    {
+      "band": "Diablo Swing Orchestra",
+      "score": 2,
+      "catalog": 60,
+      "csvQuota": 9,
+      "computedQuota": 9
+    },
+    {
+      "band": "Dio",
+      "score": 3,
+      "catalog": 108,
+      "csvQuota": 21,
+      "computedQuota": 21
+    },
+    {
+      "band": "Dire Straits",
+      "score": 1,
+      "catalog": 45,
+      "csvQuota": 4,
+      "computedQuota": 4
+    },
+    {
+      "band": "Discharger",
+      "score": 3,
+      "catalog": 80,
+      "csvQuota": 18,
+      "computedQuota": 18
+    },
+    {
+      "band": "Disturbed",
+      "score": 2,
+      "catalog": 148,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Djerv",
+      "score": 2,
+      "catalog": 9,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Dropkick Murphys",
+      "score": 2,
+      "catalog": 203,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Eminem",
+      "score": 1,
+      "catalog": 470,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Ensiferum",
+      "score": 1,
+      "catalog": 102,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Eric Clapton",
+      "score": 1,
+      "catalog": 280,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Eurythmics",
+      "score": 1,
+      "catalog": 86,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Evil Conduct",
+      "score": 2,
+      "catalog": 89,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Exodus",
+      "score": 2,
+      "catalog": 144,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "FEUD",
+      "score": 2,
+      "catalog": 10,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Finntroll",
+      "score": 1,
+      "catalog": 87,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Flogging Molly",
+      "score": 1,
+      "catalog": 86,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Ghoultown",
+      "score": 2,
+      "catalog": 98,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Grave Digger",
+      "score": 1,
+      "catalog": 304,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Green Jellÿ",
+      "score": 1,
+      "catalog": 73,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Guns N’ Roses",
+      "score": 2,
+      "catalog": 90,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Hatebreed",
+      "score": 2,
+      "catalog": 140,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Havok",
+      "score": 1,
+      "catalog": 53,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Heart",
+      "score": 1,
+      "catalog": 165,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Helloween",
+      "score": 2,
+      "catalog": 198,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Iggy Pop",
+      "score": 1,
+      "catalog": 276,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Insane Clown Posse",
+      "score": 2,
+      "catalog": 277,
+      "csvQuota": 19,
+      "computedQuota": 19
+    },
+    {
+      "band": "Iron Maiden",
+      "score": 3,
+      "catalog": 167,
+      "csvQuota": 26,
+      "computedQuota": 26
+    },
+    {
+      "band": "Jet",
+      "score": 1,
+      "catalog": 62,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Joan Jett",
+      "score": 1,
+      "catalog": 25,
+      "csvQuota": 3,
+      "computedQuota": 3
+    },
+    {
+      "band": "Jorgovani",
+      "score": 3,
+      "catalog": 27,
+      "csvQuota": 10,
+      "computedQuota": 10
+    },
+    {
+      "band": "Judas Priest",
+      "score": 3,
+      "catalog": 176,
+      "csvQuota": 27,
+      "computedQuota": 27
+    },
+    {
+      "band": "Kaiser Chiefs",
+      "score": 1,
+      "catalog": 91,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "KISS",
+      "score": 2,
+      "catalog": 210,
+      "csvQuota": 17,
+      "computedQuota": 17
+    },
+    {
+      "band": "Korpiklaani",
+      "score": 3,
+      "catalog": 147,
+      "csvQuota": 24,
+      "computedQuota": 24
+    },
+    {
+      "band": "Kreator",
+      "score": 3,
+      "catalog": 170,
+      "csvQuota": 26,
+      "computedQuota": 26
+    },
+    {
+      "band": "KUD Idijoti",
+      "score": 2,
+      "catalog": 124,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "Laibach",
+      "score": 1,
+      "catalog": 192,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Led Zeppelin",
+      "score": 1,
+      "catalog": 151,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Limp Bizkit",
+      "score": 2,
+      "catalog": 86,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Lindemann",
+      "score": 2,
+      "catalog": 24,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Lordi",
+      "score": 2,
+      "catalog": 188,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Lynyrd Skynyrd",
+      "score": 1,
+      "catalog": 141,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Machine Head",
+      "score": 2,
+      "catalog": 139,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Madball",
+      "score": 2,
+      "catalog": 143,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Manowar",
+      "score": 3,
+      "catalog": 107,
+      "csvQuota": 21,
+      "computedQuota": 21
+    },
+    {
+      "band": "Marilyn Manson",
+      "score": 3,
+      "catalog": 210,
+      "csvQuota": 29,
+      "computedQuota": 29
+    },
+    {
+      "band": "Megadeth",
+      "score": 3,
+      "catalog": 150,
+      "csvQuota": 24,
+      "computedQuota": 24
+    },
+    {
+      "band": "Metallica",
+      "score": 3,
+      "catalog": 95,
+      "csvQuota": 19,
+      "computedQuota": 19
+    },
+    {
+      "band": "Misfits",
+      "score": 2,
+      "catalog": 129,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "Mortal Kombat",
+      "score": 3,
+      "catalog": 63,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Mötley Crüe",
+      "score": 2,
+      "catalog": 105,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "Motörhead",
+      "score": 3,
+      "catalog": 227,
+      "csvQuota": 30,
+      "computedQuota": 30
+    },
+    {
+      "band": "Nick Cave \u0026 the Bad Seeds",
+      "score": 1,
+      "catalog": 193,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Nightwish",
+      "score": 2,
+      "catalog": 108,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "Nuclear Assault",
+      "score": 1,
+      "catalog": 66,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Overkill",
+      "score": 1,
+      "catalog": 205,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Ozzy Osbourne",
+      "score": 2,
+      "catalog": 168,
+      "csvQuota": 15,
+      "computedQuota": 15
+    },
+    {
+      "band": "Pantera",
+      "score": 3,
+      "catalog": 197,
+      "csvQuota": 28,
+      "computedQuota": 28
+    },
+    {
+      "band": "Pink Floyd",
+      "score": 1,
+      "catalog": 104,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Primus",
+      "score": 2,
+      "catalog": 123,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "Rage Against the Machine",
+      "score": 2,
+      "catalog": 48,
+      "csvQuota": 8,
+      "computedQuota": 8
+    },
+    {
+      "band": "Ram Jam",
+      "score": 1,
+      "catalog": 36,
+      "csvQuota": 4,
+      "computedQuota": 4
+    },
+    {
+      "band": "Rammstein",
+      "score": 3,
+      "catalog": 102,
+      "csvQuota": 20,
+      "computedQuota": 20
+    },
+    {
+      "band": "Ramones",
+      "score": 2,
+      "catalog": 177,
+      "csvQuota": 15,
+      "computedQuota": 15
+    },
+    {
+      "band": "Rancid",
+      "score": 2,
+      "catalog": 208,
+      "csvQuota": 17,
+      "computedQuota": 17
+    },
+    {
+      "band": "Rob Zombie",
+      "score": 2,
+      "catalog": 99,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Rumahoy",
+      "score": 1,
+      "catalog": 22,
+      "csvQuota": 3,
+      "computedQuota": 3
+    },
+    {
+      "band": "Run‐D.M.C",
+      "score": 1,
+      "catalog": 99,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Russkaja",
+      "score": 1,
+      "catalog": 86,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "Sabaton",
+      "score": 3,
+      "catalog": 168,
+      "csvQuota": 26,
+      "computedQuota": 26
+    },
+    {
+      "band": "Sacred Reich",
+      "score": 2,
+      "catalog": 48,
+      "csvQuota": 8,
+      "computedQuota": 8
+    },
+    {
+      "band": "Saxon",
+      "score": 2,
+      "catalog": 234,
+      "csvQuota": 18,
+      "computedQuota": 18
+    },
+    {
+      "band": "Scorpions",
+      "score": 1,
+      "catalog": 177,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Screamin’ Jay Hawkins",
+      "score": 1,
+      "catalog": 273,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Sepultura",
+      "score": 2,
+      "catalog": 152,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "Sex Pistols",
+      "score": 1,
+      "catalog": 45,
+      "csvQuota": 4,
+      "computedQuota": 4
+    },
+    {
+      "band": "Slayer",
+      "score": 3,
+      "catalog": 135,
+      "csvQuota": 23,
+      "computedQuota": 23
+    },
+    {
+      "band": "Slipknot",
+      "score": 2,
+      "catalog": 103,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "Sodom",
+      "score": 2,
+      "catalog": 212,
+      "csvQuota": 17,
+      "computedQuota": 17
+    },
+    {
+      "band": "Soulfly",
+      "score": 2,
+      "catalog": 227,
+      "csvQuota": 17,
+      "computedQuota": 17
+    },
+    {
+      "band": "Talking Heads",
+      "score": 1,
+      "catalog": 110,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Tankard",
+      "score": 3,
+      "catalog": 213,
+      "csvQuota": 29,
+      "computedQuota": 29
+    },
+    {
+      "band": "Tardigrade Inferno",
+      "score": 3,
+      "catalog": 35,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "Terror",
+      "score": 2,
+      "catalog": 135,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "Testament",
+      "score": 1,
+      "catalog": 150,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Animals",
+      "score": 1,
+      "catalog": 123,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Casualties",
+      "score": 3,
+      "catalog": 185,
+      "csvQuota": 27,
+      "computedQuota": 27
+    },
+    {
+      "band": "The Clash",
+      "score": 2,
+      "catalog": 131,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "The Cramps",
+      "score": 2,
+      "catalog": 120,
+      "csvQuota": 13,
+      "computedQuota": 13
+    },
+    {
+      "band": "The Dead South",
+      "score": 1,
+      "catalog": 52,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "The Dread Crew of Oddwood",
+      "score": 2,
+      "catalog": 63,
+      "csvQuota": 9,
+      "computedQuota": 9
+    },
+    {
+      "band": "The Dreadnoughts",
+      "score": 2,
+      "catalog": 95,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "The Exploited",
+      "score": 2,
+      "catalog": 118,
+      "csvQuota": 12,
+      "computedQuota": 12
+    },
+    {
+      "band": "The Fratellis",
+      "score": 1,
+      "catalog": 90,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "The HU",
+      "score": 2,
+      "catalog": 32,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Kinks",
+      "score": 2,
+      "catalog": 311,
+      "csvQuota": 20,
+      "computedQuota": 20
+    },
+    {
+      "band": "The Knack",
+      "score": 2,
+      "catalog": 78,
+      "csvQuota": 10,
+      "computedQuota": 10
+    },
+    {
+      "band": "The Longest Johns",
+      "score": 2,
+      "catalog": 141,
+      "csvQuota": 14,
+      "computedQuota": 14
+    },
+    {
+      "band": "The Offspring",
+      "score": 1,
+      "catalog": 154,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Real McKenzies",
+      "score": 1,
+      "catalog": 157,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Rolling Stones",
+      "score": 2,
+      "catalog": 336,
+      "csvQuota": 20,
+      "computedQuota": 20
+    },
+    {
+      "band": "The Rumjacks",
+      "score": 1,
+      "catalog": 79,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "The Sisters of Mercy",
+      "score": 2,
+      "catalog": 23,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "The Stooges",
+      "score": 1,
+      "catalog": 57,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "The Stranglers",
+      "score": 1,
+      "catalog": 255,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "The Toy Dolls",
+      "score": 3,
+      "catalog": 228,
+      "csvQuota": 30,
+      "computedQuota": 30
+    },
+    {
+      "band": "Therion",
+      "score": 2,
+      "catalog": 202,
+      "csvQuota": 16,
+      "computedQuota": 16
+    },
+    {
+      "band": "Tim Steinfort",
+      "score": 2,
+      "catalog": 35,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Tom Waits",
+      "score": 1,
+      "catalog": 339,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "Turisas",
+      "score": 1,
+      "catalog": 51,
+      "csvQuota": 5,
+      "computedQuota": 5
+    },
+    {
+      "band": "Twisted Sister",
+      "score": 2,
+      "catalog": 82,
+      "csvQuota": 10,
+      "computedQuota": 10
+    },
+    {
+      "band": "Type O Negative",
+      "score": 2,
+      "catalog": 93,
+      "csvQuota": 11,
+      "computedQuota": 11
+    },
+    {
+      "band": "Van Halen",
+      "score": 1,
+      "catalog": 138,
+      "csvQuota": 7,
+      "computedQuota": 7
+    },
+    {
+      "band": "W.A.S.P",
+      "score": 2,
+      "catalog": 166,
+      "csvQuota": 15,
+      "computedQuota": 15
+    },
+    {
+      "band": "Wind Rose",
+      "score": 2,
+      "catalog": 69,
+      "csvQuota": 10,
+      "computedQuota": 10
+    },
+    {
+      "band": "Ye Banished Privateers",
+      "score": 2,
+      "catalog": 70,
+      "csvQuota": 10,
+      "computedQuota": 10
+    },
+    {
+      "band": "Zbogom Brus Li",
+      "score": 1,
+      "catalog": 96,
+      "csvQuota": 6,
+      "computedQuota": 6
+    },
+    {
+      "band": "ZZ Top",
+      "score": 2,
+      "catalog": 193,
+      "csvQuota": 16,
+      "computedQuota": 16
+    }
+  ]
+}

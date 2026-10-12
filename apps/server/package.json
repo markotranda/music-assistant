@@ -14,11 +14,13 @@
     "@hono/node-server": "^2.1.4",
     "@hono/zod-openapi": "^1.6.3",
     "@ma/core": "workspace:*",
+    "drizzle-orm": "1.0.0-rc.4",
     "hono": "^4.13.13",
     "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "drizzle-kit": "1.0.0-rc.4",
     "esbuild": "^0.28.2",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"

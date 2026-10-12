@@ -33,6 +33,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=build /app/apps/server/dist/server.js ./server.js
+COPY --from=build /app/apps/server/drizzle ./drizzle
 COPY --from=build /app/apps/web/dist ./web
 
 RUN useradd --system --uid 1001 --create-home ma \
