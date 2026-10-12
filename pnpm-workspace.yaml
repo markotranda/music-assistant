@@ -1,0 +1,17 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Packages newer than the minimum release age are held back unless excluded
+# (pnpm 12 supply-chain policy; exclusions added automatically during resolution).
+minimumReleaseAgeExclude:
+  - "@tanstack/query-core@5.104.2"
+  - "@tanstack/react-query@5.104.2"
+  - "@vitest/mocker@5.0.4"
+  - "@vitest/spy@5.0.4"
+  - vitest@5.0.4
+  - zod@4.6.6
+
+# Postinstall scripts are denied by default; allowlist trusted ones here.
+allowBuilds:
+  esbuild: true

@@ -1,0 +1,27 @@
+{
+  "name": "music-assistant",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted music assistant that follows trends and doesn't overload your library",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @ma/server --filter @ma/web dev",
+    "build": "pnpm -r build",
+    "build:libs": "pnpm --filter @ma/core --filter @ma/integrations build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm run build:libs && vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "format": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/node": "^24.0.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.4"
+  }
+}

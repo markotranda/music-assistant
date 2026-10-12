@@ -1,0 +1,26 @@
+{
+  "name": "@ma/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Music Assistant API server",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json --noEmit && esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --outfile=dist/server.js",
+    "start": "node dist/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.4",
+    "@hono/zod-openapi": "^1.6.3",
+    "@ma/core": "workspace:*",
+    "hono": "^4.13.13",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}
