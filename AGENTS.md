@@ -76,17 +76,19 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 6 (anti-overload policy engine) complete: pure policy core in @ma/core (gate
-evaluation with typed reasons, soft genre penalty, budget verdicts with a soft monthly
-target, decay proposals, rotation ranks with own-play weighting, policy simulator),
-artist_tags cache + genre shares, hard track/size budgets enforced at download enqueue
-(acquisition_blocked events), taste-fit threshold + band cap gates at candidate creation
-(candidate_gated events), approval modes (manual/hybrid/auto — auto-approved related
-artists land at score 1), weekly prune_scan (scrobble->play matching, prune report event,
-auto-retire toggle via reversible _retired) and rotation_scan (rank blend re-plan with
-two-phase renames), /api/policy + /policy UI (budget meters, genre shares, prune report,
-simulator), CLI ma policy/prune/simulate. Browser-verified live: simulator projected
-"score 1→3 ⇒ quota 7→23" and applying it produced exactly quota 23 / plan 23.
-Next: Phase 7 — legacy bands.csv/plan.csv migration (first-run wizard / ma migrate),
-API polish (/llms.txt), release (GitHub push + archive original repo).
-Before starting a phase, its plan is presented to the owner for approval.
+Phase 7 (migration, docs, release) complete: pure legacy parsers in @ma/core
+(csvRows, recoverText mojibake repair, parseBandsCsv/parsePlanCsv, mapLegacyStatus
+— disk wins over stale statuses, quotaChecksum cross-check vs the legacy Quota
+column, matchFiles + normFromFileName), services/migrate.ts one-shot import
+(idempotent, read-only on the collection, acquiredAt from file mtime, unmatched
+rows/files reported — never guessed), migrate job + POST /api/migrate +
+GET /api/migrate/report, first-run wizard on the empty dashboard,
+/llms.txt + /llms-full.txt from the live OpenAPI doc (pnpm llms snapshot in docs/),
+ma migrate / ma api CLI, MIT license, self-hosting README. Live acceptance on the
+REAL legacy state: 141 bands + 1673 plan rows (1672 owned / 1 planned — the file
+gap located at Dead Kennedys), 0 quota mismatches across all 141 bands, 0
+unmatched files. Released: github.com/markotranda/music-assistant (public) with
+tag v1.0.0 -> GHCR image; legacy markotranda/music-collection archived.
+All planned phases (0-7) are complete. Possible follow-ups: rank-prefix re-sync
+caveats for imported plans, streaming service? No — roadmap is done; new work
+starts with a fresh plan presented to the owner for approval.
