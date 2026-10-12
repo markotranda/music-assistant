@@ -7,6 +7,7 @@ import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
+import { Meter } from "../../components/ui/meter";
 import { Select } from "../../components/ui/select";
 import { ApiRequestError, api, apiPost } from "../../lib/api";
 import type { Artist, PolicyState, PruneReportView, SimulationView } from "../../lib/types";
@@ -16,35 +17,6 @@ import type { Artist, PolicyState, PruneReportView, SimulationView } from "../..
  * prune report (retire is reversible), and the simulator — "what would change
  * if I set score 3 on X / lower the budget?".
  */
-
-function Meter({
-  label,
-  value,
-  max,
-  unit,
-}: {
-  label: string;
-  value: number;
-  max: number;
-  unit: string;
-}) {
-  const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
-  return (
-    <div className="flex items-center gap-2 text-sm">
-      <span className="w-28 text-muted-foreground">{label}</span>
-      <span className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
-        <span
-          className={`block h-full rounded-full ${pct >= 100 ? "bg-destructive" : "bg-primary"}`}
-          style={{ width: `${pct}%` }}
-        />
-      </span>
-      <span className="w-28 text-right text-xs text-muted-foreground">
-        {unit === "GB" ? `${(value / 1024 ** 3).toFixed(1)}` : value.toLocaleString()}/
-        {unit === "GB" ? max : max.toLocaleString()} {unit}
-      </span>
-    </div>
-  );
-}
 
 export function PolicyPage() {
   const queryClient = useQueryClient();
@@ -133,16 +105,28 @@ export function PolicyPage() {
             <>
               <Meter
                 label="Library"
-                value={budget.ownedTracks}
-                max={policy.maxTotalTracks}
-                unit="tracks"
+                valueText={`${budget.ownedTracks.toLocaleString()} / ${policy.maxTotalTracks.toLocaleString()} tracks`}
+                percent={
+                  policy.maxTotalTracks > 0 ? (budget.ownedTracks / policy.maxTotalTracks) * 100 : 0
+                }
               />
-              <Meter label="Size" value={budget.bytesUsed} max={policy.maxTotalGb} unit="GB" />
+              <Meter
+                label="Size"
+                valueText={`${(budget.bytesUsed / 1024 ** 3).toFixed(1)} / ${policy.maxTotalGb} GB`}
+                percent={
+                  policy.maxTotalGb > 0
+                    ? (budget.bytesUsed / (policy.maxTotalGb * 1024 ** 3)) * 100
+                    : 0
+                }
+              />
               <Meter
                 label="This month"
-                value={budget.acquiredThisMonth}
-                max={budget.monthlyBudgetTracks}
-                unit="tracks"
+                valueText={`${budget.acquiredThisMonth} / ${budget.monthlyBudgetTracks} tracks`}
+                percent={
+                  budget.monthlyBudgetTracks > 0
+                    ? (budget.acquiredThisMonth / budget.monthlyBudgetTracks) * 100
+                    : 0
+                }
               />
               <p className="text-xs text-muted-foreground">
                 Monthly target is soft (overflow allowed) —
@@ -209,7 +193,9 @@ export function PolicyPage() {
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle>
             Prune report{" "}
-            <span className="font-normal text-muted-foreground">{report.data?.summary ?? ""}</span>
+            {(report.data?.proposals.length ?? 0) > 0 ? (
+              <span className="font-normal text-muted-foreground">{report.data?.summary}</span>
+            ) : null}
           </CardTitle>
           <Button
             variant="outline"

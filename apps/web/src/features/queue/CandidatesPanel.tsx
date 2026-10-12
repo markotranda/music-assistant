@@ -73,11 +73,7 @@ function CandidateRow({ candidate }: { candidate: Candidate }) {
       {candidate.payload.why && candidate.payload.why.length > 0 ? (
         <div className="flex flex-wrap gap-1">
           {candidate.payload.why.map((part) => (
-            <span
-              key={part.label}
-              className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground"
-              title={`${part.points} of ${part.max} points`}
-            >
+            <span key={part.label} className="chip" title={`${part.points} of ${part.max} points`}>
               {part.label} · {part.points}/{part.max}
             </span>
           ))}

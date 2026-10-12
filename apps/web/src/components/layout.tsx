@@ -73,19 +73,23 @@ export function Layout() {
     <div className="flex min-h-screen">
       <aside className="flex w-52 flex-col gap-1 border-r border-border bg-card p-3">
         <div className="mb-4 flex items-center gap-2 px-2 py-1">
-          <Disc3 className="h-5 w-5 text-foreground" />
-          <span className="text-sm font-semibold">Music Assistant</span>
+          <span className="icon-tile">
+            <Disc3 className="h-4 w-4" />
+          </span>
+          <span className="text-sm font-semibold tracking-wide text-foreground">
+            Music Assistant
+          </span>
         </div>
         {NAV.map(({ to, label, icon: Icon }) => (
           <Link
             key={to}
             to={to}
             className={cn(
-              "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground",
-              pathname === to && "bg-secondary text-foreground",
+              "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+              pathname === to && "bg-accent font-medium text-accent-foreground",
             )}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className={cn("h-4 w-4", pathname === to && "text-primary")} />
             {label}
           </Link>
         ))}

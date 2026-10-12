@@ -5,25 +5,20 @@ import { useState } from "react";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Meter } from "../../components/ui/meter";
 import { api, apiPost } from "../../lib/api";
 import type { Dashboard, VerifyReport } from "../../lib/types";
 import { formatBytes } from "../../lib/utils";
 import { FirstRunCard } from "../first-run/FirstRunCard";
 
 function BudgetBar({ used, max, unit }: { used: number; max: number; unit: string }) {
-  const pct = max > 0 ? Math.min(100, Math.round((used / max) * 100)) : 0;
+  const pct = max > 0 ? Math.round((used / max) * 100) : 0;
   return (
-    <div className="flex flex-col gap-1">
-      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-        <div
-          className={`h-full rounded-full ${pct >= 90 ? "bg-destructive" : "bg-primary"}`}
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-      <p className="text-xs text-muted-foreground">
-        {unit}: {used.toLocaleString()} / {max.toLocaleString()} ({pct}%)
-      </p>
-    </div>
+    <Meter
+      label={unit}
+      valueText={`${used.toLocaleString()} / ${max.toLocaleString()} (${pct}%)`}
+      percent={max > 0 ? (used / max) * 100 : 0}
+    />
   );
 }
 
@@ -42,7 +37,10 @@ function StatCard({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-muted-foreground">
-          <Icon className="h-4 w-4" /> {title}
+          <span className="icon-tile">
+            <Icon className="h-3.5 w-3.5" />
+          </span>
+          {title}
         </CardTitle>
       </CardHeader>
       <CardContent>

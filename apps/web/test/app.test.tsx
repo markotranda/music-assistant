@@ -83,8 +83,9 @@ describe("dashboard", () => {
     await screen.findByText("Dashboard");
     await screen.findByText("Bands");
     await screen.findByText("42 planned · 40 owned");
-    // Budget bar line for tracks (locale-proof about the thousands separator).
-    await screen.findByText(/tracks: 40 \//);
+    // Budget bar for tracks: label on the left, "40 / 5,000 (0%)" on the right
+    // (locale-proof about the thousands separator).
+    await screen.findByText(/40 \//);
     // Recent event renders its kind + payload title.
     await screen.findByText("track_acquired");
     await screen.findByText("Overcome");

@@ -1,24 +1,82 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Record green — dark-only theme. Every color lives here as a token so
+   the identity can be retuned (or a light theme added) in one place.
+   ------------------------------------------------------------------ */
 @theme {
-  --color-background: #09090b;
-  --color-foreground: #fafafa;
-  --color-card: #131316;
-  --color-card-foreground: #fafafa;
-  --color-primary: #fafafa;
-  --color-primary-foreground: #18181b;
-  --color-secondary: #27272a;
-  --color-secondary-foreground: #fafafa;
-  --color-muted: #1c1c20;
-  --color-muted-foreground: #a1a1aa;
-  --color-accent: #27272a;
-  --color-accent-foreground: #fafafa;
-  --color-destructive: #ef4444;
-  --color-destructive-foreground: #fafafa;
+  /* Surfaces: deep neutral base with green-tinted elevation. */
+  --color-background: #0b0d0e;
+  --color-foreground: #f2f4f3;
+  --color-card: #141719;
+  --color-card-foreground: #f2f4f3;
+  --color-secondary: #1c2124;
+  --color-secondary-foreground: #e6e9e8;
+  --color-muted: #171b1d;
+  --color-muted-foreground: #97a19e;
+
+  /* Record green identity. */
+  --color-primary: #22c55e;
+  --color-primary-foreground: #05130a;
+  --color-accent: #17281d;
+  --color-accent-foreground: #7ee2a8;
+  --color-chip: #1b2a21;
+  --color-chip-foreground: #6ee7a5;
+  --color-ring: #34d399;
+
+  /* Status. */
+  --color-destructive: #f87171;
+  --color-destructive-foreground: #1a0808;
   --color-success: #4ade80;
   --color-warning: #fbbf24;
-  --color-border: #27272a;
-  --color-input: #27272a;
-  --color-ring: #52525b;
+
+  /* Structure. */
+  --color-border: #262c2e;
+  --color-input: #22282b;
+  --color-meter-track: #242b2d;
   --radius: 0.5rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    scrollbar-color: var(--color-input) var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  }
+
+  /* Identity mark: every page title gets a green underline stub. */
+  main h1 {
+    padding-bottom: 0.4rem;
+    background-image: linear-gradient(
+      90deg,
+      var(--color-primary),
+      var(--color-primary) 2.25rem,
+      var(--color-border) 2.25rem
+    );
+    background-size: 100% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+  }
+}
+
+@layer components {
+  /* Small green-tinted chip for reasons/tags. */
+  .chip {
+    @apply inline-flex items-center rounded-full bg-chip px-2 py-0.5 text-xs text-chip-foreground;
+  }
+
+  /* Icon tile for card headers. */
+  .icon-tile {
+    @apply flex h-6 w-6 items-center justify-center rounded-md bg-chip text-chip-foreground;
+  }
 }
