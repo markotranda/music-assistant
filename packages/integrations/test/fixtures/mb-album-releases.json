@@ -1,0 +1,114 @@
+{
+  "releases": [
+    {
+      "disambiguation": "",
+      "country": "US",
+      "status": "Official",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "id": "226889b2-ee17-4609-b238-116ebdf29062",
+      "date": "2010-09-14",
+      "release-events": [
+        {
+          "area": {
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "name": "United States",
+            "disambiguation": "",
+            "iso-3166-1-codes": ["US"],
+            "type": null,
+            "sort-name": "United States",
+            "type-id": null
+          },
+          "date": "2010-09-14"
+        }
+      ],
+      "quality": "normal",
+      "barcode": null,
+      "packaging": "None",
+      "asin": "B0041GZEFU",
+      "cover-art-archive": {
+        "count": 0,
+        "back": false,
+        "front": false,
+        "artwork": false,
+        "darkened": false
+      },
+      "title": "Keepers of the Faith"
+    },
+    {
+      "country": "RU",
+      "disambiguation": "",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "packaging-id": null,
+      "status": "Official",
+      "date": "2010-11-10",
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "name": "Russia",
+            "id": "1f1fc3a4-9500-39b8-9f10-f0a465557eef",
+            "sort-name": "Russia",
+            "iso-3166-1-codes": ["RU"],
+            "type": null,
+            "type-id": null
+          },
+          "date": "2010-11-10"
+        }
+      ],
+      "id": "3e7f84a1-9f29-4a91-826c-50b7ad34f23d",
+      "title": "Keepers of the Faith",
+      "cover-art-archive": {
+        "count": 1,
+        "back": false,
+        "front": true,
+        "artwork": true,
+        "darkened": false
+      },
+      "asin": null,
+      "barcode": null,
+      "packaging": null,
+      "quality": "normal"
+    },
+    {
+      "status": "Official",
+      "packaging-id": "8f931351-d2e2-310f-afc6-37b89ddba246",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": "",
+      "country": "US",
+      "quality": "normal",
+      "packaging": "Digipak",
+      "barcode": "5051099798687",
+      "asin": null,
+      "cover-art-archive": {
+        "darkened": false,
+        "artwork": true,
+        "front": true,
+        "count": 1,
+        "back": false
+      },
+      "title": "Keepers of the Faith",
+      "id": "947b9b5d-5367-4d79-9535-985123a137b7",
+      "date": "2010",
+      "release-events": [
+        {
+          "date": "2010",
+          "area": {
+            "disambiguation": "",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "name": "United States",
+            "type-id": null,
+            "type": null,
+            "iso-3166-1-codes": ["US"],
+            "sort-name": "United States"
+          }
+        }
+      ]
+    }
+  ],
+  "release-offset": 0,
+  "release-count": 3
+}

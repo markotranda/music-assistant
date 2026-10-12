@@ -1,0 +1,209 @@
+{
+  "created": "2026-10-12T11:41:31.711Z",
+  "count": 7,
+  "offset": 0,
+  "artists": [
+    {
+      "id": "6ee1ab2b-885c-4c91-b9a5-46b3f6769812",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 100,
+      "name": "Turboneger",
+      "sort-name": "Turboneger",
+      "country": "NO",
+      "area": {
+        "id": "6743d351-6f37-3049-9724-5041161fff4d",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "Norway",
+        "sort-name": "Norway",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "f80d529e-f242-46ef-a090-d193ed23075f",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "Oslo",
+        "sort-name": "Oslo",
+        "life-span": { "begin": "1925-01-01", "ended": null }
+      },
+      "disambiguation": "Norwegian metal group, known internationally as Turbonegro",
+      "isnis": ["0000000106743575", "0000000481192162"],
+      "life-span": { "begin": "1988", "ended": null },
+      "aliases": [
+        {
+          "sort-name": "Turbo neger",
+          "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+          "name": "Turbo neger",
+          "locale": null,
+          "type": "Search hint",
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turböneger",
+          "name": "Turböneger",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turboneger",
+          "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+          "name": "Turboneger",
+          "locale": null,
+          "type": "Artist name",
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turbonegra",
+          "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+          "name": "Turbonegra",
+          "locale": null,
+          "type": "Search hint",
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "TRBNGR",
+          "name": "TRBNGR",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turbonegre",
+          "name": "Turbonegre",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turbo negro",
+          "type-id": "1937e404-b981-3cb7-8151-4c86ebfc8d8e",
+          "name": "Turbo negro",
+          "locale": null,
+          "type": "Search hint",
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turbonegro",
+          "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+          "name": "Turbonegro",
+          "locale": "de",
+          "type": "Artist name",
+          "primary": true,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Turbonegro",
+          "type-id": "894afba6-2816-3c24-8072-eadb66bd04bc",
+          "name": "Turbonegro",
+          "locale": "en",
+          "type": "Artist name",
+          "primary": true,
+          "begin-date": null,
+          "end-date": null
+        }
+      ],
+      "tags": [
+        { "count": 1, "name": "norwegian" },
+        { "count": 1, "name": "punk" },
+        { "count": 2, "name": "punk rock" },
+        { "count": 2, "name": "hard rock" },
+        { "count": 3, "name": "garage punk" },
+        { "count": 2, "name": "hardcore punk" },
+        { "count": -2, "name": "norway" },
+        { "count": 2, "name": "noise rock" },
+        { "count": -1, "name": "norsk" },
+        { "count": 2, "name": "glam punk" },
+        { "count": -1, "name": "punk-rock" },
+        { "count": -1, "name": "deathpunk" },
+        { "count": 0, "name": "punk 'n' roll" },
+        { "count": 0, "name": "norwegian rock" },
+        { "count": 0, "name": "norwegian punk rock" },
+        { "count": -1, "name": "seen live - iiih" }
+      ]
+    },
+    {
+      "id": "09031d20-152e-46d8-90ab-d25b8982dfa1",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 57,
+      "name": "Tullbronegro",
+      "sort-name": "Tullbronegro",
+      "area": {
+        "id": "a8f7dfa9-43b7-4aed-8a9f-8bc40aa32b42",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "Falkenberg",
+        "sort-name": "Falkenberg",
+        "life-span": { "ended": null }
+      },
+      "disambiguation": "Turbonegro tribute",
+      "life-span": { "ended": null }
+    },
+    {
+      "id": "c5d96826-f0b8-4e6f-b7a7-0eca397c4e9f",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 54,
+      "name": "Turbomongo",
+      "sort-name": "Turbomongo",
+      "area": {
+        "id": "946dee46-7eeb-490d-8b94-1ca5286769e9",
+        "type": "Subdivision",
+        "type-id": "fd3d44c5-80a1-3842-9745-2c4972d35afa",
+        "name": "Bayern",
+        "sort-name": "Bayern",
+        "life-span": { "ended": null }
+      },
+      "disambiguation": "Turbonegro Cover Band",
+      "life-span": { "ended": null }
+    },
+    {
+      "id": "21157d01-75d5-4f66-90fb-79f55bc51513",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 47,
+      "name": "Ass Cobra",
+      "sort-name": "Ass Cobra",
+      "disambiguation": "Turbonegro cover band from Austria (or Germany?)",
+      "life-span": { "ended": null }
+    },
+    {
+      "id": "87128829-7b4d-4974-b15f-17887222c943",
+      "type": "Person",
+      "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+      "score": 47,
+      "gender-id": "36d3d30a-839d-3eda-8cb3-29be4384e4a9",
+      "name": "Tony Sylvester",
+      "sort-name": "Sylvester, Tony",
+      "gender": "male",
+      "country": "GB",
+      "area": {
+        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "United Kingdom",
+        "sort-name": "United Kingdom",
+        "life-span": { "ended": null }
+      },
+      "disambiguation": "English singer (Turbonegro, The Dukes of Nothing)",
+      "life-span": { "ended": null }
+    }
+  ]
+}

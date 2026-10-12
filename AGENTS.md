@@ -76,8 +76,10 @@ collection/         Managed music library (gitignored, Docker volume)
 
 ## Current phase
 
-Phase 1 (core domain + storage) complete: `packages/core` (quota, text pipeline,
-selection, diff engine) with 280+ legacy-parity tests, SQLite schema + migrations +
-settings seeding (API keys configurable in Settings, env only as initial values).
-Next: Phase 2 — MusicBrainz/Last.fm integrations + band tracking flows.
+Phase 2 (integrations + band tracking) complete: MusicBrainz (paginated, rate-limited),
+Last.fm, Deezer + collection-fs adapters with recorded-fixture contract tests; band
+track/untrack/score/sync + pin-track/pin-album service, contract-first API under
+`/api/artists`, and `ma` CLI commands. Live-verified against real APIs (legacy parity:
+Terror -> catalog 135, quota 13, same 13-track plan).
+Next: Phase 3 - acquisition pipeline (yt-dlp job worker, retagging, deep verify).
 Before starting a phase, its plan is presented to the owner for approval.

@@ -1,0 +1,232 @@
+{
+  "created": "2026-10-12T11:41:15.974Z",
+  "count": 536,
+  "offset": 0,
+  "artists": [
+    {
+      "id": "697eba1a-bf52-46b1-a19f-4d7190b63e5c",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 100,
+      "name": "Terror",
+      "sort-name": "Terror",
+      "country": "US",
+      "area": {
+        "id": "489ce91b-6658-3307-9877-795b68554c98",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "United States",
+        "sort-name": "United States",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "1f40c6e1-47ba-4e35-996f-fe6ee5840e62",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "Los Angeles",
+        "sort-name": "Los Angeles",
+        "life-span": { "ended": null }
+      },
+      "disambiguation": "USA hardcore punk band",
+      "life-span": { "begin": "2002-02", "ended": null },
+      "tags": [
+        { "count": 4, "name": "hardcore" },
+        { "count": 0, "name": "punk" },
+        { "count": 0, "name": "metalcore" },
+        { "count": 0, "name": "american" },
+        { "count": 6, "name": "hardcore punk" },
+        { "count": 1, "name": "rebellion" },
+        { "count": 3, "name": "beatdown hardcore" },
+        { "count": 1, "name": "anger" },
+        { "count": 1, "name": "angst" },
+        { "count": 1, "name": "street life" },
+        { "count": 2, "name": "tough guy hardcore" },
+        { "count": 0, "name": "thrash metal/crossover" }
+      ]
+    },
+    {
+      "id": "bf4143da-9b14-4ae8-8787-2a1dfe610a76",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 93,
+      "name": "Rotterdam Terror Corps",
+      "sort-name": "Rotterdam Terror Corps",
+      "country": "NL",
+      "area": {
+        "id": "ef1b7cc0-cd26-36f4-8ea0-04d9623786c7",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "Netherlands",
+        "sort-name": "Netherlands",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "755982fa-fbbe-4049-9939-ecfd7fda430b",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "Rotterdam",
+        "sort-name": "Rotterdam",
+        "life-span": { "ended": null }
+      },
+      "isnis": ["0000000102024178"],
+      "life-span": { "begin": "1993", "ended": null },
+      "aliases": [
+        {
+          "sort-name": "R.T.C",
+          "name": "R.T.C",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "RTC",
+          "name": "RTC",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        }
+      ],
+      "tags": [
+        { "count": 1, "name": "electronic" },
+        { "count": 1, "name": "hardcore" },
+        { "count": 1, "name": "dutch" },
+        { "count": 4, "name": "gabber" }
+      ]
+    },
+    {
+      "id": "22257e35-b26d-4555-927e-e56a2ccdbde9",
+      "type": "Person",
+      "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+      "score": 89,
+      "gender-id": "36d3d30a-839d-3eda-8cb3-29be4384e4a9",
+      "name": "Terror Danjah",
+      "sort-name": "Terror Danjah",
+      "gender": "male",
+      "country": "GB",
+      "area": {
+        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "United Kingdom",
+        "sort-name": "United Kingdom",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "4b7fa5cb-f825-4a8c-96f6-39d9c2d1de12",
+        "type": "District",
+        "type-id": "84039871-5e47-38ca-a66a-45e512c8290f",
+        "name": "Forest Gate",
+        "sort-name": "Forest Gate",
+        "life-span": { "ended": null }
+      },
+      "ipis": ["00703155676", "00703155774"],
+      "isnis": ["0000000472170869"],
+      "life-span": { "end": "2025-02-11", "ended": true },
+      "aliases": [
+        {
+          "sort-name": "Pryce, Rodney",
+          "type-id": "d4dcd0c0-b341-3612-a332-c0ce797b25cf",
+          "name": "Rodney Pryce",
+          "locale": null,
+          "type": "Legal name",
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Terrah Danjah",
+          "name": "Terrah Danjah",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        },
+        {
+          "sort-name": "Terror Danja",
+          "name": "Terror Danja",
+          "locale": null,
+          "type": null,
+          "primary": null,
+          "begin-date": null,
+          "end-date": null
+        }
+      ],
+      "tags": [
+        { "count": 1, "name": "producer" },
+        { "count": 1, "name": "london" },
+        { "count": 1, "name": "grime" },
+        { "count": 1, "name": "english" }
+      ]
+    },
+    {
+      "id": "11a683e2-c855-4b93-934c-0ecb053fb5ac",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 88,
+      "name": "Sheer Terror",
+      "sort-name": "Sheer Terror",
+      "area": {
+        "id": "74e50e58-5deb-4b99-93a2-decbb365c07f",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "New York",
+        "sort-name": "New York",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "74e50e58-5deb-4b99-93a2-decbb365c07f",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "New York",
+        "sort-name": "New York",
+        "life-span": { "ended": null }
+      },
+      "life-span": { "begin": "1984-12", "ended": null },
+      "tags": [
+        { "count": 1, "name": "hardcore punk" },
+        { "count": 1, "name": "crossover thrash" },
+        { "count": 1, "name": "tough guy hardcore" }
+      ]
+    },
+    {
+      "id": "709af0d0-dcb6-4858-b76d-05a13fc9a0a6",
+      "type": "Group",
+      "type-id": "e431f5f6-b5d2-343d-8b36-72607fffb74b",
+      "score": 88,
+      "name": "Extreme Noise Terror",
+      "sort-name": "Extreme Noise Terror",
+      "country": "GB",
+      "area": {
+        "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+        "type": "Country",
+        "type-id": "06dd0ae4-8c74-30bb-b43d-95dcedf961de",
+        "name": "United Kingdom",
+        "sort-name": "United Kingdom",
+        "life-span": { "ended": null }
+      },
+      "begin-area": {
+        "id": "7ec09cb6-df52-48fb-b814-4e4b1594d441",
+        "type": "City",
+        "type-id": "6fd8f29a-3d0a-32fc-980d-ea697b69da78",
+        "name": "Ipswich",
+        "sort-name": "Ipswich",
+        "life-span": { "ended": null }
+      },
+      "isnis": ["0000000121551248"],
+      "life-span": { "begin": "1985", "ended": null },
+      "tags": [
+        { "count": 1, "name": "metal" },
+        { "count": 1, "name": "death metal" },
+        { "count": 2, "name": "crust punk" },
+        { "count": 1, "name": "grindcore" },
+        { "count": 1, "name": "crust" },
+        { "count": 1, "name": "_tidy" }
+      ]
+    }
+  ]
+}

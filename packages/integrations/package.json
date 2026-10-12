@@ -19,6 +19,9 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
+  "dependencies": {
+    "@ma/core": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "typescript": "^6.0.3"

@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "id": 2296844895,
+      "readable": true,
+      "title": "survival",
+      "title_short": "survival",
+      "title_version": "",
+      "link": "https://www.deezer.com/track/2296844895",
+      "duration": 180,
+      "rank": 10081,
+      "explicit_lyrics": false,
+      "explicit_content_lyrics": 0,
+      "explicit_content_cover": 2,
+      "preview": "https://cdnt-preview.dzcdn.net/api/1/1/0/6/e/0/06e43095ab11ca80bcbd2a4384212ab0.mp3?hdnea=exp=1791806199~acl=/api/1/1/0/6/e/0/06e43095ab11ca80bcbd2a4384212ab0.mp3*~data=user_id=0,application_id=42~hmac=483738c44df50d5c1fc86a6134218a89822771ff23a8889793c6014a005dc5c6",
+      "contributors": [
+        {
+          "id": 5791507,
+          "name": "T-Error",
+          "link": "https://www.deezer.com/artist/5791507",
+          "share": "https://www.deezer.com/artist/5791507?utm_source=deezer&utm_content=artist-5791507&utm_term=0_1791805299&utm_medium=web",
+          "picture": "https://api.deezer.com/artist/5791507/image",
+          "picture_small": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/56x56-000000-80-0-0.jpg",
+          "picture_medium": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/250x250-000000-80-0-0.jpg",
+          "picture_big": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/500x500-000000-80-0-0.jpg",
+          "picture_xl": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/1000x1000-000000-80-0-0.jpg",
+          "radio": true,
+          "tracklist": "https://api.deezer.com/artist/5791507/top?limit=50",
+          "type": "artist",
+          "role": "Main"
+        }
+      ],
+      "md5_image": "d5d86a9c33eba7b0833e6cc2348f7ba3",
+      "artist": {
+        "id": 5791507,
+        "name": "T-Error",
+        "tracklist": "https://api.deezer.com/artist/5791507/top?limit=50",
+        "type": "artist"
+      },
+      "album": {
+        "id": 445289185,
+        "title": "Wordz Of Faith",
+        "cover": "https://api.deezer.com/album/445289185/image",
+        "cover_small": "https://cdn-images.dzcdn.net/images/cover/d5d86a9c33eba7b0833e6cc2348f7ba3/56x56-000000-80-0-0.jpg",
+        "cover_medium": "https://cdn-images.dzcdn.net/images/cover/d5d86a9c33eba7b0833e6cc2348f7ba3/250x250-000000-80-0-0.jpg",
+        "cover_big": "https://cdn-images.dzcdn.net/images/cover/d5d86a9c33eba7b0833e6cc2348f7ba3/500x500-000000-80-0-0.jpg",
+        "cover_xl": "https://cdn-images.dzcdn.net/images/cover/d5d86a9c33eba7b0833e6cc2348f7ba3/1000x1000-000000-80-0-0.jpg",
+        "md5_image": "d5d86a9c33eba7b0833e6cc2348f7ba3",
+        "tracklist": "https://api.deezer.com/album/445289185/tracks",
+        "type": "album"
+      },
+      "type": "track"
+    }
+  ],
+  "total": 1
+}

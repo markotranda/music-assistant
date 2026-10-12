@@ -1,0 +1,81 @@
+{
+  "data": [
+    {
+      "id": 5791507,
+      "name": "T-Error",
+      "link": "https://www.deezer.com/artist/5791507",
+      "picture": "https://api.deezer.com/artist/5791507/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/5c1275cae886c4625b653e0b6fd91ecc/1000x1000-000000-80-0-0.jpg",
+      "nb_album": 7,
+      "nb_fan": 8,
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/5791507/top?limit=50",
+      "type": "artist"
+    },
+    {
+      "id": 7589218,
+      "name": "T/error",
+      "link": "https://www.deezer.com/artist/7589218",
+      "picture": "https://api.deezer.com/artist/7589218/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/80bf885c73a6dded73ab68210aabf69c/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/80bf885c73a6dded73ab68210aabf69c/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/80bf885c73a6dded73ab68210aabf69c/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/80bf885c73a6dded73ab68210aabf69c/1000x1000-000000-80-0-0.jpg",
+      "nb_album": 4,
+      "nb_fan": 10,
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/7589218/top?limit=50",
+      "type": "artist"
+    },
+    {
+      "id": 71678632,
+      "name": "Terror",
+      "link": "https://www.deezer.com/artist/71678632",
+      "picture": "https://api.deezer.com/artist/71678632/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/dd0db3d66512cb5b29679b5a4e7b1ba0/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/dd0db3d66512cb5b29679b5a4e7b1ba0/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/dd0db3d66512cb5b29679b5a4e7b1ba0/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/dd0db3d66512cb5b29679b5a4e7b1ba0/1000x1000-000000-80-0-0.jpg",
+      "nb_album": 2,
+      "nb_fan": 17,
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/71678632/top?limit=50",
+      "type": "artist"
+    },
+    {
+      "id": 113987242,
+      "name": "Terror",
+      "link": "https://www.deezer.com/artist/113987242",
+      "picture": "https://api.deezer.com/artist/113987242/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/76bfa456f2bda7cff67d18edc4f4e6fd/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/76bfa456f2bda7cff67d18edc4f4e6fd/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/76bfa456f2bda7cff67d18edc4f4e6fd/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/76bfa456f2bda7cff67d18edc4f4e6fd/1000x1000-000000-80-0-0.jpg",
+      "nb_album": 15,
+      "nb_fan": 23,
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/113987242/top?limit=50",
+      "type": "artist"
+    },
+    {
+      "id": 10913,
+      "name": "Terror",
+      "link": "https://www.deezer.com/artist/10913",
+      "picture": "https://api.deezer.com/artist/10913/image",
+      "picture_small": "https://cdn-images.dzcdn.net/images/artist/45ab897937a9e7b6cea1c3328f5a6787/56x56-000000-80-0-0.jpg",
+      "picture_medium": "https://cdn-images.dzcdn.net/images/artist/45ab897937a9e7b6cea1c3328f5a6787/250x250-000000-80-0-0.jpg",
+      "picture_big": "https://cdn-images.dzcdn.net/images/artist/45ab897937a9e7b6cea1c3328f5a6787/500x500-000000-80-0-0.jpg",
+      "picture_xl": "https://cdn-images.dzcdn.net/images/artist/45ab897937a9e7b6cea1c3328f5a6787/1000x1000-000000-80-0-0.jpg",
+      "nb_album": 28,
+      "nb_fan": 47399,
+      "radio": true,
+      "tracklist": "https://api.deezer.com/artist/10913/top?limit=50",
+      "type": "artist"
+    }
+  ],
+  "total": 102,
+  "next": "https://api.deezer.com/search/artist?q=Terror&index=25"
+}

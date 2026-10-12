@@ -1,0 +1,169 @@
+{
+  "release-group-count": 16,
+  "release-group-offset": 0,
+  "release-groups": [
+    {
+      "title": "Keepers of the Faith",
+      "first-release-date": "2010-09-14",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "disambiguation": "",
+      "secondary-types": [],
+      "id": "06d72ae3-07b7-4fc2-8a0c-0caaab4bc5b9"
+    },
+    {
+      "id": "07c743f4-38aa-4c4a-987e-869365685d3d",
+      "secondary-types": [],
+      "disambiguation": "",
+      "secondary-type-ids": [],
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "primary-type": "Album",
+      "first-release-date": "2026-04-24",
+      "title": "Still Suffer"
+    },
+    {
+      "first-release-date": "2012-04-24",
+      "title": "No Regrets No Shame: The Bridge Nine Days",
+      "id": "27d1cc6b-7c61-4b8c-b66e-8018e4f2c17f",
+      "secondary-types": ["Live"],
+      "disambiguation": "",
+      "secondary-type-ids": ["6fd474e2-6b58-3102-9d17-d6f7eb7da0a0"],
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "primary-type": "Album"
+    },
+    {
+      "secondary-types": [],
+      "id": "2f53098e-b272-420d-9470-e52c20d80ebd",
+      "disambiguation": "",
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "first-release-date": "2013-04-09",
+      "title": "Live by the Code"
+    },
+    {
+      "disambiguation": "",
+      "id": "42105679-24bc-481b-8f6f-f18364619b57",
+      "secondary-types": [],
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "title": "Total Retaliation",
+      "first-release-date": "2018-09-28"
+    },
+    {
+      "disambiguation": "",
+      "id": "68a15a72-648d-4674-bf63-46d8970613a9",
+      "secondary-types": ["Live"],
+      "secondary-type-ids": ["6fd474e2-6b58-3102-9d17-d6f7eb7da0a0"],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "title": "CBGB OMFUG Masters: Live June 10, 2004 The Bowery Collection",
+      "first-release-date": "2008-03-18"
+    },
+    {
+      "first-release-date": "2022-05-06",
+      "title": "Pain Into Power",
+      "secondary-type-ids": [],
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "primary-type": "Album",
+      "secondary-types": [],
+      "id": "6ae4742b-d55f-4a02-8f59-d2d3de345754",
+      "disambiguation": ""
+    },
+    {
+      "first-release-date": "2006-06-19",
+      "title": "Always the Hard Way",
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "secondary-types": [],
+      "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+      "disambiguation": ""
+    },
+    {
+      "title": "The Damned, the Shamed",
+      "first-release-date": "2008-06-10",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "disambiguation": "",
+      "secondary-types": [],
+      "id": "89a1620e-03f8-3c60-afad-56923014ec2a"
+    },
+    {
+      "title": "The 25th Hour",
+      "first-release-date": "2015-08-07",
+      "secondary-type-ids": [],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "disambiguation": "",
+      "secondary-types": [],
+      "id": "b0cf2c34-9554-40f4-977f-c215ca90d607"
+    },
+    {
+      "first-release-date": "2003-01-28",
+      "title": "Lowest of the Low",
+      "id": "b809ceff-0fa0-3eaf-81ae-08e93b10ca87",
+      "secondary-types": [],
+      "disambiguation": "",
+      "primary-type": "Album",
+      "secondary-type-ids": [],
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+    },
+    {
+      "title": "Trapped In A World",
+      "first-release-date": "2021-03-05",
+      "secondary-type-ids": ["6fd474e2-6b58-3102-9d17-d6f7eb7da0a0"],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "disambiguation": "",
+      "secondary-types": ["Live"],
+      "id": "bc1fdda7-b427-451c-a6c2-cc30cde24c9d"
+    },
+    {
+      "first-release-date": "2008-09-09",
+      "title": "Forever Crossing the Line (5 Years In The Making)",
+      "id": "cdcbca9a-d7c3-4631-b73a-a32bc74b529d",
+      "secondary-types": ["Compilation"],
+      "disambiguation": "",
+      "secondary-type-ids": ["dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+    },
+    {
+      "first-release-date": "2004-07-27",
+      "title": "One With the Underdogs",
+      "id": "df5710e1-d01f-3dee-974f-93329b7aa041",
+      "secondary-types": [],
+      "disambiguation": "",
+      "secondary-type-ids": [],
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "primary-type": "Album"
+    },
+    {
+      "id": "dfd5d213-2af0-4ac2-a3e9-28dd130604cf",
+      "secondary-types": ["Compilation", "Mixtape/Street"],
+      "disambiguation": "",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+      "secondary-type-ids": [
+        "dd2a21e1-0c00-3729-a7a0-de60b84eb5d1",
+        "15c1b1f5-d893-3375-a1db-e180c5ae15ed"
+      ],
+      "primary-type": "Album",
+      "first-release-date": "2013",
+      "title": "Suffer To Return Harder - Terror Mixtape"
+    },
+    {
+      "title": "One With the Underdogs / Lowest of the Low",
+      "first-release-date": "2008-02-16",
+      "disambiguation": "",
+      "secondary-types": ["Compilation"],
+      "id": "e73cf07c-1f81-4231-9c04-5f1e086ec1eb",
+      "secondary-type-ids": ["dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"],
+      "primary-type": "Album",
+      "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+    }
+  ]
+}

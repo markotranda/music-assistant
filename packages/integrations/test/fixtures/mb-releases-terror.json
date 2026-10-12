@@ -1,0 +1,2342 @@
+{
+  "release-offset": 0,
+  "release-count": 66,
+  "releases": [
+    {
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Forever Crossing the Line (5 Years In The Making)",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 1,
+        "darkened": false,
+        "back": false,
+        "front": true,
+        "artwork": true
+      },
+      "disambiguation": "",
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["US"],
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type": null,
+            "name": "United States",
+            "type-id": null
+          },
+          "date": "2008-09-09"
+        }
+      ],
+      "release-group": {
+        "disambiguation": "",
+        "secondary-types": ["Compilation"],
+        "primary-type": "Album",
+        "title": "Forever Crossing the Line (5 Years In The Making)",
+        "first-release-date": "2008-09-09",
+        "id": "cdcbca9a-d7c3-4631-b73a-a32bc74b529d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": ["dd2a21e1-0c00-3729-a7a0-de60b84eb5d1"]
+      },
+      "id": "05fe7a1f-5750-4d1f-bd09-7ece42ed82be",
+      "status": "Official",
+      "barcode": null,
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "media": [
+        {
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 17,
+          "format": "CD",
+          "id": "efe4e102-cd6a-3e60-b07b-3dd8da2f1f5a",
+          "title": "",
+          "position": 1
+        }
+      ],
+      "packaging": null,
+      "packaging-id": null,
+      "asin": null,
+      "date": "2008-09-09"
+    },
+    {
+      "release-events": [
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "name": "United States",
+            "type": null,
+            "type-id": null
+          }
+        }
+      ],
+      "release-group": {
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "id": "6ae4742b-d55f-4a02-8f59-d2d3de345754",
+        "secondary-type-ids": [],
+        "primary-type": "Album",
+        "first-release-date": "2022-05-06",
+        "title": "Pain Into Power",
+        "disambiguation": "",
+        "secondary-types": []
+      },
+      "id": "0fad3f66-db83-4c68-b81a-cca402ec4c09",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "4059251479444",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "US",
+      "title": "Pain into Power",
+      "cover-art-archive": {
+        "artwork": false,
+        "front": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "quality": "normal",
+      "disambiguation": "",
+      "packaging": "Cardboard/Paper Sleeve",
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "date": "2022-05-06",
+      "asin": null,
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "c240d114-2988-3cb2-a012-511f27e44648",
+          "format": "CD",
+          "track-count": 10,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31"
+        }
+      ]
+    },
+    {
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "94b71f92-051c-3a29-b3dd-8d8099461dc5",
+          "format": "Digital Media",
+          "track-count": 10,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794"
+        }
+      ],
+      "asin": null,
+      "date": "2022-05-06",
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "disambiguation": "",
+      "country": "AM",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "quality": "normal",
+      "title": "Pain into Power",
+      "cover-art-archive": {
+        "count": 1,
+        "darkened": false,
+        "back": false,
+        "front": true,
+        "artwork": true
+      },
+      "barcode": null,
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "release-events": [
+        {
+          "date": "2022-05-06",
+          "area": {
+            "id": "6474fa20-e0d6-3ef2-95ce-a6f73408cd5e",
+            "sort-name": "Armenia",
+            "iso-3166-1-codes": ["AM"],
+            "type-id": null,
+            "name": "Armenia",
+            "type": null,
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["AT"],
+            "id": "caac77d1-a5c8-3e6e-8e27-90b44dcc1446",
+            "sort-name": "Austria",
+            "type": null,
+            "name": "Austria",
+            "type-id": null
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "Belarus",
+            "type-id": null,
+            "iso-3166-1-codes": ["BY"],
+            "id": "660e3c48-b301-3c8c-9708-0f71d5d094d6",
+            "sort-name": "Belarus"
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "Belgium",
+            "type-id": null,
+            "iso-3166-1-codes": ["BE"],
+            "sort-name": "Belgium",
+            "id": "5b8a5ee5-0bb3-34cf-9a75-c27c44e341fc"
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "Bosnia and Herzegovina",
+            "type-id": null,
+            "iso-3166-1-codes": ["BA"],
+            "id": "f2b64f81-6d36-35b3-94b9-5ba53d693914",
+            "sort-name": "Bosnia and Herzegovina"
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "Bulgaria",
+            "type": null,
+            "id": "114c14ad-9776-34e9-81b0-6299507f3771",
+            "sort-name": "Bulgaria",
+            "iso-3166-1-codes": ["BG"]
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "id": "7d30afff-e425-356a-873e-17ae9745b31d",
+            "sort-name": "Croatia",
+            "iso-3166-1-codes": ["HR"],
+            "type-id": null,
+            "name": "Croatia",
+            "type": null
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "iso-3166-1-codes": ["CY"],
+            "sort-name": "Cyprus",
+            "id": "a75b525f-8c01-31f6-975e-4a32a2b001d5",
+            "name": "Cyprus",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "id": "51d34c28-61bf-3d21-849f-7492672a9d44",
+            "sort-name": "Czechia",
+            "iso-3166-1-codes": ["CZ"],
+            "type-id": null,
+            "name": "Czechia",
+            "type": null,
+            "disambiguation": ""
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "sort-name": "Denmark",
+            "id": "4757b525-2a60-324a-b060-578765d2c993",
+            "iso-3166-1-codes": ["DK"],
+            "type-id": null,
+            "name": "Denmark",
+            "type": null
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "type": null,
+            "name": "Estonia",
+            "sort-name": "Estonia",
+            "id": "e1c1215f-dcc0-35b4-b840-d2ca2151593b",
+            "iso-3166-1-codes": ["EE"]
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["FI"],
+            "sort-name": "Finland",
+            "id": "6a264f94-6ff1-30b1-9a81-41f7bfabd616",
+            "name": "Finland",
+            "type": null,
+            "type-id": null
+          }
+        },
+        {
+          "area": {
+            "id": "08310658-51eb-3801-80de-5a0739207115",
+            "sort-name": "France",
+            "iso-3166-1-codes": ["FR"],
+            "type-id": null,
+            "name": "France",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "sort-name": "Georgia",
+            "id": "7e081aa0-817b-3ae0-9fe2-4bb4e3b3cc95",
+            "iso-3166-1-codes": ["GE"],
+            "type-id": null,
+            "name": "Georgia",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "sort-name": "Germany",
+            "id": "85752fda-13c4-31a3-bee5-0e5cb1f51dad",
+            "iso-3166-1-codes": ["DE"],
+            "type-id": null,
+            "name": "Germany",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "iso-3166-1-codes": ["GR"],
+            "id": "803db0ca-b6ed-3bbc-aeb8-f89efd0a2168",
+            "sort-name": "Greece",
+            "type": null,
+            "name": "Greece",
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "type-id": null,
+            "type": null,
+            "name": "Hungary",
+            "sort-name": "Hungary",
+            "id": "312bc5bb-7e43-3e63-81c6-b4d712b37b2c",
+            "iso-3166-1-codes": ["HU"],
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["IS"],
+            "sort-name": "Iceland",
+            "id": "48802a32-075a-3805-a183-277c66047693",
+            "type": null,
+            "name": "Iceland",
+            "type-id": null
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "type": null,
+            "name": "Ireland",
+            "id": "390b05d4-11ec-3bce-a343-703a366b34a5",
+            "sort-name": "Ireland",
+            "iso-3166-1-codes": ["IE"]
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "type-id": null,
+            "name": "Israel",
+            "type": null,
+            "id": "03691455-bb46-37e3-91d2-cb064a35ffcc",
+            "sort-name": "Israel",
+            "iso-3166-1-codes": ["IL"],
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "id": "c6500277-9a3d-349b-bf30-41afdbf42add",
+            "sort-name": "Italy",
+            "iso-3166-1-codes": ["IT"],
+            "type-id": null,
+            "name": "Italy",
+            "type": null,
+            "disambiguation": ""
+          }
+        },
+        {
+          "area": {
+            "name": "Kazakhstan",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["KZ"],
+            "id": "92d52542-3363-351c-a8b6-d991e0bccb8f",
+            "sort-name": "Kazakhstan",
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-2-codes": ["RS-KM"],
+            "name": "Kosovo",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["XK"],
+            "sort-name": "Kosovo",
+            "id": "7b6ae6b7-6f4f-43df-aab8-0c72531ea8ae"
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "Kyrgyzstan",
+            "type": null,
+            "id": "188b4a6b-a4d8-3864-ba46-8446c7b658b4",
+            "sort-name": "Kyrgyzstan",
+            "iso-3166-1-codes": ["KG"]
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "iso-3166-1-codes": ["LV"],
+            "id": "66eb3e73-d69e-3581-9a23-a73b4c64c8dd",
+            "sort-name": "Latvia",
+            "name": "Latvia",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "sort-name": "Lithuania",
+            "id": "0785dc14-96af-3dc4-bde4-dcdfc2e2d0d6",
+            "iso-3166-1-codes": ["LT"],
+            "type-id": null,
+            "name": "Lithuania",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "type-id": null,
+            "name": "Luxembourg",
+            "type": null,
+            "id": "563d21b7-4a8e-35e2-83a7-7804baefbfa7",
+            "sort-name": "Luxembourg",
+            "iso-3166-1-codes": ["LU"],
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "id": "050c94f7-1413-3a34-bb90-4a94f3bb2084",
+            "sort-name": "Malta",
+            "iso-3166-1-codes": ["MT"],
+            "type-id": null,
+            "type": null,
+            "name": "Malta"
+          }
+        },
+        {
+          "area": {
+            "id": "560ddb6d-4304-3938-8407-c96605226fad",
+            "sort-name": "Moldova",
+            "iso-3166-1-codes": ["MD"],
+            "type-id": null,
+            "type": null,
+            "name": "Moldova",
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "iso-3166-1-codes": ["ME"],
+            "id": "6f8faf25-44cb-313b-9162-77145cdc192d",
+            "sort-name": "Montenegro",
+            "type": null,
+            "name": "Montenegro",
+            "type-id": null,
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "iso-3166-1-codes": ["NL"],
+            "id": "ef1b7cc0-cd26-36f4-8ea0-04d9623786c7",
+            "sort-name": "Netherlands",
+            "type": null,
+            "name": "Netherlands",
+            "type-id": null,
+            "disambiguation": ""
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "id": "fa75cdb9-cbc4-35de-8bf4-a21e7b811484",
+            "sort-name": "North Macedonia",
+            "iso-3166-1-codes": ["MK"],
+            "type-id": null,
+            "name": "North Macedonia",
+            "type": null
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "id": "6743d351-6f37-3049-9724-5041161fff4d",
+            "sort-name": "Norway",
+            "iso-3166-1-codes": ["NO"],
+            "type-id": null,
+            "name": "Norway",
+            "type": null
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "Poland",
+            "type": null,
+            "id": "dd7f80c8-f017-3d01-8608-2a8c9c32b954",
+            "sort-name": "Poland",
+            "iso-3166-1-codes": ["PL"]
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "type": null,
+            "name": "Portugal",
+            "type-id": null,
+            "iso-3166-1-codes": ["PT"],
+            "id": "781b0c54-3d54-362d-a941-8a617def4992",
+            "sort-name": "Portugal",
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "type-id": null,
+            "name": "Romania",
+            "type": null,
+            "id": "61ed84b8-5a10-30a7-8376-ccd51801d6d1",
+            "sort-name": "Romania",
+            "iso-3166-1-codes": ["RO"],
+            "disambiguation": ""
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "Serbia",
+            "type-id": null,
+            "iso-3166-1-codes": ["RS"],
+            "sort-name": "Serbia",
+            "id": "424c1b50-57f8-34af-ab97-313e2ad40058"
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "name": "Slovakia",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["SK"],
+            "id": "eb52ca74-dd11-37a1-a3fa-154430bf2df2",
+            "sort-name": "Slovakia",
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "type": null,
+            "name": "Slovenia",
+            "id": "5b0b6225-584c-3942-b69d-5efceb9989af",
+            "sort-name": "Slovenia",
+            "iso-3166-1-codes": ["SI"]
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "id": "471c46a7-afc5-31c4-923c-d0444f5053a4",
+            "sort-name": "Spain",
+            "iso-3166-1-codes": ["ES"],
+            "type-id": null,
+            "type": null,
+            "name": "Spain"
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "sort-name": "Sweden",
+            "id": "23d10872-f5ae-3f0c-bf55-332788a16ecb",
+            "iso-3166-1-codes": ["SE"],
+            "type-id": null,
+            "type": null,
+            "name": "Sweden",
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "name": "Switzerland",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["CH"],
+            "sort-name": "Switzerland",
+            "id": "1333ff06-8e3d-3c8e-9f3a-13a2a38b41df"
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "name": "Tajikistan",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["TJ"],
+            "id": "8259e91f-10fa-3c38-92fb-8e6822c279d5",
+            "sort-name": "Tajikistan",
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["TR"],
+            "id": "d3be28b4-41f7-3752-8a05-ed45e1d1e492",
+            "sort-name": "Türkiye",
+            "type": null,
+            "name": "Türkiye",
+            "type-id": null
+          }
+        },
+        {
+          "area": {
+            "type-id": null,
+            "type": null,
+            "name": "Turkmenistan",
+            "sort-name": "Turkmenistan",
+            "id": "98e38a45-b90e-3575-943e-23e26ce3a69f",
+            "iso-3166-1-codes": ["TM"],
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "iso-3166-1-codes": ["UA"],
+            "id": "904768d0-61ca-3c40-93ac-93adc36fef4b",
+            "sort-name": "Ukraine",
+            "type": null,
+            "name": "Ukraine",
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "area": {
+            "name": "United Kingdom",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["GB"],
+            "id": "8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+            "sort-name": "United Kingdom",
+            "disambiguation": ""
+          },
+          "date": "2022-05-06"
+        },
+        {
+          "date": "2022-05-06",
+          "area": {
+            "iso-3166-1-codes": ["UZ"],
+            "sort-name": "Uzbekistan",
+            "id": "95c0c3ee-ed52-31c4-83e6-19ced497e6d0",
+            "name": "Uzbekistan",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "release-group": {
+        "id": "6ae4742b-d55f-4a02-8f59-d2d3de345754",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": [],
+        "title": "Pain Into Power",
+        "primary-type": "Album",
+        "first-release-date": "2022-05-06",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "id": "11a8875b-f246-4ccc-81f2-4cdd6c3a909f"
+    },
+    {
+      "release-events": [
+        {
+          "date": "2018-09-28",
+          "area": {
+            "type-id": null,
+            "type": null,
+            "name": "Australia",
+            "sort-name": "Australia",
+            "id": "106e0bec-b638-3b37-b731-f53d507dc00e",
+            "iso-3166-1-codes": ["AU"],
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "",
+          "area": {
+            "type": null,
+            "name": "New Zealand",
+            "type-id": null,
+            "iso-3166-1-codes": ["NZ"],
+            "sort-name": "New Zealand",
+            "id": "8524c7d9-f472-3890-a458-f28d5081d9c4",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "release-group": {
+        "id": "42105679-24bc-481b-8f6f-f18364619b57",
+        "secondary-type-ids": [],
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "disambiguation": "",
+        "secondary-types": [],
+        "primary-type": "Album",
+        "title": "Total Retaliation",
+        "first-release-date": "2018-09-28"
+      },
+      "id": "19ffe6f9-74e5-4cf0-bf41-6a31f1ad9653",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "886447245118",
+      "status": "Official",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "AU",
+      "title": "Total Retaliation",
+      "cover-art-archive": {
+        "back": false,
+        "artwork": true,
+        "front": true,
+        "count": 1,
+        "darkened": false
+      },
+      "quality": "normal",
+      "disambiguation": "",
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "date": "2018-09-28",
+      "asin": null,
+      "media": [
+        {
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 13,
+          "format": "Digital Media",
+          "id": "ceff7a19-1744-3538-b9a6-9af7547c42a8",
+          "title": "",
+          "position": 1
+        }
+      ]
+    },
+    {
+      "text-representation": { "script": null, "language": null },
+      "country": "US",
+      "quality": "normal",
+      "title": "Always the Hard Way",
+      "cover-art-archive": {
+        "front": false,
+        "artwork": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "disambiguation": "Reissue",
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "primary-type": "Album",
+        "first-release-date": "2006-06-19",
+        "title": "Always the Hard Way",
+        "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": []
+      },
+      "release-events": [
+        {
+          "date": "2014-11-11",
+          "area": {
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "name": "United States",
+            "type": null,
+            "type-id": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "id": "1d469bc8-0cec-488d-a258-bdb685bc9722",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "603111989624",
+      "status": "Official",
+      "media": [
+        {
+          "format": "CD",
+          "track-count": 14,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "title": "",
+          "position": 1,
+          "id": "404cc9bc-38b4-3850-aee1-89154f64f5ae"
+        },
+        {
+          "format-id": "9d7fa8ab-3bb4-36f6-a8c6-b7eed946fc4b",
+          "track-count": 2,
+          "format": "DVD-Audio",
+          "id": "69aae7e9-2859-3f54-ac43-a45a78342225",
+          "position": 2,
+          "title": ""
+        }
+      ],
+      "packaging": null,
+      "packaging-id": null,
+      "date": "2014-11-11",
+      "asin": null
+    },
+    {
+      "media": [
+        {
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 14,
+          "format": "CD",
+          "id": "5a3ad724-5070-3e00-b023-ae98cd2514c2",
+          "position": 1,
+          "title": ""
+        }
+      ],
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "packaging": "Jewel Case",
+      "date": "2006-07-25",
+      "asin": "B000G7PNXG",
+      "title": "Always the Hard Way",
+      "cover-art-archive": {
+        "artwork": false,
+        "front": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "quality": "normal",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "US",
+      "disambiguation": "",
+      "id": "1d57ca36-4106-4bbc-ab8e-7c81d051502a",
+      "release-events": [
+        {
+          "date": "2006-07-25",
+          "area": {
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "type-id": null,
+            "type": null,
+            "name": "United States",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "release-group": {
+        "disambiguation": "",
+        "secondary-types": [],
+        "title": "Always the Hard Way",
+        "primary-type": "Album",
+        "first-release-date": "2006-06-19",
+        "secondary-type-ids": [],
+        "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "824953008421"
+    },
+    {
+      "media": [
+        {
+          "id": "be3c3b9e-7354-3721-b4ab-a0f3d710ee86",
+          "position": 1,
+          "title": "",
+          "track-count": 5,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media"
+        }
+      ],
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "packaging": "None",
+      "asin": null,
+      "date": "2017-04-28",
+      "quality": "normal",
+      "title": "The Walls Will Fall",
+      "cover-art-archive": {
+        "back": false,
+        "front": true,
+        "artwork": true,
+        "count": 1,
+        "darkened": false
+      },
+      "country": "XW",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "disambiguation": "",
+      "id": "211abfeb-c80a-452b-9c29-6373a244a425",
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "title": "The Walls Will Fall",
+        "first-release-date": "2017-04-28",
+        "primary-type": "EP",
+        "secondary-type-ids": [],
+        "id": "d7caa5c2-5051-49df-bf21-946cfe62f28a",
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf"
+      },
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["XW"],
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "type": null,
+            "name": "[Worldwide]",
+            "type-id": null
+          },
+          "date": "2017-04-28"
+        }
+      ],
+      "status": "Official",
+      "barcode": "886446419855",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    },
+    {
+      "media": [
+        {
+          "id": "63739a57-f0f9-3115-920f-bfc5425449d1",
+          "title": "",
+          "position": 1,
+          "track-count": 22,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media"
+        }
+      ],
+      "date": "2014-06-24",
+      "asin": null,
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "packaging": "None",
+      "disambiguation": "",
+      "title": "Lowest Of The Low",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 1,
+        "darkened": false,
+        "back": false,
+        "front": true,
+        "artwork": true
+      },
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "XW",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "886444659178",
+      "id": "212fcfb6-7b5b-49ce-b220-fadaec9bb409",
+      "release-group": {
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "id": "b809ceff-0fa0-3eaf-81ae-08e93b10ca87",
+        "secondary-type-ids": [],
+        "primary-type": "Album",
+        "title": "Lowest of the Low",
+        "first-release-date": "2003-01-28",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "release-events": [
+        {
+          "area": {
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "iso-3166-1-codes": ["XW"],
+            "type-id": null,
+            "name": "[Worldwide]",
+            "type": null,
+            "disambiguation": ""
+          },
+          "date": "2014-06-24"
+        }
+      ]
+    },
+    {
+      "media": [
+        {
+          "id": "3e5b8793-90ea-398b-a884-612856e9f6fa",
+          "position": 1,
+          "title": "",
+          "track-count": 13,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media"
+        }
+      ],
+      "date": "2010-09-14",
+      "asin": "B0041GZEFU",
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "disambiguation": "",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "US",
+      "title": "Keepers of the Faith",
+      "quality": "normal",
+      "cover-art-archive": {
+        "back": false,
+        "artwork": false,
+        "front": false,
+        "count": 0,
+        "darkened": false
+      },
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": null,
+      "release-events": [
+        {
+          "date": "2010-09-14",
+          "area": {
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "type": null,
+            "name": "United States",
+            "type-id": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "release-group": {
+        "first-release-date": "2010-09-14",
+        "primary-type": "Album",
+        "title": "Keepers of the Faith",
+        "disambiguation": "",
+        "secondary-types": [],
+        "id": "06d72ae3-07b7-4fc2-8a0c-0caaab4bc5b9",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": []
+      },
+      "id": "226889b2-ee17-4609-b238-116ebdf29062"
+    },
+    {
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "0df2e1de-4788-39c9-a6f7-572a502242f5",
+          "format": "CD",
+          "track-count": 9,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31"
+        }
+      ],
+      "packaging": "Jewel Case",
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "date": "2003-01-28",
+      "asin": null,
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "US",
+      "title": "Lowest of the Low",
+      "quality": "normal",
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 0,
+        "front": false,
+        "artwork": false,
+        "back": false
+      },
+      "disambiguation": "",
+      "release-events": [
+        {
+          "date": "2003-01-28",
+          "area": {
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "type-id": null,
+            "name": "United States",
+            "type": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "release-group": {
+        "first-release-date": "2003-01-28",
+        "primary-type": "Album",
+        "title": "Lowest of the Low",
+        "secondary-types": [],
+        "disambiguation": "",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "id": "b809ceff-0fa0-3eaf-81ae-08e93b10ca87",
+        "secondary-type-ids": []
+      },
+      "id": "23423c7b-96df-4508-9d00-ab7aba31970b",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "790168423420",
+      "status": "Official"
+    },
+    {
+      "media": [
+        {
+          "format-id": "3e9080b0-5e6c-34ab-bd15-f526b6306a64",
+          "track-count": 9,
+          "format": "12\" Vinyl",
+          "id": "fedb525d-33ee-36d6-a22b-a1da0cc75004",
+          "title": "",
+          "position": 1
+        }
+      ],
+      "packaging-id": null,
+      "packaging": null,
+      "asin": null,
+      "date": "2003-01-28",
+      "title": "Lowest of the Low",
+      "quality": "normal",
+      "cover-art-archive": {
+        "artwork": false,
+        "front": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": "",
+      "id": "2407a5c6-b213-440d-9d46-bf35e5c0a2a2",
+      "release-events": [
+        {
+          "date": "2003-01-28",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "United States",
+            "type": null,
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "iso-3166-1-codes": ["US"]
+          }
+        }
+      ],
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "title": "Lowest of the Low",
+        "primary-type": "Album",
+        "first-release-date": "2003-01-28",
+        "id": "b809ceff-0fa0-3eaf-81ae-08e93b10ca87",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": []
+      },
+      "status": "Official",
+      "barcode": null,
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    },
+    {
+      "date": "2014-06-24",
+      "asin": null,
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "media": [
+        {
+          "id": "d1fc9743-afb7-3dc6-a145-78f3c8ed6896",
+          "position": 1,
+          "title": "",
+          "track-count": 15,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "format": "Digital Media"
+        }
+      ],
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "856449002828",
+      "status": "Official",
+      "release-group": {
+        "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": [],
+        "first-release-date": "2006-06-19",
+        "title": "Always the Hard Way",
+        "primary-type": "Album",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "release-events": [
+        {
+          "date": "2014-06-24",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["XW"],
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "sort-name": "[Worldwide]",
+            "type": null,
+            "name": "[Worldwide]",
+            "type-id": null
+          }
+        }
+      ],
+      "id": "25a092fd-713d-40fe-ba1a-76d45aa4aeae",
+      "disambiguation": "",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "country": "XW",
+      "title": "Always The Hard Way",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 1,
+        "darkened": false,
+        "back": false,
+        "artwork": true,
+        "front": true
+      }
+    },
+    {
+      "disambiguation": "",
+      "quality": "normal",
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 1,
+        "front": false,
+        "artwork": true,
+        "back": false
+      },
+      "title": "Splitseveninch",
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "barcode": null,
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "27870cb2-cc98-48cb-83e8-f82a183cb712",
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "name": "United States",
+            "type": null,
+            "type-id": null,
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States"
+          },
+          "date": "2003-10"
+        }
+      ],
+      "release-group": {
+        "first-release-date": "2003-10",
+        "title": "Splitseveninch",
+        "primary-type": "EP",
+        "disambiguation": "",
+        "secondary-types": [],
+        "id": "64351110-5f8d-4cec-8c26-a3931a06119e",
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf",
+        "secondary-type-ids": []
+      },
+      "media": [
+        {
+          "format-id": "1d5a48e4-e94a-36dc-84e2-0c5f9f880aa7",
+          "track-count": 4,
+          "format": "7\" Vinyl",
+          "id": "93dbd124-51a8-3e85-9237-0400daf7dee8",
+          "title": "",
+          "position": 1
+        }
+      ],
+      "asin": null,
+      "date": "2003-10",
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "packaging": "Cardboard/Paper Sleeve"
+    },
+    {
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "packaging": "Cardboard/Paper Sleeve",
+      "date": "2002-07",
+      "asin": null,
+      "media": [
+        {
+          "format": "7\" Vinyl",
+          "format-id": "1d5a48e4-e94a-36dc-84e2-0c5f9f880aa7",
+          "track-count": 2,
+          "position": 1,
+          "title": "",
+          "id": "7695a0d3-7ad6-3361-a3d2-44d38f6e3ed7"
+        }
+      ],
+      "id": "2a7b90fe-afda-461b-9d21-a17f73c53d31",
+      "release-group": {
+        "id": "58797e5a-a94d-444a-a99b-1605ad9ea279",
+        "secondary-type-ids": [],
+        "primary-type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9",
+        "primary-type": "Single",
+        "first-release-date": "2002-07",
+        "title": "Don't Need Your Help / Push It Away",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "release-events": [
+        {
+          "area": {
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "iso-3166-1-codes": ["US"],
+            "type-id": null,
+            "type": null,
+            "name": "United States",
+            "disambiguation": ""
+          },
+          "date": "2002-07"
+        }
+      ],
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 0,
+        "darkened": false,
+        "back": false,
+        "front": false,
+        "artwork": false
+      },
+      "title": "Don't Need Your Help / Push It Away",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "US",
+      "disambiguation": ""
+    },
+    {
+      "title": "Terror / The Promise / Plan of Attack",
+      "quality": "normal",
+      "cover-art-archive": {
+        "front": false,
+        "artwork": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": "",
+      "id": "2b5f2395-4174-45d4-b775-779c76127ef1",
+      "release-group": {
+        "id": "e2f3f098-500e-4d10-a172-b9db96994999",
+        "secondary-type-ids": [],
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf",
+        "first-release-date": "2003-08-15",
+        "title": "Terror / The Promise / Plan of Attack",
+        "primary-type": "EP",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "release-events": [
+        {
+          "date": "2003-08-15",
+          "area": {
+            "type": null,
+            "name": "United States",
+            "type-id": null,
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "disambiguation": ""
+          }
+        }
+      ],
+      "barcode": null,
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "media": [
+        {
+          "format": "7\" Vinyl",
+          "format-id": "1d5a48e4-e94a-36dc-84e2-0c5f9f880aa7",
+          "track-count": 6,
+          "position": 1,
+          "title": "",
+          "id": "a7d390ed-3c39-3f9e-8bc8-f5018f82a8bd"
+        }
+      ],
+      "packaging-id": "f7101ce3-0384-39ce-9fde-fbbd0044d35f",
+      "packaging": "Cardboard/Paper Sleeve",
+      "asin": null,
+      "date": "2003-08-15"
+    },
+    {
+      "media": [
+        {
+          "format": "Digital Media",
+          "track-count": 10,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "title": "",
+          "position": 1,
+          "id": "9e4efd3c-795b-30a8-8b35-317580eb5d35"
+        }
+      ],
+      "date": "2022-05-06",
+      "asin": null,
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "disambiguation": "",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "XW",
+      "title": "Pain Into Power",
+      "cover-art-archive": {
+        "artwork": true,
+        "front": true,
+        "back": false,
+        "darkened": false,
+        "count": 1
+      },
+      "quality": "normal",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "196292691641",
+      "status": "Official",
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "primary-type": "Album",
+        "title": "Pain Into Power",
+        "first-release-date": "2022-05-06",
+        "id": "6ae4742b-d55f-4a02-8f59-d2d3de345754",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": []
+      },
+      "release-events": [
+        {
+          "date": "2022-05-06",
+          "area": {
+            "iso-3166-1-codes": ["XW"],
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "type": null,
+            "name": "[Worldwide]",
+            "type-id": null,
+            "disambiguation": ""
+          }
+        }
+      ],
+      "id": "2df600fc-9878-424d-8935-28f8676f6271"
+    },
+    {
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "country": "XW",
+      "title": "4 Song Demo",
+      "quality": "normal",
+      "cover-art-archive": {
+        "artwork": true,
+        "front": true,
+        "back": false,
+        "darkened": false,
+        "count": 1
+      },
+      "disambiguation": "",
+      "release-group": {
+        "title": "demo",
+        "primary-type": "EP",
+        "first-release-date": "2002-04",
+        "secondary-types": [],
+        "disambiguation": "",
+        "id": "7dd9af56-f86e-33c2-b5a5-b08d1a6dac07",
+        "secondary-type-ids": [],
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf"
+      },
+      "release-events": [
+        {
+          "area": {
+            "type-id": null,
+            "name": "[Worldwide]",
+            "type": null,
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "iso-3166-1-codes": ["XW"],
+            "disambiguation": ""
+          },
+          "date": "2020-01-23"
+        }
+      ],
+      "id": "2e3e9f8c-e037-4e3b-84e1-2aa1aa844001",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "barcode": "194491859190",
+      "status": "Official",
+      "media": [
+        {
+          "format": "Digital Media",
+          "track-count": 4,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "title": "",
+          "position": 1,
+          "id": "3112cbb1-4a40-3d9b-a8e8-4dc31c83eeb7"
+        }
+      ],
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "date": "2020-01-23",
+      "asin": null
+    },
+    {
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["UA"],
+            "sort-name": "Ukraine",
+            "id": "904768d0-61ca-3c40-93ac-93adc36fef4b",
+            "name": "Ukraine",
+            "type": null,
+            "type-id": null
+          },
+          "date": "2006"
+        }
+      ],
+      "release-group": {
+        "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-type-ids": [],
+        "title": "Always the Hard Way",
+        "primary-type": "Album",
+        "first-release-date": "2006-06-19",
+        "secondary-types": [],
+        "disambiguation": ""
+      },
+      "id": "3b63eff8-f638-4225-acc2-41e6b80fd5fc",
+      "barcode": "016861804329",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "country": "UA",
+      "text-representation": { "language": null, "script": null },
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 0,
+        "artwork": false,
+        "front": false,
+        "back": false
+      },
+      "title": "Always the Hard Way",
+      "quality": "normal",
+      "disambiguation": "",
+      "packaging": null,
+      "packaging-id": null,
+      "asin": null,
+      "date": "2006",
+      "media": [
+        {
+          "track-count": 14,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "format": "CD",
+          "id": "c5e5949d-c283-3242-8237-f7731826b068",
+          "position": 1,
+          "title": ""
+        }
+      ]
+    },
+    {
+      "disambiguation": "",
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Live and Death",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 0,
+        "darkened": false,
+        "back": false,
+        "artwork": false,
+        "front": false
+      },
+      "barcode": null,
+      "status": "Promotion",
+      "status-id": "518ffc83-5cde-34df-8627-81bff5093d92",
+      "release-events": [
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["US"],
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "type": null,
+            "name": "United States",
+            "type-id": null
+          },
+          "date": "2003-03-14"
+        }
+      ],
+      "release-group": {
+        "title": "Live and Death",
+        "primary-type": "EP",
+        "first-release-date": "2003-03-14",
+        "secondary-types": ["Live"],
+        "disambiguation": "",
+        "secondary-type-ids": ["6fd474e2-6b58-3102-9d17-d6f7eb7da0a0"],
+        "id": "3472417e-77f9-4891-a80a-3fcdd27851b8",
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf"
+      },
+      "id": "3b865942-6c04-422b-9d37-423a53f5ce8e",
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "b5c6a215-7c41-3400-b2c5-87d901103cd8",
+          "format": "7\" Vinyl",
+          "format-id": "1d5a48e4-e94a-36dc-84e2-0c5f9f880aa7",
+          "track-count": 6
+        }
+      ],
+      "asin": null,
+      "date": "2003-03-14",
+      "packaging": null,
+      "packaging-id": null
+    },
+    {
+      "packaging-id": null,
+      "packaging": null,
+      "asin": null,
+      "date": "2010-11-10",
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "fabea6fc-9d0e-354e-8177-c6e8b856de8c",
+          "format": "CD",
+          "track-count": 13,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31"
+        }
+      ],
+      "id": "3e7f84a1-9f29-4a91-826c-50b7ad34f23d",
+      "release-events": [
+        {
+          "date": "2010-11-10",
+          "area": {
+            "disambiguation": "",
+            "sort-name": "Russia",
+            "id": "1f1fc3a4-9500-39b8-9f10-f0a465557eef",
+            "iso-3166-1-codes": ["RU"],
+            "type-id": null,
+            "name": "Russia",
+            "type": null
+          }
+        }
+      ],
+      "release-group": {
+        "secondary-type-ids": [],
+        "id": "06d72ae3-07b7-4fc2-8a0c-0caaab4bc5b9",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "secondary-types": [],
+        "disambiguation": "",
+        "first-release-date": "2010-09-14",
+        "title": "Keepers of the Faith",
+        "primary-type": "Album"
+      },
+      "barcode": null,
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "quality": "normal",
+      "cover-art-archive": {
+        "count": 1,
+        "darkened": false,
+        "back": false,
+        "front": true,
+        "artwork": true
+      },
+      "title": "Keepers of the Faith",
+      "country": "RU",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "disambiguation": ""
+    },
+    {
+      "packaging": null,
+      "packaging-id": null,
+      "date": "2006-06-21",
+      "asin": null,
+      "media": [
+        {
+          "id": "041eb3c8-09dd-37fe-b54a-7a9239bfc9fc",
+          "position": 1,
+          "title": "",
+          "track-count": 14,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "format": "CD"
+        }
+      ],
+      "release-events": [
+        {
+          "area": {
+            "type": null,
+            "name": "Netherlands",
+            "type-id": null,
+            "iso-3166-1-codes": ["NL"],
+            "sort-name": "Netherlands",
+            "id": "ef1b7cc0-cd26-36f4-8ea0-04d9623786c7",
+            "disambiguation": ""
+          },
+          "date": "2006-06-21"
+        }
+      ],
+      "release-group": {
+        "disambiguation": "",
+        "secondary-types": [],
+        "primary-type": "Album",
+        "first-release-date": "2006-06-19",
+        "title": "Always the Hard Way",
+        "secondary-type-ids": [],
+        "id": "88db1059-2bed-3e91-8702-fd496e603d2d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "id": "46b5bf88-15aa-4757-86c7-cbd2ccc6df85",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "016861804329",
+      "text-representation": { "language": null, "script": null },
+      "country": "NL",
+      "title": "Always the Hard Way",
+      "quality": "normal",
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 0,
+        "front": false,
+        "artwork": false,
+        "back": false
+      },
+      "disambiguation": ""
+    },
+    {
+      "media": [
+        {
+          "format": "Digital Media",
+          "track-count": 4,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "title": "",
+          "position": 1,
+          "id": "917a5e38-8034-3c35-a2aa-faf55e67b30c"
+        }
+      ],
+      "packaging": null,
+      "packaging-id": null,
+      "asin": null,
+      "date": "2020-11-24",
+      "country": null,
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "cover-art-archive": {
+        "back": false,
+        "artwork": true,
+        "front": true,
+        "count": 1,
+        "darkened": false
+      },
+      "quality": "normal",
+      "title": "Sink to the Hell",
+      "disambiguation": "",
+      "release-events": [{ "date": "2020-11-24", "area": null }],
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "title": "Sink to the Hell",
+        "first-release-date": "2020-11-24",
+        "primary-type": "EP",
+        "id": "3db305be-1dab-4e82-bfac-4f0c19d80c7d",
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf",
+        "secondary-type-ids": []
+      },
+      "id": "4e6efaca-4b6e-47ac-9b3c-456340e00eb3",
+      "status": "Official",
+      "barcode": null,
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    },
+    {
+      "media": [
+        {
+          "format": "Digital Media",
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 4,
+          "position": 1,
+          "title": "",
+          "id": "a625edb1-d176-46b4-9d33-0aec01265ce1"
+        }
+      ],
+      "packaging-id": null,
+      "packaging": null,
+      "asin": null,
+      "date": "2021-05-26",
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 1,
+        "front": true,
+        "artwork": true,
+        "back": false
+      },
+      "quality": "normal",
+      "title": "The BBC Sessions",
+      "country": null,
+      "text-representation": { "language": null, "script": null },
+      "disambiguation": "",
+      "id": "509309c0-95af-471c-9245-10d8d64b338f",
+      "release-group": {
+        "disambiguation": "",
+        "secondary-types": [],
+        "title": "The BBC Sessions",
+        "first-release-date": "2021-05-26",
+        "primary-type": "EP",
+        "secondary-type-ids": [],
+        "id": "bc395588-53f1-4e4b-b486-a2701e788787",
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf"
+      },
+      "release-events": [{ "date": "2021-05-26", "area": null }],
+      "status": "Official",
+      "barcode": null,
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    },
+    {
+      "barcode": "192562768495",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "532d01df-4538-4cba-b0fa-3af78dd32104",
+      "release-group": {
+        "title": "Total Retaliation",
+        "primary-type": "Album",
+        "first-release-date": "2018-09-28",
+        "secondary-types": [],
+        "disambiguation": "",
+        "id": "42105679-24bc-481b-8f6f-f18364619b57",
+        "secondary-type-ids": [],
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "release-events": [
+        {
+          "date": "2018-09-28",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["XW"],
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "type": null,
+            "name": "[Worldwide]",
+            "type-id": null
+          }
+        },
+        {
+          "date": "2018-09-28",
+          "area": {
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "iso-3166-1-codes": ["US"],
+            "type-id": null,
+            "type": null,
+            "name": "United States",
+            "disambiguation": ""
+          }
+        },
+        {
+          "date": "",
+          "area": {
+            "sort-name": "Argentina",
+            "id": "0df04709-c7d8-3b55-a6ea-f3e5069a947b",
+            "iso-3166-1-codes": ["AR"],
+            "type-id": null,
+            "type": null,
+            "name": "Argentina",
+            "disambiguation": ""
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["BR"],
+            "sort-name": "Brazil",
+            "id": "f45b47f8-5796-386e-b172-6c31b009a5d8",
+            "type": null,
+            "name": "Brazil",
+            "type-id": null
+          },
+          "date": ""
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "Canada",
+            "type-id": null,
+            "iso-3166-1-codes": ["CA"],
+            "id": "71bbafaa-e825-3e15-8ca9-017dcad1748b",
+            "sort-name": "Canada"
+          },
+          "date": ""
+        },
+        {
+          "area": {
+            "sort-name": "Egypt",
+            "id": "8e0551f2-95c2-3cc0-a0a9-f2d344f10667",
+            "iso-3166-1-codes": ["EG"],
+            "type-id": null,
+            "type": null,
+            "name": "Egypt",
+            "disambiguation": ""
+          },
+          "date": ""
+        },
+        {
+          "date": "",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-2-codes": ["CN-91"],
+            "iso-3166-1-codes": ["HK"],
+            "id": "0373cdff-eac8-3fbc-92dc-36a607da06d1",
+            "sort-name": "Hong Kong",
+            "name": "Hong Kong",
+            "type": null,
+            "type-id": null
+          }
+        },
+        {
+          "date": "",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "Japan",
+            "type": null,
+            "sort-name": "Japan",
+            "id": "2db42837-c832-3c27-b4a3-08198f75693c",
+            "iso-3166-1-codes": ["JP"]
+          }
+        },
+        {
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "South Africa",
+            "type": null,
+            "id": "50cc7852-862e-30ae-aa82-385fe7135b7f",
+            "sort-name": "South Africa",
+            "iso-3166-1-codes": ["ZA"]
+          },
+          "date": ""
+        }
+      ],
+      "disambiguation": "",
+      "quality": "normal",
+      "title": "Total Retaliation",
+      "cover-art-archive": {
+        "darkened": false,
+        "count": 1,
+        "front": true,
+        "artwork": true,
+        "back": false
+      },
+      "country": "XW",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "asin": null,
+      "date": "2018-09-28",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "packaging": "None",
+      "media": [
+        {
+          "title": "",
+          "position": 1,
+          "id": "079ce35b-bbda-3399-93ad-534ec0179bac",
+          "format": "Digital Media",
+          "track-count": 13,
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794"
+        }
+      ]
+    },
+    {
+      "packaging-id": null,
+      "packaging": null,
+      "asin": null,
+      "date": "2005-05-17",
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "1597a282-ec70-3e01-9f71-93ef0c7478a4",
+          "format": "CD",
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 22
+        }
+      ],
+      "id": "58de541e-27fe-41f2-b944-0762272f8088",
+      "release-group": {
+        "title": "Lowest of the Low",
+        "first-release-date": "2003-01-28",
+        "primary-type": "Album",
+        "secondary-types": [],
+        "disambiguation": "",
+        "id": "b809ceff-0fa0-3eaf-81ae-08e93b10ca87",
+        "secondary-type-ids": [],
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "release-events": [
+        {
+          "date": "2005-05-17",
+          "area": {
+            "disambiguation": "",
+            "type": null,
+            "name": "United States",
+            "type-id": null,
+            "iso-3166-1-codes": ["US"],
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98"
+          }
+        }
+      ],
+      "status": "Official",
+      "barcode": null,
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "quality": "normal",
+      "cover-art-archive": {
+        "front": true,
+        "artwork": true,
+        "back": false,
+        "darkened": false,
+        "count": 1
+      },
+      "title": "Lowest of the Low",
+      "country": "US",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": ""
+    },
+    {
+      "media": [
+        {
+          "id": "3fe4b5b1-5bcd-4d12-a44f-db9ed2c9f479",
+          "title": "",
+          "position": 1,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "track-count": 13,
+          "format": "CD"
+        }
+      ],
+      "packaging": "Jewel Case",
+      "packaging-id": "ec27701a-4a22-37f4-bfac-6616e0f9750a",
+      "asin": null,
+      "date": "2008",
+      "country": "US",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "title": "The Damned, the Shamed",
+      "quality": "normal",
+      "cover-art-archive": {
+        "front": false,
+        "artwork": false,
+        "back": false,
+        "darkened": false,
+        "count": 0
+      },
+      "disambiguation": "",
+      "release-events": [
+        {
+          "area": {
+            "iso-3166-1-codes": ["US"],
+            "sort-name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "type": null,
+            "name": "United States",
+            "type-id": null,
+            "disambiguation": ""
+          },
+          "date": "2008"
+        }
+      ],
+      "release-group": {
+        "id": "89a1620e-03f8-3c60-afad-56923014ec2a",
+        "secondary-type-ids": [],
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc",
+        "first-release-date": "2008-06-10",
+        "primary-type": "Album",
+        "title": "The Damned, the Shamed",
+        "disambiguation": "",
+        "secondary-types": []
+      },
+      "id": "5e9fab41-c722-4e17-ab17-66b8a91210dc",
+      "status": "Official",
+      "barcode": "727701849423",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe"
+    },
+    {
+      "media": [
+        {
+          "position": 1,
+          "title": "",
+          "id": "108527b8-dcb5-3194-9bb9-9d0aa1f25db3",
+          "format": "Digital Media",
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 2
+        }
+      ],
+      "asin": null,
+      "date": "2020-10-29",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "packaging": "None",
+      "disambiguation": "",
+      "quality": "normal",
+      "cover-art-archive": {
+        "back": false,
+        "front": true,
+        "artwork": true,
+        "count": 1,
+        "darkened": false
+      },
+      "title": "Between The Lines / A Minute To Pray",
+      "country": "XW",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "status": "Official",
+      "barcode": "195497481385",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "id": "616e3d0b-d324-4015-b53b-28bae8251bfb",
+      "release-events": [
+        {
+          "date": "2020-10-29",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "type": null,
+            "name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "sort-name": "[Worldwide]",
+            "iso-3166-1-codes": ["XW"]
+          }
+        }
+      ],
+      "release-group": {
+        "first-release-date": "2020-10-29",
+        "primary-type": "Single",
+        "title": "Between The Lines / A Minute To Pray",
+        "secondary-types": [],
+        "disambiguation": "",
+        "secondary-type-ids": [],
+        "id": "e4428c98-0433-40d2-961c-01876dfcfb03",
+        "primary-type-id": "d6038452-8ee0-3f68-affc-2de9a1ede0b9"
+      }
+    },
+    {
+      "disambiguation": "",
+      "country": "XE",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "title": "Total Retaliation",
+      "quality": "normal",
+      "cover-art-archive": {
+        "artwork": true,
+        "front": true,
+        "back": false,
+        "darkened": false,
+        "count": 1
+      },
+      "barcode": "727361458362",
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "release-group": {
+        "disambiguation": "",
+        "secondary-types": [],
+        "first-release-date": "2018-09-28",
+        "primary-type": "Album",
+        "title": "Total Retaliation",
+        "secondary-type-ids": [],
+        "id": "42105679-24bc-481b-8f6f-f18364619b57",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "release-events": [
+        {
+          "date": "2018-09-28",
+          "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": ["XE"],
+            "sort-name": "Europe",
+            "id": "89a675c2-3e37-3518-b83c-418bad59a85a",
+            "type": null,
+            "name": "Europe",
+            "type-id": null
+          }
+        }
+      ],
+      "id": "6903bc0b-fa16-4f46-a2ef-2d321ad1e8a2",
+      "media": [
+        {
+          "format": "Digital Media",
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 13,
+          "position": 1,
+          "title": "",
+          "id": "653adee5-dce0-3492-8867-f9f5b3f83b09"
+        }
+      ],
+      "asin": null,
+      "date": "2018-09-28",
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b"
+    },
+    {
+      "packaging": "None",
+      "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+      "date": "2020-11-24",
+      "asin": null,
+      "media": [
+        {
+          "format": "Digital Media",
+          "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+          "track-count": 4,
+          "position": 1,
+          "title": "",
+          "id": "81a0f7f0-a4f6-396c-9c0f-9744ad324073"
+        }
+      ],
+      "release-group": {
+        "id": "3db305be-1dab-4e82-bfac-4f0c19d80c7d",
+        "secondary-type-ids": [],
+        "primary-type-id": "6d0c5bf6-7a33-3420-a519-44fc63eedebf",
+        "primary-type": "EP",
+        "first-release-date": "2020-11-24",
+        "title": "Sink to the Hell",
+        "disambiguation": "",
+        "secondary-types": []
+      },
+      "release-events": [
+        {
+          "date": "2020-11-24",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "name": "[Worldwide]",
+            "type": null,
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "iso-3166-1-codes": ["XW"]
+          }
+        }
+      ],
+      "id": "69a83df6-1402-467b-9e6b-4e8bfc1baaac",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "status": "Official",
+      "barcode": "195497479146",
+      "text-representation": { "language": "eng", "script": "Latn" },
+      "country": "XW",
+      "title": "Sink to The Hell",
+      "cover-art-archive": {
+        "back": false,
+        "front": true,
+        "artwork": true,
+        "count": 1,
+        "darkened": false
+      },
+      "quality": "normal",
+      "disambiguation": ""
+    },
+    {
+      "packaging-id": null,
+      "packaging": null,
+      "asin": null,
+      "date": "",
+      "media": [
+        {
+          "id": "6466678d-4eea-4537-8951-37878876f944",
+          "position": 1,
+          "title": "",
+          "track-count": 10,
+          "format-id": "9712d52a-4509-3d4b-a1a2-67c88c643e31",
+          "format": "CD"
+        }
+      ],
+      "id": "6a9e4fe7-fcae-45e9-9fd4-06842a75a0a2",
+      "release-group": {
+        "secondary-types": [],
+        "disambiguation": "",
+        "title": "Still Suffer",
+        "primary-type": "Album",
+        "first-release-date": "2026-04-24",
+        "secondary-type-ids": [],
+        "id": "07c743f4-38aa-4c4a-987e-869365685d3d",
+        "primary-type-id": "f529b476-6e62-324f-b0aa-1f3e33d313fc"
+      },
+      "release-events": [
+        {
+          "date": "",
+          "area": {
+            "disambiguation": "",
+            "type-id": null,
+            "type": null,
+            "name": "[Worldwide]",
+            "sort-name": "[Worldwide]",
+            "id": "525d4e18-3d00-31b9-a58b-a146a916de8f",
+            "iso-3166-1-codes": ["XW"]
+          }
+        }
+      ],
+      "barcode": null,
+      "status": "Official",
+      "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+      "title": "Still Suffer",
+      "quality": "normal",
+      "cover-art-archive": {
+        "back": false,
+        "artwork": false,
+        "front": false,
+        "count": 0,
+        "darkened": false
+      },
+      "country": "XW",
+      "text-representation": { "script": "Latn", "language": "eng" },
+      "disambiguation": ""
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "status-id": "4e304316-386d-3409-af2e-78857eec5cfe",
+  "text-representation": { "script": "Latn", "language": "eng" },
+  "packaging-id": "119eba76-b343-3e02-a292-f0f00644bb9b",
+  "status": "Official",
+  "country": "US",
+  "disambiguation": "",
+  "cover-art-archive": {
+    "front": false,
+    "count": 0,
+    "back": false,
+    "darkened": false,
+    "artwork": false
+  },
+  "title": "Keepers of the Faith",
+  "asin": "B0041GZEFU",
+  "barcode": null,
+  "packaging": "None",
+  "quality": "normal",
+  "media": [
+    {
+      "id": "3e5b8793-90ea-398b-a884-612856e9f6fa",
+      "track-offset": 0,
+      "track-count": 13,
+      "format": "Digital Media",
+      "position": 1,
+      "title": "",
+      "format-id": "907a28d9-b3b2-3ef6-89a8-7b18d91d4794",
+      "tracks": [
+        {
+          "position": 1,
+          "length": 101000,
+          "title": "Your Enemies Are Mine",
+          "number": "1",
+          "id": "f792c472-7615-3bb7-ad58-327677d31609",
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "Your Enemies Are Mine",
+            "id": "62a126b7-7808-4266-ba55-101f1972a1cd",
+            "length": 101000,
+            "disambiguation": "",
+            "video": false
+          }
+        },
+        {
+          "recording": {
+            "title": "Stick Tight",
+            "first-release-date": "2010-09-14",
+            "video": false,
+            "disambiguation": "",
+            "length": 153000,
+            "id": "58c2f92e-740a-4727-89c7-68c435640941"
+          },
+          "id": "78f550b9-0bce-30a9-afc1-aa02c5112a3d",
+          "title": "Stick Tight",
+          "number": "2",
+          "position": 2,
+          "length": 153000
+        },
+        {
+          "title": "Return to Strength",
+          "number": "3",
+          "position": 3,
+          "length": 161000,
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "Return to Strength",
+            "id": "24c0b588-98b8-4837-aa8b-4210a41dbd62",
+            "length": 161000,
+            "video": false,
+            "disambiguation": ""
+          },
+          "id": "6c606b65-d9a3-396e-8c09-70da6f7156f2"
+        },
+        {
+          "id": "d5c3da99-0f6a-3735-b6e9-d3f13b0b9a81",
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "The Struggle",
+            "id": "502a024a-9071-460d-a5e2-acd4e04a4686",
+            "length": 140000,
+            "video": false,
+            "disambiguation": ""
+          },
+          "length": 140000,
+          "position": 4,
+          "number": "4",
+          "title": "The Struggle"
+        },
+        {
+          "number": "5",
+          "title": "Shattered",
+          "length": 155000,
+          "position": 5,
+          "recording": {
+            "id": "011056d2-9917-41fc-b210-0da0f7fefdf8",
+            "length": 155000,
+            "disambiguation": "",
+            "video": false,
+            "first-release-date": "2010-09-14",
+            "title": "Shattered"
+          },
+          "id": "5f13f4f1-5fb9-350e-80a0-c84b3739be22"
+        },
+        {
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "You're Caught",
+            "id": "81dd2233-d25b-4237-a5c8-65db43ff53ba",
+            "length": 138000,
+            "disambiguation": "",
+            "video": false
+          },
+          "id": "431205b4-ac34-3413-9c9b-8ae3ced8bd7a",
+          "number": "6",
+          "title": "You're Caught",
+          "length": 138000,
+          "position": 6
+        },
+        {
+          "id": "aaf9e2c9-a105-3c64-8257-9f59a77ae62a",
+          "recording": {
+            "title": "Dead Wrong",
+            "first-release-date": "2010-09-14",
+            "disambiguation": "",
+            "video": false,
+            "length": 170000,
+            "id": "d9f681db-06d0-402f-b326-f6930d3b8935"
+          },
+          "position": 7,
+          "length": 170000,
+          "title": "Dead Wrong",
+          "number": "7"
+        },
+        {
+          "id": "8b9ebe8c-196a-39e3-a8b7-19c9bce92178",
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "Keepers of the Faith",
+            "id": "3abb32f5-2175-405b-970e-a36f75a30a7f",
+            "length": 192000,
+            "disambiguation": "",
+            "video": false
+          },
+          "length": 192000,
+          "position": 8,
+          "number": "8",
+          "title": "Keepers of the Faith"
+        },
+        {
+          "recording": {
+            "title": "Stay Free",
+            "first-release-date": "2010-09-14",
+            "disambiguation": "",
+            "video": false,
+            "id": "10500515-ba3f-4ed0-8394-11ff0b4ff7ab",
+            "length": 138000
+          },
+          "id": "c442288f-1f67-3ffd-be78-18f6637bfcb6",
+          "title": "Stay Free",
+          "number": "9",
+          "position": 9,
+          "length": 138000
+        },
+        {
+          "id": "415d76e3-08a8-31b2-945d-ae945705ed87",
+          "recording": {
+            "title": "Hell and Back",
+            "first-release-date": "2010-09-14",
+            "video": false,
+            "disambiguation": "",
+            "length": 185000,
+            "id": "14a28b45-8e96-46b3-9dd5-95a86b441e0b"
+          },
+          "position": 10,
+          "length": 185000,
+          "title": "Hell and Back",
+          "number": "10"
+        },
+        {
+          "id": "5661816e-44a1-3de7-a7ce-88ec71ecd119",
+          "recording": {
+            "length": 145000,
+            "id": "dca84575-4a1a-47cb-a861-9a50d82b9b5c",
+            "video": false,
+            "disambiguation": "",
+            "first-release-date": "2010-09-14",
+            "title": "Only Death"
+          },
+          "position": 11,
+          "length": 145000,
+          "title": "Only Death",
+          "number": "11"
+        },
+        {
+          "title": "The New Blood",
+          "number": "12",
+          "position": 12,
+          "length": 151000,
+          "recording": {
+            "video": false,
+            "disambiguation": "",
+            "id": "7fa4e0a9-e75a-414d-a417-31fefbbcda03",
+            "length": 151000,
+            "title": "The New Blood",
+            "first-release-date": "2010-09-14"
+          },
+          "id": "766b9b25-cba8-3835-b712-7580f3ca21da"
+        },
+        {
+          "id": "8f879d17-56db-3f47-8c29-d552edc8545f",
+          "recording": {
+            "first-release-date": "2010-09-14",
+            "title": "Defiant",
+            "length": 177000,
+            "id": "87a27097-f2c6-4755-bee0-737fa97dc00a",
+            "disambiguation": "",
+            "video": false
+          },
+          "length": 177000,
+          "position": 13,
+          "number": "13",
+          "title": "Defiant"
+        }
+      ]
+    }
+  ],
+  "release-events": [
+    {
+      "date": "2010-09-14",
+      "area": {
+        "id": "489ce91b-6658-3307-9877-795b68554c98",
+        "name": "United States",
+        "disambiguation": "",
+        "type-id": null,
+        "type": null,
+        "iso-3166-1-codes": ["US"],
+        "sort-name": "United States"
+      }
+    }
+  ],
+  "date": "2010-09-14",
+  "id": "226889b2-ee17-4609-b238-116ebdf29062"
+}

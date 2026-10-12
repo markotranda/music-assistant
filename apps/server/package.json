@@ -14,6 +14,7 @@
     "@hono/node-server": "^2.1.4",
     "@hono/zod-openapi": "^1.6.3",
     "@ma/core": "workspace:*",
+    "@ma/integrations": "workspace:*",
     "drizzle-orm": "1.0.0-rc.4",
     "hono": "^4.13.13",
     "zod": "^4.6.6"

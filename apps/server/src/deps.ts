@@ -1,0 +1,39 @@
+import {
+  type CollectionFs,
+  createCollectionFs,
+  createDeezer,
+  createLastfm,
+  createMusicBrainz,
+  type DeezerApi,
+  type LastfmApi,
+  type MusicBrainzApi,
+} from "@ma/integrations";
+import type { Db } from "./db/index.js";
+import { getSetting } from "./db/repositories.js";
+import { defaultIntegrations, type IntegrationSettings } from "./db/seed.js";
+
+/** Everything the request layer needs — injectable for tests. */
+export type AppDeps = {
+  db: Db;
+  musicbrainz: MusicBrainzApi;
+  lastfm: LastfmApi;
+  deezer: DeezerApi;
+  collection: CollectionFs;
+};
+
+/** Builds real adapters from Settings + env. Secrets live in the Settings store. */
+export function createDeps(db: Db, env: NodeJS.ProcessEnv = process.env): AppDeps {
+  const integrations: IntegrationSettings =
+    getSetting<IntegrationSettings>(db, "integrations") ?? defaultIntegrations(env);
+
+  return {
+    db,
+    musicbrainz: createMusicBrainz({ userAgent: integrations.musicbrainzUserAgent }),
+    lastfm: createLastfm({ apiKey: integrations.lastfmApiKey }),
+    deezer: createDeezer(),
+    collection: createCollectionFs({
+      collectionDir: env.MA_COLLECTION_DIR ?? "./collection",
+      retiredDir: env.MA_RETIRED_DIR ?? "./_retired",
+    }),
+  };
+}
