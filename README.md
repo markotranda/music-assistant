@@ -23,7 +23,7 @@ docker compose up -d      # build + start on http://localhost:8787
 Or pull the published image (multi-arch, built by CI on tag):
 
 ```sh
-docker pull ghcr.io/<github-user>/music-assistant:latest
+docker pull ghcr.io/markotranda/music-assistant:latest
 ```
 
 State lives in `./data` (one SQLite file — trivial to back up), your managed music in
