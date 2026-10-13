@@ -4,16 +4,19 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { DownloadRequest, YtDlpApi } from "@ma/integrations";
 import { createCollectionFs } from "@ma/integrations";
+import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
   claimNextJob,
   enqueueJobRow,
   getTrackByNorm,
+  insertArtist,
   listJobs,
   listPlanRows,
   requeueRunningJobs,
   upsertTrack,
 } from "../src/db/repositories";
+import { events } from "../src/db/schema";
 import type { AppDeps } from "../src/deps";
 import { createJobHandlers } from "../src/jobs/handlers";
 import { createWorker } from "../src/jobs/worker";
@@ -132,6 +135,41 @@ function downloadDeps(opts: { failDownload?: boolean } = {}) {
   } as YtDlpApi;
   return { deps: { ...base, collection, ytdlp } as AppDeps, requests, collection };
 }
+
+describe("plan_all job handler", () => {
+  it("syncs every tracked band and records the honest summary", async () => {
+    const deps = fakeDeps();
+    await trackBand(deps, { name: "Terror", score: 1 });
+    await trackBand(deps, { name: "Madball", score: 2 });
+    enqueueJobRow(deps.db, "plan_all", {});
+
+    const worker = createWorker(deps, createJobHandlers(deps), { maxAttempts: 1, backoffMs: 1 });
+    await worker.drain();
+
+    expect(listJobs(deps.db, { status: "done" }).filter((j) => j.type === "plan_all")).toHaveLength(
+      1,
+    );
+
+    const evt = deps.db.select().from(events).where(eq(events.kind, "plan_all")).all()[0];
+    const payload = JSON.parse(evt?.payloadJson ?? "{}") as { bands: number; errors: unknown[] };
+    expect(payload.bands).toBe(2);
+    expect(payload.errors).toEqual([]);
+  });
+
+  it("fails with the real reason when every band fails to sync", async () => {
+    const deps = fakeDeps({ ranked: [] });
+    insertArtist(deps.db, { name: "Terror", mbid: "mbid-terror", score: 1, quota: 5 });
+    enqueueJobRow(deps.db, "plan_all", {});
+
+    const worker = createWorker(deps, createJobHandlers(deps), { maxAttempts: 1, backoffMs: 1 });
+    await worker.drain();
+
+    const failed = listJobs(deps.db, { status: "failed" }).filter((j) => j.type === "plan_all");
+    expect(failed).toHaveLength(1);
+    expect(failed[0]?.error).toContain("every band failed to sync");
+    expect(failed[0]?.error).toContain("no usable ranked tracks");
+  });
+});
 
 describe("download job handler", () => {
   it("acquires, canonically retags, verifies the tags, and records hash/duration", async () => {

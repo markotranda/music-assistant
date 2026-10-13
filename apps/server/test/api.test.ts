@@ -26,6 +26,21 @@ describe("GET /doc", () => {
     expect(body.paths["/health"]).toBeDefined();
     expect(body.paths["/api/artists"]).toBeDefined();
     expect(body.paths["/api/artists/{id}/sync"]).toBeDefined();
+    expect(body.paths["/api/plan"]).toBeDefined();
+  });
+});
+
+describe("bulk plan API", () => {
+  it("queues one plan_all job and dedupes identical pending runs", async () => {
+    const app = createApp(fakeDeps({ ranked: syntheticRanked(30) }));
+
+    const first = await app.request("/api/plan", { method: "POST" });
+    expect(first.status).toBe(202);
+    expect((await first.json()).jobId).not.toBeNull();
+
+    const second = await app.request("/api/plan", { method: "POST" });
+    expect(second.status).toBe(202);
+    expect((await second.json()).jobId).toBeNull(); // identical run already queued
   });
 });
 

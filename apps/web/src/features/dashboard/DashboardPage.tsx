@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, CheckCircle2, Clock, Download } from "lucide-react";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Meter } from "../../components/ui/meter";
-import { api, apiPost } from "../../lib/api";
+import { ApiRequestError, api, apiPost } from "../../lib/api";
 import type { Dashboard, VerifyReport } from "../../lib/types";
 import { formatBytes } from "../../lib/utils";
 import { FirstRunCard } from "../first-run/FirstRunCard";
@@ -52,8 +52,26 @@ function StatCard({
 }
 
 export function DashboardPage() {
+  const queryClient = useQueryClient();
   const [verifying, setVerifying] = useState(false);
   const [reports, setReports] = useState<VerifyReport[] | null>(null);
+  const [planNotice, setPlanNotice] = useState<string | null>(null);
+
+  const planAll = useMutation({
+    mutationFn: () => apiPost<{ jobId: number | null }>("/api/plan", {}),
+    onSuccess: (res) => {
+      setPlanNotice(
+        res.jobId === null
+          ? "A bulk plan is already queued."
+          : `Bulk plan queued (job ${res.jobId}) — follow it on the Queue page.`,
+      );
+      void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+    },
+    onError: (err) =>
+      setPlanNotice(
+        err instanceof ApiRequestError ? err.message : "Could not queue the bulk plan.",
+      ),
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
@@ -168,6 +186,15 @@ export function DashboardPage() {
               max={acquisition.monthlyBudgetTracks}
               unit="monthly acquisitions"
             />
+            <div className="flex flex-wrap items-center gap-3">
+              <Button size="sm" disabled={planAll.isPending} onClick={() => planAll.mutate()}>
+                {planAll.isPending ? "Queueing…" : "Plan all bands"}
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                {planNotice ??
+                  "Builds/reconciles every band's plan and queues downloads within budget."}
+              </p>
+            </div>
           </CardContent>
         </Card>
 

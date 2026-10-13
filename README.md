@@ -71,6 +71,10 @@ while plans are built fresh and acquired through the normal pipeline:
 ma migrate --bands bands.csv
 ```
 
+Then plan everything in one go with **"Plan all bands"** on the dashboard (or `ma sync`
+with no band name) — it builds/reconciles every plan and queues downloads within budget.
+The weekly rotation pass also re-plans all bands automatically.
+
 What it does and doesn't do:
 
 - Bands keep their score, MBID and disambiguation; quota is recomputed with the pinned

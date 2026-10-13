@@ -5,14 +5,13 @@ import {
   getArtistById,
   getPlanRowByNorm,
   getSetting,
-  listArtists,
   setPlanStatus,
   upsertTrack,
 } from "../db/repositories.js";
 import { events } from "../db/schema.js";
 import { type AcquisitionSettings, DEFAULT_ACQUISITION } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
-import { getOverrides, syncBand } from "../services/bands.js";
+import { getOverrides, syncAllBands } from "../services/bands.js";
 import { runDiscovery } from "../services/discovery.js";
 import { runMigration } from "../services/migrate.js";
 import { applyPrune, policyConfig, pruneReport, syncTrackPlayData } from "../services/policy.js";
@@ -201,14 +200,25 @@ const rotationScan: JobHandler = async (_payload, ctx) => {
   const { deps } = ctx;
   if (!policyConfig(deps).rotationEnabled) return;
   syncTrackPlayData(deps);
-  let bands = 0;
-  let renamed = 0;
-  for (const artist of listArtists(deps.db)) {
-    const result = await syncBand(deps, artist.id, { apply: true, rankBlend: "own_plays" });
-    bands += 1;
-    renamed += result.renames.length;
+  const summary = await syncAllBands(deps, { apply: true, rankBlend: "own_plays" });
+  logEvent(deps, "rotation_scan", { jobId: ctx.jobId, ...summary });
+};
+
+/**
+ * On-demand bulk plan: sync every tracked band — build or reconcile each plan
+ * and enqueue downloads within budget. The manual answer to "I imported my
+ * band list and nothing is planned yet" (per-band syncs stay on the band page).
+ * Per-band failures land in `errors` and do not abort the run; if every band
+ * fails the job fails too, with the real reason.
+ */
+const planAll: JobHandler = async (_payload, ctx) => {
+  const { deps } = ctx;
+  syncTrackPlayData(deps);
+  const summary = await syncAllBands(deps, { apply: true, rankBlend: "own_plays" });
+  logEvent(deps, "plan_all", { jobId: ctx.jobId, ...summary });
+  if (summary.bands === 0 && summary.errors.length > 0) {
+    throw new Error(`every band failed to sync: ${summary.errors[0]?.error ?? "unknown"}`);
   }
-  logEvent(deps, "rotation_scan", { jobId: ctx.jobId, bands, renamed });
 };
 
 export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
@@ -221,5 +231,6 @@ export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
     migrate,
     prune_scan: pruneScan,
     rotation_scan: rotationScan,
+    plan_all: planAll,
   };
 }

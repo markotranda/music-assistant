@@ -17,7 +17,8 @@ for upstream failures. The full OpenAPI document lives at `/doc`.
 - **Plan** — the desired top-N tracks per band, rank-prefixed files
   `NN - Title.ext` in `<collection>/<Band>/`. Pinned tracks survive re-plans.
 - **Jobs** — durable queue (`download`, `verify`, `scrobble_sync`,
-  `release_radar`, `discovery`, `prune_scan`, `rotation_scan`, `migrate`).
+  `release_radar`, `discovery`, `prune_scan`, `rotation_scan`, `plan_all`,
+  `migrate`).
 - **Candidates** — suggestions (new release / related artist) with a 0-100
   taste-fit score and human-readable reasons; they never enter the library
   directly. Approval modes: manual / hybrid (auto ≥ 85 fit) / auto.
@@ -55,6 +56,7 @@ for upstream failures. The full OpenAPI document lives at `/doc`.
 - `POST /api/jobs/{id}/retry` — Re-queue a failed job
 - `POST /api/migrate` — Import legacy state (bands.csv + plan.csv) as a durable job
 - `GET /api/migrate/report` — Report of the last migration run (everything unmapped is listed)
+- `POST /api/plan` — Sync every tracked band as a job: build/reconcile plans and enqueue downloads (budget-gated)
 - `GET /api/policy` — Policy state: gates, budget usage, genre shares
 - `GET /api/policy/prune-report` — Prune report: decayed tracks proposed for retirement (with reasons)
 - `POST /api/policy/prune/apply` — Retire pruned tracks to _retired/<Band>/ (recoverable)

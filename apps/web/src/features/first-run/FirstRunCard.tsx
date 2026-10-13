@@ -49,6 +49,19 @@ export function FirstRunCard() {
     onError: (err) => setError(err instanceof ApiRequestError ? err.message : String(err)),
   });
 
+  const planAll = useMutation({
+    mutationFn: () => apiPost<{ jobId: number | null }>("/api/plan", {}),
+    onSuccess: (res) => {
+      setError(null);
+      setNotice(
+        res.jobId === null
+          ? "A bulk plan is already queued."
+          : `Bulk plan queued (job ${res.jobId}) — follow it on the Queue page.`,
+      );
+    },
+    onError: (err) => setError(err instanceof ApiRequestError ? err.message : String(err)),
+  });
+
   const result = report.data?.report;
 
   return (
@@ -122,6 +135,18 @@ export function FirstRunCard() {
                 note: {p}
               </p>
             ))}
+          </div>
+        ) : null}
+
+        {result ? (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="sm" disabled={planAll.isPending} onClick={() => planAll.mutate()}>
+              Plan everything now
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Builds every band's plan and queues downloads within budget (the weekly rotation also
+              does this on its own).
+            </p>
           </div>
         ) : null}
       </CardContent>

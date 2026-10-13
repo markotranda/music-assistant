@@ -29,6 +29,7 @@ import {
   getSetting,
   insertArtist,
   insertPlanRow,
+  listArtists,
   listPlanRows,
   listTracks,
   nextPlanRank,
@@ -244,6 +245,42 @@ export async function syncBand(
     retire: plan.retire.map((f) => ({ fileName: f.fileName })),
     renames: plan.renames.map((r) => ({ from: r.from, to: r.to })),
   };
+}
+
+/**
+ * Sync every tracked band — the bulk path behind `plan_all` and the weekly
+ * rotation pass. Each band gets the full syncBand treatment (plan, reconcile,
+ * budget-gated downloads). One band failing (e.g. a flaky catalog lookup) is
+ * recorded in the returned `errors` and does not stop the rest — the failure
+ * is reported, never swallowed.
+ */
+export async function syncAllBands(
+  deps: AppDeps,
+  opts: { apply: boolean; rankBlend?: "own_plays" },
+): Promise<{
+  bands: number;
+  acquire: number;
+  retire: number;
+  renamed: number;
+  errors: { name: string; error: string }[];
+}> {
+  let bands = 0;
+  let acquire = 0;
+  let retire = 0;
+  let renamed = 0;
+  const errors: { name: string; error: string }[] = [];
+  for (const artist of listArtists(deps.db)) {
+    try {
+      const result = await syncBand(deps, artist.id, opts);
+      bands += 1;
+      acquire += result.acquire.length;
+      retire += result.retire.length;
+      renamed += result.renames.length;
+    } catch (err) {
+      errors.push({ name: artist.name, error: err instanceof Error ? err.message : String(err) });
+    }
+  }
+  return { bands, acquire, retire, renamed, errors };
 }
 
 /** Track a new band: resolve -> catalog -> quota -> plan -> reconcile. */

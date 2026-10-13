@@ -51,7 +51,8 @@ for upstream failures. The full OpenAPI document lives at \`/doc\`.
 - **Plan** — the desired top-N tracks per band, rank-prefixed files
   \`NN - Title.ext\` in \`<collection>/<Band>/\`. Pinned tracks survive re-plans.
 - **Jobs** — durable queue (\`download\`, \`verify\`, \`scrobble_sync\`,
-  \`release_radar\`, \`discovery\`, \`prune_scan\`, \`rotation_scan\`, \`migrate\`).
+  \`release_radar\`, \`discovery\`, \`prune_scan\`, \`rotation_scan\`, \`plan_all\`,
+  \`migrate\`).
 - **Candidates** — suggestions (new release / related artist) with a 0-100
   taste-fit score and human-readable reasons; they never enter the library
   directly. Approval modes: manual / hybrid (auto ≥ 85 fit) / auto.

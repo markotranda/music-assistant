@@ -34,6 +34,7 @@ describe("first-run wizard", () => {
         body: { report: calls.some((c) => c.key === "POST /api/migrate") ? report : null },
       }),
       "POST /api/migrate": () => ({ body: { jobId: 7 } }),
+      "POST /api/plan": () => ({ body: { jobId: 8 } }),
     });
 
     renderApp("/");
@@ -56,5 +57,12 @@ describe("first-run wizard", () => {
     await screen.findByText(/imported 141 band\(s\) and 1673 plan row\(s\)/);
     await screen.findByText(/quota mismatch: Accept legacy 15 vs computed 14/);
     await screen.findByText(/unmatched file \(left in place\): Terror\/99 - Off Plan\.mp3/);
+
+    // The report lands — the natural next step is one click away.
+    fireEvent.click(await screen.findByText("Plan everything now"));
+    await waitFor(() => {
+      expect(calls.some((c) => c.key === "POST /api/plan")).toBe(true);
+    });
+    await screen.findByText(/Bulk plan queued \(job 8\)/);
   });
 });

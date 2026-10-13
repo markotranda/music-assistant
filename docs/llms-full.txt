@@ -2577,13 +2577,11 @@ Request body (application/json):
       "minLength": 1
     },
     "planCsv": {
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     }
   },
   "required": [
-    "bandsCsv",
-    "planCsv"
+    "bandsCsv"
   ]
 }
 ```
@@ -2771,6 +2769,109 @@ Response 200: Report (null before the first run)
   },
   "required": [
     "report"
+  ]
+}
+```
+
+## POST /api/plan
+
+Sync every tracked band as a job: build/reconcile plans and enqueue downloads (budget-gated)
+
+Response 202: Bulk plan queued (jobId null = an identical run is already queued)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "jobId"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
   ]
 }
 ```

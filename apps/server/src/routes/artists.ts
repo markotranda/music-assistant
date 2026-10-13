@@ -1,7 +1,7 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { z } from "zod";
 import type { ArtistRow } from "../db/repositories.js";
-import { listArtists, listPlanRows } from "../db/repositories.js";
+import { enqueueJobRow, listArtists, listPlanRows } from "../db/repositories.js";
 import type { AppDeps } from "../deps.js";
 import * as bands from "../services/bands.js";
 
@@ -328,6 +328,27 @@ export function createArtistsRoutes(deps: AppDeps): OpenAPIHono {
       apply: body?.apply ?? false,
     });
     return c.json(result, 200);
+  });
+
+  const planAllRoute = createRoute({
+    method: "post",
+    path: "/plan",
+    tags: ["artists"],
+    summary:
+      "Sync every tracked band as a job: build/reconcile plans and enqueue downloads (budget-gated)",
+    responses: {
+      202: {
+        description: "Bulk plan queued (jobId null = an identical run is already queued)",
+        content: {
+          "application/json": { schema: z.object({ jobId: z.number().nullable() }) },
+        },
+      },
+      ...errorResponses,
+    },
+  });
+  app.openapi(planAllRoute, (c) => {
+    const jobId = enqueueJobRow(deps.db, "plan_all", {});
+    return c.json({ jobId }, 202);
   });
 
   const pinTrackRoute = createRoute({

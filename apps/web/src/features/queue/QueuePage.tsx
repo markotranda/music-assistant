@@ -29,6 +29,8 @@ function jobTitle(job: Job): string {
       return "rank rotation";
     case "migrate":
       return "import legacy state (bands.csv + plan.csv)";
+    case "plan_all":
+      return "plan all bands";
     default: {
       const json = JSON.stringify(p);
       if (json === "{}") return job.type;

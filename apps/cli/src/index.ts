@@ -181,11 +181,25 @@ program
   });
 
 program
-  .command("sync <name>")
-  .description("Preview (default) or apply the desired-state plan")
+  .command("sync [name]")
+  .description(
+    "Preview (default) or apply the desired-state plan for one band; without a name, plan every tracked band as a job",
+  )
   .option("--apply", "apply the plan (rename/retire/queue downloads)")
-  .action(async (name: string, opts: { apply?: boolean }) => {
+  .action(async (name: string | undefined, opts: { apply?: boolean }) => {
     try {
+      if (!name) {
+        const r = await api.request<{ jobId: number | null }>("/api/plan", {
+          method: "POST",
+          body: JSON.stringify({}),
+        });
+        console.log(
+          r.jobId === null
+            ? "a bulk plan is already queued (nothing to do)"
+            : `bulk plan queued as job ${r.jobId} — progress shows in 'ma jobs'`,
+        );
+        return;
+      }
       const artist = await findArtist(name);
       const r = await api.request<{
         applied: boolean;
