@@ -1,4 +1,10 @@
-import { normTitle, roundHalfToEven } from "@ma/core";
+import {
+  buildPlacements,
+  normTitle,
+  type Placement,
+  type PlacementAlbumInput,
+  roundHalfToEven,
+} from "@ma/core";
 import { createHttp, type HttpJson } from "./http.js";
 
 /**
@@ -52,12 +58,43 @@ type MbReleaseGroup = {
 
 type MbRelease = {
   id: string;
-  media?: { "track-count"?: number; tracks?: { title: string }[] }[];
+  title?: string;
+  date?: string;
+  status?: string;
+  media?: {
+    position?: number;
+    "track-count"?: number;
+    tracks?: {
+      position?: number;
+      title: string;
+      recording?: { id?: string; title?: string };
+    }[];
+  }[];
   "release-group"?: { id: string; "primary-type"?: string; "secondary-types"?: string[] };
 };
 
 const DEFAULT_BASE = "https://musicbrainz.org/ws/2";
 const PAGE = 100;
+
+function yearOf(date: string | undefined): number | null {
+  const y = date?.slice(0, 4);
+  return y && /^\d{4}$/.test(y) ? Number(y) : null;
+}
+
+/**
+ * The release representing a release-group. Earliest official release wins —
+ * that is what makes the album attribution stable and reproducible, and
+ * prefers the original issue over a later remaster (legacy `_canonical_release`).
+ */
+function canonicalRelease(releases: MbRelease[]): MbRelease | undefined {
+  const official = releases.filter((r) => r.status === "Official");
+  const pool = official.length > 0 ? official : releases;
+  return pool.slice().sort((a, b) => {
+    const da = a.date || "9999";
+    const db = b.date || "9999";
+    return da === db ? (a.title ?? "").localeCompare(b.title ?? "") : da.localeCompare(db);
+  })[0];
+}
 
 export function createMusicBrainz(options: MusicBrainzOptions) {
   const base = options.baseUrl ?? DEFAULT_BASE;
@@ -262,6 +299,53 @@ export function createMusicBrainz(options: MusicBrainzOptions) {
         date: hit["first-release-date"] ?? null,
         tracks,
       };
+    },
+
+    /**
+     * Every studio-album placement for the artist (legacy rule): each studio
+     * album's canonical release tracklist, walked earliest-first, so a song is
+     * attributed to its earliest official studio release and the track number
+     * is that album's position. One browse per album — the response both
+     * identifies the canonical release and carries its tracklist.
+     */
+    async syncPlacements(mbid: string): Promise<Placement[]> {
+      const groups = (await fetchAllPages(
+        `${base}/release-group?artist=${mbid}&type=album&fmt=json`,
+        "release-groups",
+        "release-group-count",
+      )) as unknown as MbReleaseGroup[];
+
+      const albums: PlacementAlbumInput[] = [];
+      const studio = studioOnly(groups)
+        .slice()
+        .sort((a, b) => {
+          const da = a["first-release-date"] ?? "9999";
+          const db = b["first-release-date"] ?? "9999";
+          return da === db ? a.title.localeCompare(b.title) : da.localeCompare(db);
+        });
+
+      for (const g of studio) {
+        const browse = (await http(
+          `${base}/release?release-group=${g.id}&inc=recordings&fmt=json&limit=${PAGE}`,
+        )) as { releases?: MbRelease[] };
+        const rel = canonicalRelease(browse.releases ?? []);
+        if (!rel) continue;
+        albums.push({
+          title: g.title,
+          year: yearOf(g["first-release-date"]),
+          releaseGroupMbid: g.id,
+          media: (rel.media ?? []).map((m) => ({
+            position: m.position ?? null,
+            trackCount: m["track-count"] ?? 0,
+            tracks: (m.tracks ?? []).map((t) => ({
+              position: t.position ?? null,
+              title: t.title || t.recording?.title || "",
+              recordingMbid: t.recording?.id ?? null,
+            })),
+          })),
+        });
+      }
+      return buildPlacements(albums);
     },
   };
 }

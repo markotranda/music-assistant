@@ -55,22 +55,28 @@ export function DashboardPage() {
   const queryClient = useQueryClient();
   const [verifying, setVerifying] = useState(false);
   const [reports, setReports] = useState<VerifyReport[] | null>(null);
-  const [planNotice, setPlanNotice] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
-  const planAll = useMutation({
-    mutationFn: () => apiPost<{ jobId: number | null }>("/api/plan", {}),
-    onSuccess: (res) => {
-      setPlanNotice(
+  const queueJob = (path: string, queued: string) =>
+    apiPost<{ jobId: number | null }>(path, {}).then((res) => {
+      setNotice(
         res.jobId === null
-          ? "A bulk plan is already queued."
-          : `Bulk plan queued (job ${res.jobId}) — follow it on the Queue page.`,
+          ? "An identical run is already queued."
+          : `${queued} (job ${res.jobId}).`,
       );
       void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
-    },
+    });
+
+  const planAll = useMutation({
+    mutationFn: () => queueJob("/api/plan", "Bulk plan queued — follow it on the Queue page"),
     onError: (err) =>
-      setPlanNotice(
-        err instanceof ApiRequestError ? err.message : "Could not queue the bulk plan.",
-      ),
+      setNotice(err instanceof ApiRequestError ? err.message : "Could not queue the bulk plan."),
+  });
+
+  const retag = useMutation({
+    mutationFn: () => queueJob("/api/retag", "Retag queued — follow it on the Queue page"),
+    onError: (err) =>
+      setNotice(err instanceof ApiRequestError ? err.message : "Could not queue the retag."),
   });
 
   const { data, isLoading } = useQuery({
@@ -190,9 +196,17 @@ export function DashboardPage() {
               <Button size="sm" disabled={planAll.isPending} onClick={() => planAll.mutate()}>
                 {planAll.isPending ? "Queueing…" : "Plan all bands"}
               </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={retag.isPending}
+                onClick={() => retag.mutate()}
+              >
+                {retag.isPending ? "Queueing…" : "Retag files"}
+              </Button>
               <p className="text-xs text-muted-foreground">
-                {planNotice ??
-                  "Builds/reconciles every band's plan and queues downloads within budget."}
+                {notice ??
+                  "Plan builds/reconciles every band's plan within budget; retag fills album metadata onto downloaded files."}
               </p>
             </div>
           </CardContent>

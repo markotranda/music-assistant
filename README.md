@@ -7,7 +7,9 @@ A self-hosted music assistant that **follows trends** and **doesn't overload you
 - **Anti-overload** — per-band quotas from a proven formula, per-genre balance, hard library
   budgets, a soft monthly acquisition target, decay → prune reports and rank rotation.
   Nothing enters the library without passing the gates (or your explicit approval).
-- **Acquisition** — yt-dlp downloads, canonical retagging, verification by content hash.
+- **Acquisition** — yt-dlp downloads and canonical retagging with the full metadata set:
+  artist, title, album (each song's earliest official studio release), year, album position,
+  disc, MusicBrainz ids, cover art and ReplayGain — verified by read-back and content hash.
   Your files stay yours: retire-not-delete (`_retired/<Band>/`), no streaming service.
 
 Single-user web UI, plus a documented REST API and `ma` CLI so anyone can self-host and
@@ -74,6 +76,10 @@ ma migrate --bands bands.csv
 Then plan everything in one go with **"Plan all bands"** on the dashboard (or `ma sync`
 with no band name) — it builds/reconciles every plan and queues downloads within budget.
 The weekly rotation pass also re-plans all bands automatically.
+
+Files downloaded by an older version can be filled in afterwards with **"Retag files"**
+(or `ma retag`): album, year, album position, disc, MusicBrainz ids, cover art and
+ReplayGain, without re-downloading anything.
 
 What it does and doesn't do:
 

@@ -102,6 +102,8 @@ export const defaultSettings: Settings = {
     minDurationS: 60,
     maxDurationS: 900,
     playerClients: [null, "web_safari", "android,web"],
+    embedArt: true,
+    replayGain: false,
   },
   auth: { tokenMasked: null },
   overrides: { pinnedMbids: {}, searchNameFixes: {} },

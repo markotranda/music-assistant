@@ -2,8 +2,13 @@ import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { DownloadRequest, YtDlpApi } from "@ma/integrations";
-import { createCollectionFs } from "@ma/integrations";
+import { normTitle } from "@ma/core";
+import {
+  createCollectionFs,
+  type DownloadRequest,
+  probeAudio,
+  type YtDlpApi,
+} from "@ma/integrations";
 import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
@@ -22,7 +27,7 @@ import { createJobHandlers } from "../src/jobs/handlers";
 import { createWorker } from "../src/jobs/worker";
 import { trackBand } from "../src/services/bands";
 import { verifyBand } from "../src/services/verify";
-import { fakeDeps, syntheticRanked } from "./fakes";
+import { type FakeOptions, fakeDeps, syntheticRanked } from "./fakes";
 
 const sampleMp3 = fileURLToPath(
   new URL("../../../packages/integrations/test/fixtures/sample.mp3", import.meta.url),
@@ -108,9 +113,13 @@ describe("job worker", () => {
 });
 
 /** Real collection fs on temp dirs + a fake yt-dlp that "downloads" sample.mp3. */
-function downloadDeps(opts: { failDownload?: boolean } = {}) {
+function downloadDeps(opts: { failDownload?: boolean; fake?: FakeOptions } = {}) {
   const root = mkdtempSync(join(tmpdir(), "ma-dl-"));
-  const base = fakeDeps({ ranked: syntheticRanked(30) });
+  // Pass the caller's object through (no copy) so tests can flip fakes between
+  // runs — e.g. placements that only become available after acquisition.
+  opts.fake ??= {};
+  opts.fake.ranked ??= syntheticRanked(30);
+  const base = fakeDeps(opts.fake);
   const collection = createCollectionFs({
     collectionDir: join(root, "collection"),
     retiredDir: join(root, "retired"),
@@ -135,6 +144,97 @@ function downloadDeps(opts: { failDownload?: boolean } = {}) {
   } as YtDlpApi;
   return { deps: { ...base, collection, ytdlp } as AppDeps, requests, collection };
 }
+
+describe("download tagging", () => {
+  it("writes the album placement into the acquired file (album position, not rank)", async () => {
+    const { deps, collection } = downloadDeps({
+      fake: {
+        placements: {
+          "mbid-terror": [
+            {
+              normTitle: normTitle("Song 01"),
+              album: "Demo Album",
+              year: 2003,
+              trackNo: 7,
+              trackTotal: 11,
+              discNo: 1,
+              recordingMbid: "rec-1",
+              releaseGroupMbid: "rg-1",
+            },
+          ],
+        },
+        cover: { data: new Uint8Array([0x89, 0x50, 0x4e, 0x47]), mime: "image/png" },
+      },
+    });
+    await trackBand(deps, { name: "Terror", score: 1 });
+    const worker = createWorker(deps, createJobHandlers(deps), { maxAttempts: 1, backoffMs: 1 });
+    await worker.drain();
+
+    const probe = await probeAudio(join(collection.bandDir("Terror"), "01 - Song 01.mp3"));
+    expect(probe?.album).toBe("Demo Album");
+    expect(probe?.year).toBe(2003);
+    // The album's own position (7), not the collection rank (1) — the rank
+    // lives in the file name.
+    expect(probe?.trackNumber).toBe(7);
+    expect(probe?.trackTotal).toBe(11);
+    expect(probe?.discNumber).toBe(1);
+  });
+});
+
+describe("retag job handler", () => {
+  it("backfills album metadata onto files acquired without it", async () => {
+    const fake: FakeOptions = {
+      placements: {
+        "mbid-terror": [
+          {
+            normTitle: normTitle("Song 01"),
+            album: "Demo Album",
+            year: 2003,
+            trackNo: 7,
+            trackTotal: 11,
+            discNo: 1,
+            recordingMbid: "rec-1",
+            releaseGroupMbid: "rg-1",
+          },
+        ],
+      },
+      cover: { data: new Uint8Array([0x89, 0x50, 0x4e, 0x47]), mime: "image/png" },
+    };
+    const { deps, collection } = downloadDeps({ fake });
+    await trackBand(deps, { name: "Terror", score: 1 });
+
+    // A file acquired by the previous version: on disk, plan row present, but
+    // no album metadata. The rest of the plan is still pending download.
+    const dir = collection.bandDir("Terror");
+    mkdirSync(dir, { recursive: true });
+    const file = join(dir, "01 - Song 01.mp3");
+    copyFileSync(sampleMp3, file);
+    expect((await probeAudio(file))?.album).toBeNull();
+
+    enqueueJobRow(deps.db, "retag", {});
+    const worker = createWorker(deps, createJobHandlers(deps), { maxAttempts: 1, backoffMs: 1 });
+    await worker.drain();
+
+    const probe = await probeAudio(file);
+    expect(probe?.album).toBe("Demo Album");
+    expect(probe?.trackNumber).toBe(7);
+
+    const evt = deps.db.select().from(events).where(eq(events.kind, "retag_report")).all()[0];
+    const payload = JSON.parse(evt?.payloadJson ?? "{}") as {
+      bands: number;
+      files: number;
+      retagged: number;
+      art: number;
+      replayGain: number;
+      errors: unknown[];
+    };
+    expect(payload.bands).toBe(1);
+    expect(payload.retagged).toBe(payload.files);
+    expect(payload.art).toBe(1); // only the placed track has an album to source art from
+    expect(payload.replayGain).toBe(0); // disabled in tests — no ffmpeg
+    expect(payload.errors).toEqual([]);
+  });
+});
 
 describe("plan_all job handler", () => {
   it("syncs every tracked band and records the honest summary", async () => {

@@ -31,6 +31,8 @@ function jobTitle(job: Job): string {
       return "import legacy state (bands.csv + plan.csv)";
     case "plan_all":
       return "plan all bands";
+    case "retag":
+      return "retag files (canonical tags)";
     default: {
       const json = JSON.stringify(p);
       if (json === "{}") return job.type;

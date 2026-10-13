@@ -7,6 +7,7 @@ import {
   candidates,
   events,
   jobs,
+  placements,
   planItems,
   scrobbles,
   settings,
@@ -620,4 +621,51 @@ export function allArtistTags(db: Db): (ArtistTagRow & { artistName: string })[]
     .innerJoin(artists, eq(artistTags.artistId, artists.id))
     .all()
     .map((r) => ({ ...r.tag, artistName: r.artistName }));
+}
+
+// ------------------------------------------------------------ placements
+
+export type PlacementRow = typeof placements.$inferSelect;
+
+/** Replace an artist's placement cache (one row per planned title). */
+export function replacePlacements(
+  db: Db,
+  artistId: number,
+  rows: {
+    normTitle: string;
+    album: string;
+    year: number | null;
+    trackNo: number | null;
+    trackTotal: number | null;
+    discNo: number | null;
+    recordingMbid: string | null;
+    releaseGroupMbid: string | null;
+  }[],
+): void {
+  db.delete(placements).where(eq(placements.artistId, artistId)).run();
+  for (const row of rows) {
+    db.insert(placements)
+      .values({ artistId, ...row })
+      .run();
+  }
+}
+
+export function listPlacements(db: Db, artistId: number): PlacementRow[] {
+  return db.select().from(placements).where(eq(placements.artistId, artistId)).all();
+}
+
+export function getPlacement(
+  db: Db,
+  artistId: number,
+  normTitle: string,
+): PlacementRow | undefined {
+  return db
+    .select()
+    .from(placements)
+    .where(and(eq(placements.artistId, artistId), eq(placements.normTitle, normTitle)))
+    .get();
+}
+
+export function setPlacementsSynced(db: Db, artistId: number, at: string): void {
+  db.update(artists).set({ placementsSyncedAt: at }).where(eq(artists.id, artistId)).run();
 }

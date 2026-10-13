@@ -2,6 +2,7 @@ import { copyFileSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseFile } from "music-metadata";
 import { describe, expect, it } from "vitest";
 import { probeAudio, retagFile } from "../src/index";
 
@@ -44,6 +45,85 @@ describe("retagFile + probeAudio", () => {
     const b = await probeAudio(file);
     expect(a?.sizeBytes).toBeGreaterThan(0);
     expect(a?.hash).toBe(b?.hash);
+  });
+});
+
+describe("retagFile canonical set (legacy parity)", () => {
+  const fullTags = {
+    artist: "Terror",
+    title: "Lowest of the Low",
+    albumArtist: "Terror",
+    album: "Lowest of the Low",
+    year: 2003,
+    trackNumber: 1,
+    trackTotal: 11,
+    discNumber: 1,
+    mbids: {
+      artist: "697eba1a-bf52-46b1-a19f-4d7190b63e5c",
+      albumArtist: "697eba1a-bf52-46b1-a19f-4d7190b63e5c",
+      releaseGroup: "rg-lowest",
+      recording: "rec-lowest",
+    },
+    replayGain: { gainDb: -3.25, peakLinear: 0.91 },
+  };
+
+  it("writes album, year, album position, disc, MBIDs and ReplayGain", async () => {
+    const file = freshCopy();
+    retagFile(file, fullTags);
+
+    const after = await probeAudio(file);
+    expect(after?.album).toBe("Lowest of the Low");
+    expect(after?.year).toBe(2003);
+    expect(after?.trackNumber).toBe(1);
+    expect(after?.trackTotal).toBe(11);
+    expect(after?.discNumber).toBe(1);
+
+    const meta = await parseFile(file);
+    expect(meta.common.musicbrainz_artistid).toEqual(["697eba1a-bf52-46b1-a19f-4d7190b63e5c"]);
+    expect(meta.common.musicbrainz_releasegroupid).toBe("rg-lowest");
+    expect(meta.common.musicbrainz_recordingid).toBe("rec-lowest");
+    // ReplayGain under the standard REPLAYGAIN_* descriptions.
+    const native = JSON.stringify(meta.native);
+    expect(native).toContain("REPLAYGAIN_TRACK_GAIN");
+    expect(native).toContain("REPLAYGAIN_TRACK_PEAK");
+  });
+
+  it("re-writes replace the owned frames instead of stacking duplicates", async () => {
+    const file = freshCopy();
+    retagFile(file, fullTags);
+    retagFile(file, {
+      ...fullTags,
+      album: "Corrected Album",
+      mbids: { ...fullTags.mbids, recording: "rec-corrected" },
+    });
+
+    const meta = await parseFile(file);
+    expect(meta.common.album).toBe("Corrected Album");
+    expect(meta.common.musicbrainz_recordingid).toBe("rec-corrected");
+
+    const native = JSON.stringify(meta.native);
+    const count = (needle: string) => native.split(needle).length - 1;
+    expect(count("MusicBrainz Album Artist Id")).toBe(1);
+    expect(count("MusicBrainz Release Group Id")).toBe(1);
+  });
+
+  it("embeds the front cover from the lazy source", async () => {
+    const file = freshCopy();
+    let calls = 0;
+    retagFile(file, fullTags, {
+      cover: () => {
+        calls += 1;
+        return {
+          data: new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+          mime: "image/png",
+        };
+      },
+    });
+    expect(calls).toBe(1);
+
+    const meta = await parseFile(file);
+    expect(meta.common.picture).toHaveLength(1);
+    expect(meta.common.picture?.[0]?.format).toBe("image/png");
   });
 });
 

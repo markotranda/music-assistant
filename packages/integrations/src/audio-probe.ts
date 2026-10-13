@@ -17,7 +17,11 @@ export type AudioProbe = {
   title: string | null;
   artist: string | null;
   albumArtist: string | null;
+  album: string | null;
+  year: number | null;
   trackNumber: number | null;
+  trackTotal: number | null;
+  discNumber: number | null;
 };
 
 /**
@@ -47,7 +51,11 @@ export async function probeAudio(filePath: string): Promise<AudioProbe | null> {
       title: meta.common.title ?? null,
       artist: meta.common.artist ?? null,
       albumArtist: meta.common.albumartist ?? null,
+      album: meta.common.album ?? null,
+      year: meta.common.year ?? null,
       trackNumber: meta.common.track?.no ?? null,
+      trackTotal: meta.common.track?.of ?? null,
+      discNumber: meta.common.disk?.no ?? null,
     };
   } catch {
     return null;

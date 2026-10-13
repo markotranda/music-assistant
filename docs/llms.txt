@@ -18,7 +18,11 @@ for upstream failures. The full OpenAPI document lives at `/doc`.
   `NN - Title.ext` in `<collection>/<Band>/`. Pinned tracks survive re-plans.
 - **Jobs** — durable queue (`download`, `verify`, `scrobble_sync`,
   `release_radar`, `discovery`, `prune_scan`, `rotation_scan`, `plan_all`,
-  `migrate`).
+  `retag`, `migrate`).
+- **Tags** — acquired files carry the canonical set: artist, title, album (the
+  song's earliest official studio release), year, album position, disc,
+  MusicBrainz ids, cover art and ReplayGain. `POST /api/retag` backfills files
+  acquired before a field existed.
 - **Candidates** — suggestions (new release / related artist) with a 0-100
   taste-fit score and human-readable reasons; they never enter the library
   directly. Approval modes: manual / hybrid (auto ≥ 85 fit) / auto.
@@ -61,6 +65,7 @@ for upstream failures. The full OpenAPI document lives at `/doc`.
 - `GET /api/policy/prune-report` — Prune report: decayed tracks proposed for retirement (with reasons)
 - `POST /api/policy/prune/apply` — Retire pruned tracks to _retired/<Band>/ (recoverable)
 - `POST /api/policy/simulate` — Simulator: "what would change if I set score 3 on X / lower the budget?"
+- `POST /api/retag` — Re-tag acquired files as a job: album, year, album position, disc, MusicBrainz ids, cover art, ReplayGain
 - `GET /api/scrobbles` — Scrobble stats: total plays, last play, top artists
 - `POST /api/scrobbles/sync` — Import scrobble history as a job (full history on first run)
 - `GET /api/settings` — All settings groups (secrets masked)

@@ -351,6 +351,41 @@ export function createArtistsRoutes(deps: AppDeps): OpenAPIHono {
     return c.json({ jobId }, 202);
   });
 
+  const retagRoute = createRoute({
+    method: "post",
+    path: "/retag",
+    tags: ["artists"],
+    summary:
+      "Re-tag acquired files as a job: album, year, album position, disc, MusicBrainz ids, cover art, ReplayGain",
+    request: {
+      body: {
+        content: {
+          "application/json": {
+            schema: z.object({ artistId: z.number().int().positive().optional() }).optional(),
+          },
+        },
+      },
+    },
+    responses: {
+      202: {
+        description: "Retag queued (jobId null = an identical run is already queued)",
+        content: {
+          "application/json": { schema: z.object({ jobId: z.number().nullable() }) },
+        },
+      },
+      ...errorResponses,
+    },
+  });
+  app.openapi(retagRoute, (c) => {
+    const body = c.req.valid("json");
+    const jobId = enqueueJobRow(
+      deps.db,
+      "retag",
+      body?.artistId ? { artistId: body.artistId } : {},
+    );
+    return c.json({ jobId }, 202);
+  });
+
   const pinTrackRoute = createRoute({
     method: "post",
     path: "/artists/{id}/tracks",

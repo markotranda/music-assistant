@@ -126,6 +126,8 @@ export type Settings = {
     minDurationS: number;
     maxDurationS: number;
     playerClients: (string | null)[];
+    embedArt: boolean;
+    replayGain: boolean;
   };
   auth: { tokenMasked: string | null };
   overrides: { pinnedMbids: Record<string, string>; searchNameFixes: Record<string, string> };

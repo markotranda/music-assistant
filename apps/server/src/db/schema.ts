@@ -25,6 +25,8 @@ export const artists = sqliteTable(
     pinnedMbid: text("pinned_mbid"),
     /** Never suggest this artist again. */
     ignored: integer("ignored", { mode: "boolean" }).notNull().default(false),
+    /** Set when the studio-album placement walk completed for this artist. */
+    placementsSyncedAt: text("placements_synced_at"),
     createdAt: text("created_at").notNull().$defaultFn(now),
   },
   (t) => [uniqueIndex("artists_mbid_uq").on(t.mbid)],
@@ -93,6 +95,36 @@ export const albums = sqliteTable(
     type: text("type"),
   },
   (t) => [index("albums_artist_idx").on(t.artistId)],
+);
+
+/**
+ * Album placement cache: where a planned title sits in the artist's studio
+ * discography — the legacy rule, "a song is attributed to its earliest
+ * official studio release, and the track number is that album's position".
+ * Resolved lazily per artist (see services/tags.ts) and written onto acquired
+ * files as canonical tags.
+ */
+export const placements = sqliteTable(
+  "placements",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    artistId: integer("artist_id")
+      .notNull()
+      .references(() => artists.id),
+    normTitle: text("norm_title").notNull(),
+    album: text("album").notNull(),
+    year: integer("year"),
+    /** Album position — never the collection rank. */
+    trackNo: integer("track_no"),
+    trackTotal: integer("track_total"),
+    discNo: integer("disc_no"),
+    recordingMbid: text("recording_mbid"),
+    releaseGroupMbid: text("release_group_mbid"),
+  },
+  (t) => [
+    uniqueIndex("placements_artist_norm_uq").on(t.artistId, t.normTitle),
+    index("placements_artist_idx").on(t.artistId),
+  ],
 );
 
 export const candidates = sqliteTable(

@@ -90,4 +90,23 @@ describe("dashboard", () => {
     await screen.findByText("track_acquired");
     await screen.findByText("Overcome");
   });
+
+  it("queues bulk plan and retag jobs from the budget card", async () => {
+    const calls = mockApi({
+      "GET /api/dashboard": () => ({ body: lockedDashboard }),
+      "GET /api/digest": () => ({ body: { headline: "fresh start" } }),
+      "POST /api/plan": () => ({ body: { jobId: 3 } }),
+      "POST /api/retag": () => ({ body: { jobId: 4 } }),
+    });
+
+    renderApp("/");
+    fireEvent.click(await screen.findByText("Plan all bands"));
+    await screen.findByText(/Bulk plan queued — follow it on the Queue page \(job 3\)/);
+
+    fireEvent.click(screen.getByText("Retag files"));
+    await screen.findByText(/Retag queued — follow it on the Queue page \(job 4\)/);
+
+    expect(calls.some((c) => c.key === "POST /api/plan")).toBe(true);
+    expect(calls.some((c) => c.key === "POST /api/retag")).toBe(true);
+  });
 });

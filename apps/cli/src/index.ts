@@ -272,6 +272,30 @@ program
   });
 
 program
+  .command("retag [name]")
+  .description(
+    "Re-tag acquired files with the canonical tag set (album, year, album position, disc, MBIDs, art, ReplayGain); without a name, every band",
+  )
+  .action(async (name?: string) => {
+    try {
+      let artistId: number | undefined;
+      if (name) artistId = (await findArtist(name)).id;
+      const r = await api.request<{ jobId: number | null }>("/api/retag", {
+        method: "POST",
+        body: JSON.stringify(artistId ? { artistId } : {}),
+      });
+      console.log(
+        r.jobId === null
+          ? "an identical retag is already queued (nothing to do)"
+          : `retag queued as job ${r.jobId} — progress shows in 'ma jobs'`,
+      );
+    } catch (err) {
+      console.error(err instanceof Error ? err.message : err);
+      process.exitCode = 1;
+    }
+  });
+
+program
   .command("verify [name]")
   .description("Deep verify: plan vs disk by title, name AND content hash")
   .action(async (name?: string) => {

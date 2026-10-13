@@ -1,15 +1,13 @@
 import { join } from "node:path";
-import { type DesiredTrack, indexOnDisk, splitFileName, targetFileName } from "@ma/core";
-import { probeAudio, retagFile } from "@ma/integrations";
 import {
-  getArtistById,
-  getPlanRowByNorm,
-  getSetting,
-  setPlanStatus,
-  upsertTrack,
-} from "../db/repositories.js";
+  type DesiredTrack,
+  indexOnDisk,
+  type Placement,
+  splitFileName,
+  targetFileName,
+} from "@ma/core";
+import { getArtistById, getPlanRowByNorm, setPlanStatus, upsertTrack } from "../db/repositories.js";
 import { events } from "../db/schema.js";
-import { type AcquisitionSettings, DEFAULT_ACQUISITION } from "../db/seed.js";
 import type { AppDeps } from "../deps.js";
 import { getOverrides, syncAllBands } from "../services/bands.js";
 import { runDiscovery } from "../services/discovery.js";
@@ -17,6 +15,8 @@ import { runMigration } from "../services/migrate.js";
 import { applyPrune, policyConfig, pruneReport, syncTrackPlayData } from "../services/policy.js";
 import { runReleaseRadar } from "../services/releases.js";
 import { ingestScrobbles } from "../services/scrobbles.js";
+import { readAcquisition } from "../services/settings.js";
+import { placementFor, retagBands, writeCanonicalTags } from "../services/tags.js";
 import { verifyAll, verifyBand } from "../services/verify.js";
 import type { JobHandler } from "./worker.js";
 
@@ -65,7 +65,7 @@ const download: JobHandler = async (payload, ctx) => {
 
   setPlanStatus(deps.db, planRow.id, "DOWNLOADING");
 
-  const acq = getSetting<AcquisitionSettings>(deps.db, "acquisition") ?? DEFAULT_ACQUISITION;
+  const acq = readAcquisition(deps);
   const overrides = getOverrides(deps);
   const band = overrides.searchNameFixes[artist.name] ?? artist.name;
   const destBase = join(
@@ -92,28 +92,36 @@ const download: JobHandler = async (payload, ctx) => {
     throw new Error(`download failed for '${artist.name} - ${planRow.title}': ${res.error}`);
   }
 
-  // YouTube metadata is unreliable — write canonical tags from OUR plan data.
-  retagFile(res.filePath, {
-    artist: artist.name,
-    title: planRow.title,
-    albumArtist: artist.name,
-    trackNumber: planRow.rank,
-  });
+  // YouTube metadata is unreliable — write canonical tags from OUR plan data,
+  // including the album placement (earliest official studio release). Album
+  // metadata is cosmetic: a failed placement lookup is reported and the
+  // download continues with the rest of the canonical tags.
+  let placement: Placement | null = null;
+  try {
+    placement = await placementFor(deps, artist, norm);
+  } catch (err) {
+    logEvent(deps, "tags_partial", {
+      artistId,
+      band: artist.name,
+      title: planRow.title,
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
+  const tagged = await writeCanonicalTags(
+    deps,
+    res.filePath,
+    artist,
+    { title: planRow.title, rank: planRow.rank },
+    placement,
+    acq,
+  );
 
   // Read-back verification: prove the tags stuck before recording the file.
-  const probe = await probeAudio(res.filePath);
-  if (!probe) {
-    setPlanStatus(deps.db, planRow.id, "FAILED");
-    throw new Error(`acquired file for '${planRow.title}' is unreadable/corrupt`);
-  }
-  if (
-    probe.title !== planRow.title ||
-    probe.artist !== artist.name ||
-    probe.albumArtist !== artist.name
-  ) {
+  const probe = tagged.probe;
+  if (!probe || tagged.mismatch) {
     setPlanStatus(deps.db, planRow.id, "FAILED");
     throw new Error(
-      `retag verification failed for '${planRow.title}': read back title=${JSON.stringify(probe.title)} artist=${JSON.stringify(probe.artist)}`,
+      `retag verification failed for '${planRow.title}': ${tagged.mismatch ?? "file unreadable/corrupt"}`,
     );
   }
 
@@ -135,6 +143,7 @@ const download: JobHandler = async (payload, ctx) => {
     artistId,
     band: artist.name,
     title: planRow.title,
+    album: placement?.album ?? null,
     hash: probe.hash,
     durationS: probe.durationS,
     attempts: res.attempts.length,
@@ -221,6 +230,22 @@ const planAll: JobHandler = async (_payload, ctx) => {
   }
 };
 
+/**
+ * Re-tag acquired files with the full canonical tag set (album, year, album
+ * position, disc, MusicBrainz ids, cover art, ReplayGain) — the fix-up path
+ * for files acquired before album metadata landed. One band or everything;
+ * per-file problems land in the summary, never silently.
+ */
+const retag: JobHandler = async (payload, ctx) => {
+  const { deps } = ctx;
+  const { artistId } = payload as { artistId?: number };
+  const summary = await retagBands(deps, { artistId });
+  logEvent(deps, "retag_report", { jobId: ctx.jobId, ...summary });
+  if (summary.errors.length > 0 && summary.retagged === 0) {
+    throw new Error(`retag failed for every file: ${summary.errors[0]?.error ?? "unknown"}`);
+  }
+};
+
 export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
   return {
     download,
@@ -232,5 +257,6 @@ export function createJobHandlers(_deps: AppDeps): Record<string, JobHandler> {
     prune_scan: pruneScan,
     rotation_scan: rotationScan,
     plan_all: planAll,
+    retag,
   };
 }

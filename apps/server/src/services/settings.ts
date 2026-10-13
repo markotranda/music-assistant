@@ -88,6 +88,8 @@ const acquisitionPatch = z.object({
   minDurationS: z.number().int().positive().optional(),
   maxDurationS: z.number().int().positive().optional(),
   playerClients: z.array(z.string().min(1).nullable()).optional(),
+  embedArt: z.boolean().optional(),
+  replayGain: z.boolean().optional(),
 });
 
 const authPatch = z.object({
@@ -120,6 +122,18 @@ export const PATCH_SCHEMAS = {
 } as const;
 
 /** "34ca…37b" — enough to identify, never enough to use. */
+/**
+ * Acquisition settings with defaults merged in. Rows written before a field
+ * existed (embedArt/replayGain arrived in v1.1.3) must still read back
+ * complete — for the settings page's response schema and for the tag writer.
+ */
+export function readAcquisition(deps: AppDeps): AcquisitionSettings {
+  return {
+    ...DEFAULT_ACQUISITION,
+    ...(getSetting<AcquisitionSettings>(deps.db, "acquisition") ?? {}),
+  };
+}
+
 export function maskSecret(value: string | null | undefined): string | null {
   if (!value) return null;
   if (value.length <= 8) return "••••••";
@@ -144,8 +158,7 @@ export function readSettings(deps: AppDeps): SettingsView {
   const policy = getSetting<PolicySettings>(deps.db, "policy") ?? DEFAULT_POLICY;
   const integrations =
     getSetting<IntegrationSettings>(deps.db, "integrations") ?? ({} as IntegrationSettings);
-  const acquisition =
-    getSetting<AcquisitionSettings>(deps.db, "acquisition") ?? DEFAULT_ACQUISITION;
+  const acquisition = readAcquisition(deps);
   const auth = getSetting<AuthSettings>(deps.db, "auth") ?? DEFAULT_AUTH;
   const overrides = getSetting<{
     pinnedMbids: Record<string, string>;

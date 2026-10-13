@@ -1,6 +1,8 @@
 import {
   type CollectionFs,
+  type CoverArtApi,
   createCollectionFs,
+  createCoverArt,
   createDeezer,
   createLastfm,
   createMusicBrainz,
@@ -20,6 +22,7 @@ export type AppDeps = {
   musicbrainz: MusicBrainzApi;
   lastfm: LastfmApi;
   deezer: DeezerApi;
+  coverart: CoverArtApi;
   collection: CollectionFs;
   ytdlp: YtDlpApi;
 };
@@ -34,6 +37,7 @@ export function createDeps(db: Db, env: NodeJS.ProcessEnv = process.env): AppDep
     musicbrainz: createMusicBrainz({ userAgent: integrations.musicbrainzUserAgent }),
     lastfm: createLastfm({ apiKey: integrations.lastfmApiKey }),
     deezer: createDeezer(),
+    coverart: createCoverArt({ userAgent: integrations.musicbrainzUserAgent }),
     collection: createCollectionFs({
       collectionDir: env.MA_COLLECTION_DIR ?? "./collection",
       retiredDir: env.MA_RETIRED_DIR ?? "./_retired",

@@ -11,6 +11,7 @@ export const MA_CORE_VERSION = "0.1.0";
 
 export * from "./formula.js";
 export * from "./legacy.js";
+export * from "./placement.js";
 export * from "./plan.js";
 export * from "./policy.js";
 export * from "./ranking.js";

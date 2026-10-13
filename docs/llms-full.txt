@@ -3300,6 +3300,123 @@ Response 422: Validation failed
 }
 ```
 
+## POST /api/retag
+
+Re-tag acquired files as a job: album, year, album position, disc, MusicBrainz ids, cover art, ReplayGain
+
+Request body (application/json):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "artistId": {
+      "type": "integer",
+      "exclusiveMinimum": 0
+    }
+  }
+}
+```
+
+Response 202: Retag queued (jobId null = an identical run is already queued)
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "jobId"
+  ]
+}
+```
+
+Response 400: Bad request
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 404: Not found
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 409: Conflict
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
+Response 422: Unprocessable
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "error"
+  ]
+}
+```
+
 ## GET /api/scrobbles
 
 Scrobble stats: total plays, last play, top artists
@@ -3639,6 +3756,12 @@ Response 200: Settings
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -3646,7 +3769,9 @@ Response 200: Settings
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -3772,6 +3897,12 @@ Request body (application/json):
         ],
         "minLength": 1
       }
+    },
+    "embedArt": {
+      "type": "boolean"
+    },
+    "replayGain": {
+      "type": "boolean"
     }
   }
 }
@@ -3966,6 +4097,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -3973,7 +4110,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -4281,6 +4420,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -4288,7 +4433,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -4649,6 +4796,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -4656,7 +4809,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -4974,6 +5129,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -4981,7 +5142,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -5298,6 +5461,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -5305,7 +5474,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -5662,6 +5833,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -5669,7 +5846,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {
@@ -5995,6 +6174,12 @@ Response 200: Updated settings (secrets masked)
                   "null"
                 ]
               }
+            },
+            "embedArt": {
+              "type": "boolean"
+            },
+            "replayGain": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -6002,7 +6187,9 @@ Response 200: Updated settings (secrets masked)
             "audioQuality",
             "minDurationS",
             "maxDurationS",
-            "playerClients"
+            "playerClients",
+            "embedArt",
+            "replayGain"
           ]
         },
         "auth": {

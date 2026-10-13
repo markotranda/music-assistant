@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createApp } from "../src/app";
+import { setSetting } from "../src/db/repositories";
 import { fakeDeps, syntheticRanked } from "./fakes";
 
 describe("GET /health", () => {
@@ -27,6 +28,7 @@ describe("GET /doc", () => {
     expect(body.paths["/api/artists"]).toBeDefined();
     expect(body.paths["/api/artists/{id}/sync"]).toBeDefined();
     expect(body.paths["/api/plan"]).toBeDefined();
+    expect(body.paths["/api/retag"]).toBeDefined();
   });
 });
 
@@ -41,6 +43,52 @@ describe("bulk plan API", () => {
     const second = await app.request("/api/plan", { method: "POST" });
     expect(second.status).toBe(202);
     expect((await second.json()).jobId).toBeNull(); // identical run already queued
+  });
+});
+
+describe("settings upgrade path", () => {
+  it("returns complete acquisition settings for rows written before embedArt/replayGain existed", async () => {
+    const deps = fakeDeps();
+    // A v1.1.x row: the tag-quality fields did not exist yet.
+    setSetting(deps.db, "acquisition", {
+      audioFormat: "mp3",
+      audioQuality: "2",
+      minDurationS: 60,
+      maxDurationS: 900,
+      playerClients: [null],
+    });
+
+    const res = await createApp(deps).request("/api/settings");
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      settings: { acquisition: { embedArt: boolean; replayGain: boolean } };
+    };
+    expect(body.settings.acquisition.embedArt).toBe(true);
+    expect(body.settings.acquisition.replayGain).toBe(true);
+  });
+});
+
+describe("retag API", () => {
+  it("queues one retag job and dedupes identical pending runs", async () => {
+    const app = createApp(fakeDeps());
+    const post = (body: unknown) =>
+      app.request("/api/retag", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      });
+
+    const first = await post({});
+    expect(first.status).toBe(202);
+    expect((await first.json()).jobId).not.toBeNull();
+
+    const second = await post({});
+    expect(second.status).toBe(202);
+    expect((await second.json()).jobId).toBeNull(); // identical run already queued
+
+    const scoped = await post({ artistId: 1 });
+    expect(scoped.status).toBe(202);
+    expect((await scoped.json()).jobId).not.toBeNull(); // different scope = different job
   });
 });
 

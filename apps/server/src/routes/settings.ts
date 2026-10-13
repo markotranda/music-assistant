@@ -50,6 +50,8 @@ const SettingsSchema = z.object({
     minDurationS: z.number(),
     maxDurationS: z.number(),
     playerClients: z.array(z.string().nullable()),
+    embedArt: z.boolean(),
+    replayGain: z.boolean(),
   }),
   auth: z.object({ tokenMasked: z.string().nullable() }),
   overrides: z.object({

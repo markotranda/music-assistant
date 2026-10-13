@@ -9,10 +9,12 @@ export const MA_INTEGRATIONS_VERSION = "0.1.0";
 export type IntegrationName = "musicbrainz" | "lastfm" | "deezer" | "ytdlp" | "filesystem";
 
 export * from "./audio-probe.js";
+export * from "./coverart.js";
 export * from "./deezer.js";
 export * from "./filesystem.js";
 export * from "./http.js";
 export * from "./lastfm.js";
+export * from "./loudness.js";
 export * from "./musicbrainz.js";
 export * from "./retag.js";
 export * from "./ytdlp.js";

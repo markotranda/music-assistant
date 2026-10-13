@@ -1,8 +1,11 @@
 import { fileURLToPath } from "node:url";
+import type { Placement } from "@ma/core";
 import type {
   AlbumTracks,
   CatalogSize,
   CollectionFs,
+  Cover,
+  CoverArtApi,
   DeezerApi,
   DownloadRequest,
   LastfmApi,
@@ -13,7 +16,8 @@ import type {
 } from "@ma/integrations";
 import type { Db } from "../src/db";
 import { createDb } from "../src/db";
-import { seedSettings } from "../src/db/seed";
+import { setSetting } from "../src/db/repositories";
+import { DEFAULT_ACQUISITION, seedSettings } from "../src/db/seed";
 import type { AppDeps } from "../src/deps";
 
 const migrationsFolder = fileURLToPath(new URL("../drizzle", import.meta.url));
@@ -21,6 +25,8 @@ const migrationsFolder = fileURLToPath(new URL("../drizzle", import.meta.url));
 export function makeDb(): Db {
   const db = createDb({ dbPath: ":memory:", migrationsFolder });
   seedSettings(db, { LASTFM_API_KEY: "test-key", LASTFM_USERNAME: "tester" });
+  // ReplayGain shells out to ffmpeg — keep tests hermetic; opt in per test.
+  setSetting(db, "acquisition", { ...DEFAULT_ACQUISITION, replayGain: false });
   return db;
 }
 
@@ -91,6 +97,10 @@ export type FakeOptions = {
   >;
   /** Override the fake yt-dlp (download handler tests use a real-file fake). */
   ytdlp?: YtDlpApi;
+  /** syncPlacements per artist MBID. */
+  placements?: Record<string, Placement[]>;
+  /** Cover Art Archive answer (null = no art published). */
+  cover?: Cover | null;
 };
 
 export type FakeDeps = AppDeps & {
@@ -128,6 +138,11 @@ export function fakeDeps(opts: FakeOptions = {}): FakeDeps {
       },
     getRecentReleaseGroups: async (mbid, since) =>
       (opts.recentGroups?.[mbid] ?? []).filter((g) => (g.firstReleaseDate ?? "") >= since),
+    syncPlacements: async (mbid) => opts.placements?.[mbid] ?? [],
+  };
+
+  const coverart: CoverArtApi = {
+    front: async () => opts.cover ?? null,
   };
 
   const lastfm: LastfmApi = {
@@ -165,7 +180,7 @@ export function fakeDeps(opts: FakeOptions = {}): FakeDeps {
       },
     } as YtDlpApi);
 
-  return { db, musicbrainz, lastfm, deezer, collection: fs, ytdlp, fs, calls };
+  return { db, musicbrainz, lastfm, deezer, coverart, collection: fs, ytdlp, fs, calls };
 }
 
 export function syntheticRanked(count: number): { name: string; plays: number }[] {

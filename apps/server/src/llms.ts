@@ -52,7 +52,11 @@ for upstream failures. The full OpenAPI document lives at \`/doc\`.
   \`NN - Title.ext\` in \`<collection>/<Band>/\`. Pinned tracks survive re-plans.
 - **Jobs** — durable queue (\`download\`, \`verify\`, \`scrobble_sync\`,
   \`release_radar\`, \`discovery\`, \`prune_scan\`, \`rotation_scan\`, \`plan_all\`,
-  \`migrate\`).
+  \`retag\`, \`migrate\`).
+- **Tags** — acquired files carry the canonical set: artist, title, album (the
+  song's earliest official studio release), year, album position, disc,
+  MusicBrainz ids, cover art and ReplayGain. \`POST /api/retag\` backfills files
+  acquired before a field existed.
 - **Candidates** — suggestions (new release / related artist) with a 0-100
   taste-fit score and human-readable reasons; they never enter the library
   directly. Approval modes: manual / hybrid (auto ≥ 85 fit) / auto.

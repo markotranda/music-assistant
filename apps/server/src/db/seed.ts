@@ -71,6 +71,10 @@ export type AcquisitionSettings = {
   maxDurationS: number;
   /** yt-dlp player-client fallback chain; null = default client. */
   playerClients: (string | null)[];
+  /** Embed the Cover Art Archive front cover (legacy `tags.embed_art`). */
+  embedArt: boolean;
+  /** Measure with ffmpeg and write ReplayGain (legacy `audio.replaygain`). */
+  replayGain: boolean;
 };
 
 export const DEFAULT_ACQUISITION: AcquisitionSettings = {
@@ -79,6 +83,8 @@ export const DEFAULT_ACQUISITION: AcquisitionSettings = {
   minDurationS: 60,
   maxDurationS: 900,
   playerClients: [null, "web_safari", "android,web"],
+  embedArt: true,
+  replayGain: true,
 };
 
 /** API access (PLAN.md §4.6). Single bearer token, enforcement off by default. */
